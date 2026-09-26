@@ -1,0 +1,26 @@
+
+import type { Metadata } from "next";
+import "./globals.css";
+import AppShell from "@/components/layout/app-shell";
+
+export const metadata: Metadata = {
+  title: {
+    default: "SkillGrid",
+    template: "%s | SkillGrid",
+  },
+  description: "Track your progress. Build your future.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body className="antialiased">
+        <AppShell>{children}</AppShell>
+      </body>
+    </html>
+  );
+}
