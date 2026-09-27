@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useMemo, useState, type FormEvent } from "react";
@@ -13,6 +12,10 @@ import {
   CircleDashed,
   CheckCircle2,
 } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
+import { Badge } from "@/components/ui/Badge";
 
 type Habit = {
   id: string;
@@ -95,170 +98,124 @@ export default function HabitsPage() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-7xl space-y-6">
-      <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+    <main className="mx-auto w-full max-w-7xl space-y-6 p-6">
+      <section className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center">
         <div>
-          <div className="flex items-center gap-2 text-sm text-slate-500">
+          <div className="flex items-center gap-2 text-sm font-medium text-primary">
             <Target size={16} />
             <span>Productivity</span>
             <span>/</span>
             <span>Habits</span>
           </div>
-
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900">
-            Habits
-          </h1>
-
-          <p className="mt-1 text-sm text-slate-500">
-            Build consistent routines and track your daily habits.
-          </p>
+          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">Habits</h1>
+          <p className="mt-2 text-sm text-slate-500">Build consistent routines and track your daily habits.</p>
         </div>
-
-        <button
-          onClick={() => setShowForm((current) => !current)}
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#3B5998] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[#304b85]"
-        >
-          {showForm ? <X size={17} /> : <Plus size={17} />}
+        <Button onClick={() => setShowForm((current) => !current)} className="gap-2">
+          {showForm ? <X size={16} /> : <Plus size={16} />}
           {showForm ? "Close form" : "Add habit"}
-        </button>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {[
-          { label: "Total habits", value: stats.total, icon: Target },
-          { label: "Completed today", value: stats.completed, icon: CheckCircle2 },
-          { label: "Remaining today", value: stats.remaining, icon: CircleDashed },
-          { label: "Daily progress", value: `${stats.progress}%`, icon: Flame },
-        ].map((stat) => {
-          const Icon = stat.icon;
-
-          return (
-            <div
-              key={stat.label}
-              className="rounded-xl border border-slate-200 bg-white p-5"
-            >
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-sm text-slate-500">{stat.label}</p>
-                <Icon size={18} className="text-slate-400" />
-              </div>
-
-              <p className="mt-3 text-3xl font-semibold text-slate-900">
-                {stat.value}
-              </p>
-            </div>
-          );
-        })}
-      </div>
-
-      <section className="rounded-xl border border-slate-200 bg-white p-5">
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <h2 className="font-semibold text-slate-900">Today&apos;s progress</h2>
-            <p className="mt-1 text-sm text-slate-500">
-              {stats.completed} of {stats.total} habits completed
-            </p>
-          </div>
-
-          <span className="text-lg font-semibold text-[#3B5998]">
-            {stats.progress}%
-          </span>
-        </div>
-
-        <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-100">
-          <div
-            className="h-full rounded-full bg-[#3B5998] transition-all duration-300"
-            style={{ width: `${stats.progress}%` }}
-          />
-        </div>
+        </Button>
       </section>
 
+      <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        {[
+          { label: "Total habits", value: stats.total, icon: Target, color: "text-slate-400" },
+          { label: "Completed today", value: stats.completed, icon: CheckCircle2, color: "text-success" },
+          { label: "Remaining today", value: stats.remaining, icon: CircleDashed, color: "text-warning" },
+          { label: "Daily progress", value: `${stats.progress}%`, icon: Flame, color: "text-orange-500" },
+        ].map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <Card key={stat.label}>
+              <CardContent className="p-5">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-sm text-slate-500">{stat.label}</p>
+                  <Icon size={18} className={stat.color} />
+                </div>
+                <p className="mt-3 text-3xl font-semibold text-slate-900">{stat.value}</p>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </section>
+
+      {/* Today's progress bar */}
+      <Card>
+        <CardContent className="p-5">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <h2 className="font-semibold text-slate-900">Today&apos;s progress</h2>
+              <p className="mt-1 text-sm text-slate-500">
+                {stats.completed} of {stats.total} habits completed
+              </p>
+            </div>
+            <span className="text-lg font-semibold text-primary">{stats.progress}%</span>
+          </div>
+          <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-100">
+            <div
+              className="h-full rounded-full bg-primary transition-all duration-300"
+              style={{ width: `${stats.progress}%` }}
+            />
+          </div>
+        </CardContent>
+      </Card>
+
       {showForm && (
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-5 rounded-xl border border-slate-200 bg-white p-5 sm:p-6"
-        >
-          <div>
-            <h2 className="text-lg font-semibold text-slate-900">
-              Add a habit
-            </h2>
-            <p className="mt-1 text-sm text-slate-500">
-              Create a habit you want to practice regularly.
-            </p>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700">
-                Habit name *
-              </label>
-
-              <input
-                required
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                placeholder="e.g. Practice Java DSA"
-                className="w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm outline-none focus:border-[#3B5998] focus:ring-2 focus:ring-blue-100"
-              />
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700">
-                Category
-              </label>
-
-              <select
-                value={category}
-                onChange={(event) => setCategory(event.target.value)}
-                className="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-sm outline-none focus:border-[#3B5998]"
-              >
-                <option>Study</option>
-                <option>Development</option>
-                <option>Health</option>
-                <option>Personal</option>
-                <option>Productivity</option>
-                <option>Other</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="flex justify-end gap-3">
-            <button
-              type="button"
-              onClick={() => setShowForm(false)}
-              className="rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"
-            >
-              Cancel
-            </button>
-
-            <button
-              type="submit"
-              className="rounded-lg bg-[#3B5998] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#304b85]"
-            >
-              Save habit
-            </button>
-          </div>
-        </form>
+        <Card>
+          <CardHeader>
+            <CardTitle>Add a habit</CardTitle>
+            <p className="text-sm text-slate-500 font-normal">Create a habit you want to practice regularly.</p>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-700">Habit name *</label>
+                  <Input
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="e.g. Practice Java DSA"
+                  />
+                </div>
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-700">Category</label>
+                  <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="flex h-10 w-full rounded-md border border-slate-300 bg-transparent px-3 py-2 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
+                  >
+                    <option>Study</option>
+                    <option>Development</option>
+                    <option>Health</option>
+                    <option>Personal</option>
+                    <option>Productivity</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+              <div className="flex justify-end gap-3 pt-4">
+                <Button variant="outline" type="button" onClick={() => setShowForm(false)}>Cancel</Button>
+                <Button type="submit">Save habit</Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
       )}
 
       <div className="flex flex-col gap-3 sm:flex-row">
         <div className="relative flex-1">
-          <Search
-            size={17}
-            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
-          />
-
-          <input
+          <Search size={17} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Input
             value={search}
-            onChange={(event) => setSearch(event.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
             placeholder="Search habits..."
-            className="w-full rounded-lg border border-slate-200 bg-white py-2.5 pl-10 pr-4 text-sm outline-none focus:border-[#3B5998]"
+            className="pl-9 bg-white"
           />
         </div>
-
         <select
           value={categoryFilter}
-          onChange={(event) => setCategoryFilter(event.target.value)}
-          className="rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-700 outline-none focus:border-[#3B5998]"
+          onChange={(e) => setCategoryFilter(e.target.value)}
+          className="flex h-10 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
         >
           {categories.map((item) => (
             <option key={item} value={item}>
@@ -268,100 +225,74 @@ export default function HabitsPage() {
         </select>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
-        <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
-          <h2 className="font-semibold text-slate-900">Daily habits</h2>
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between border-b border-slate-200">
+          <CardTitle>Daily habits</CardTitle>
           <span className="text-sm text-slate-500">
-            {filteredHabits.length}{" "}
-            {filteredHabits.length === 1 ? "habit" : "habits"}
+            {filteredHabits.length} {filteredHabits.length === 1 ? "habit" : "habits"}
           </span>
-        </div>
-
-        {filteredHabits.length === 0 ? (
-          <div className="flex flex-col items-center px-5 py-16 text-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100">
-              <Target size={22} className="text-slate-500" />
+        </CardHeader>
+        <div>
+          {filteredHabits.length === 0 ? (
+            <div className="flex flex-col items-center py-16 text-center px-6">
+              <Target size={24} className="text-slate-400 mb-4" />
+              <h3 className="font-medium text-slate-900">
+                {habits.length === 0 ? "No habits added yet" : "No matching habits"}
+              </h3>
+              <p className="mt-1 text-sm text-slate-500 max-w-sm">
+                {habits.length === 0
+                  ? "Add your first habit to start tracking your daily routine."
+                  : "Try changing your search or category filter."}
+              </p>
+              {habits.length === 0 && (
+                <Button onClick={() => setShowForm(true)} className="mt-5 gap-2">
+                  <Plus size={16} /> Add first habit
+                </Button>
+              )}
             </div>
-
-            <h3 className="mt-4 font-medium text-slate-900">
-              {habits.length === 0
-                ? "No habits added yet"
-                : "No matching habits"}
-            </h3>
-
-            <p className="mt-1 max-w-sm text-sm text-slate-500">
-              {habits.length === 0
-                ? "Add your first habit to start tracking your daily routine."
-                : "Try changing your search or category filter."}
-            </p>
-
-            {habits.length === 0 && (
-              <button
-                onClick={() => setShowForm(true)}
-                className="mt-5 inline-flex items-center gap-2 rounded-lg bg-[#3B5998] px-4 py-2.5 text-sm font-medium text-white hover:bg-[#304b85]"
-              >
-                <Plus size={16} />
-                Add first habit
-              </button>
-            )}
-          </div>
-        ) : (
-          <div className="divide-y divide-slate-100">
-            {filteredHabits.map((habit) => (
-              <div
-                key={habit.id}
-                className="flex items-center justify-between gap-4 px-5 py-4"
-              >
-                <div className="flex min-w-0 items-center gap-3">
-                  <button
-                    onClick={() => toggleHabit(habit.id)}
-                    aria-label={
-                      habit.completed
-                        ? `Mark ${habit.name} incomplete`
-                        : `Mark ${habit.name} complete`
-                    }
-                    className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition ${
-                      habit.completed
-                        ? "border-[#3B5998] bg-[#3B5998] text-white"
-                        : "border-slate-300 text-transparent hover:border-[#3B5998]"
-                    }`}
-                  >
-                    <Check size={14} />
-                  </button>
-
-                  <div className="min-w-0">
-                    <p
-                      className={`truncate text-sm font-medium ${
+          ) : (
+            <div className="divide-y divide-slate-100">
+              {filteredHabits.map((habit) => (
+                <div key={habit.id} className="flex items-center justify-between gap-4 px-6 py-4 hover:bg-slate-50/50 transition">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <button
+                      onClick={() => toggleHabit(habit.id)}
+                      aria-label={
                         habit.completed
-                          ? "text-slate-400 line-through"
-                          : "text-slate-900"
+                          ? `Mark ${habit.name} incomplete`
+                          : `Mark ${habit.name} complete`
+                      }
+                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition ${
+                        habit.completed
+                          ? "border-primary bg-primary text-white"
+                          : "border-slate-300 text-transparent hover:border-primary"
                       }`}
                     >
-                      {habit.name}
-                    </p>
-                    <p className="mt-1 text-xs text-slate-500">
-                      {habit.category}
-                    </p>
+                      <Check size={14} />
+                    </button>
+                    <div className="min-w-0">
+                      <p className={`truncate text-sm font-medium ${
+                        habit.completed ? "text-slate-400 line-through" : "text-slate-900"
+                      }`}>
+                        {habit.name}
+                      </p>
+                      <p className="mt-0.5 text-xs text-slate-500">{habit.category}</p>
+                    </div>
                   </div>
+                  <Button variant="ghost" size="sm" onClick={() => deleteHabit(habit.id)} className="p-2 h-auto text-slate-400 hover:text-danger hover:bg-danger-light">
+                    <Trash2 size={16} />
+                  </Button>
                 </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </Card>
 
-                <button
-                  onClick={() => deleteHabit(habit.id)}
-                  aria-label={`Delete ${habit.name}`}
-                  className="rounded-lg p-2 text-slate-400 transition hover:bg-rose-50 hover:text-rose-600"
-                >
-                  <Trash2 size={16} />
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <p className="text-xs text-slate-400">
+      <p className="text-xs text-center text-slate-400 pt-4">
         Habit data is currently held in page state and resets when you refresh.
         Daily history and streaks will require database persistence.
       </p>
-    </div>
+    </main>
   );
 }
