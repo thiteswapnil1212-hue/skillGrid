@@ -35,7 +35,7 @@ const navigation = [
     items: [
       { name: "DSA Arena", href: "/dsa", icon: Code2 },
       { name: "Development", href: "/development", icon: FolderKanban },
-      { name: "Focus Timer", href: "/focus", icon: Timer },
+      { name: "Focus Timer", href: "/focus-timer", icon: Timer },
       { name: "Habits", href: "/habits", icon: Repeat2 },
     ],
   },
@@ -43,7 +43,7 @@ const navigation = [
     label: "COMMUNITY",
     items: [
       { name: "Friends", href: "/friends", icon: Users },
-      { name: "Study Groups", href: "/groups", icon: UsersRound },
+      { name: "Study Groups", href: "/study-groups", icon: UsersRound },
       { name: "Challenges", href: "/challenges", icon: Trophy },
       { name: "Leaderboard", href: "/leaderboard", icon: Medal },
     ],
@@ -125,7 +125,7 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
         ))}
       </nav>
 
-      <div className="border-t border-[#E2E8F0] p-4">
+      <div className="shrink-0 border-t border-[#E2E8F0] p-4">
         <div className="rounded-xl border border-[#E2E8F0] bg-white p-3">
           <p className="text-sm font-semibold text-[#1E293B]">
             Keep moving forward
