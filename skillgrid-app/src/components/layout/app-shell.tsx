@@ -14,18 +14,18 @@ export default function AppShell({ children }: AppShellProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white text-[#1E293B]">
-      <div className="flex min-h-screen">
+    <div className="h-screen h-[100dvh] overflow-hidden bg-white text-[#1E293B]">
+      <div className="flex h-full">
         {/* Desktop Sidebar */}
         <div className="hidden w-[260px] shrink-0 border-r border-[#E2E8F0] lg:block">
           <Sidebar />
         </div>
 
         {/* Main Content */}
-        <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col">
           <Header onMenuClick={() => setMobileMenuOpen(true)} />
 
-          <main className="min-w-0 flex-1 bg-white">
+          <main className="min-h-0 min-w-0 flex-1 overflow-y-auto bg-white">
             {children}
           </main>
         </div>
