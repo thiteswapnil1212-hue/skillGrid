@@ -1,48 +1,36 @@
-import * as React from "react";
+"use client";
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+import * as React from "react";
+import { motion, HTMLMotionProps } from "framer-motion";
+import { cn } from "@/lib/utils";
+
+export interface ButtonProps extends Omit<HTMLMotionProps<"button">, "ref"> {
   variant?: "primary" | "secondary" | "outline" | "ghost" | "destructive";
   size?: "sm" | "md" | "lg";
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className = "", variant = "primary", size = "md", ...props }, ref) => {
-    let variantStyles = "";
-    switch (variant) {
-      case "primary":
-        variantStyles = "bg-primary text-white hover:bg-primary-hover";
-        break;
-      case "secondary":
-        variantStyles = "bg-slate-100 text-slate-900 hover:bg-slate-200";
-        break;
-      case "outline":
-        variantStyles = "border border-slate-200 bg-white hover:bg-slate-100 text-slate-900";
-        break;
-      case "ghost":
-        variantStyles = "hover:bg-slate-100 hover:text-slate-900 text-slate-700";
-        break;
-      case "destructive":
-        variantStyles = "bg-danger text-white hover:bg-red-700";
-        break;
-    }
-
-    let sizeStyles = "";
-    switch (size) {
-      case "sm":
-        sizeStyles = "h-8 px-3 text-xs";
-        break;
-      case "md":
-        sizeStyles = "h-10 px-4 py-2 text-sm";
-        break;
-      case "lg":
-        sizeStyles = "h-12 px-8 text-base";
-        break;
-    }
-
+  ({ className, variant = "primary", size = "md", ...props }, ref) => {
     return (
-      <button
+      <motion.button
         ref={ref}
-        className={`inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50 ${variantStyles} ${sizeStyles} ${className}`}
+        whileTap={{ scale: 0.98 }}
+        className={cn(
+          "inline-flex items-center justify-center rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50",
+          {
+            "bg-primary text-white hover:bg-primary-hover shadow-sm hover:shadow-md": variant === "primary",
+            "bg-slate-100 text-slate-900 hover:bg-slate-200": variant === "secondary",
+            "border border-slate-200 bg-white hover:bg-slate-50 hover:text-slate-900 text-slate-700 shadow-sm": variant === "outline",
+            "hover:bg-slate-100 hover:text-slate-900 text-slate-700": variant === "ghost",
+            "bg-danger text-white hover:bg-red-700 shadow-sm hover:shadow-md": variant === "destructive",
+          },
+          {
+            "h-8 px-3 text-xs": size === "sm",
+            "h-10 px-4 py-2 text-sm": size === "md",
+            "h-12 px-8 text-base": size === "lg",
+          },
+          className
+        )}
         {...props}
       />
     );
