@@ -1,7 +1,10 @@
 
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import AppShell from "@/components/layout/app-shell";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
@@ -17,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={inter.className}>
       <body className="antialiased">
         <AppShell>{children}</AppShell>
       </body>
