@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -20,6 +19,8 @@ import {
   Settings,
   Grid2X2,
 } from "lucide-react";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 const navigation = [
   {
@@ -67,39 +68,38 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
   const pathname = usePathname();
 
   return (
-    <aside className="flex h-full w-full flex-col bg-[#F8FAFC]">
-      <div className="flex h-[76px] shrink-0 items-center border-b border-[#E2E8F0] px-5">
+    <aside className="flex h-full w-full flex-col bg-slate-50 border-r border-slate-200">
+      <div className="flex h-[76px] shrink-0 items-center border-b border-slate-200 px-6">
         <Link
           href="/dashboard"
           onClick={onNavigate}
-          className="flex items-center gap-3"
+          className="flex items-center gap-3 group outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#3B5998] text-white">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white shadow-sm transition-transform duration-300 group-hover:scale-105 group-hover:shadow-md">
             <Grid2X2 size={22} />
           </div>
 
           <div>
-            <h1 className="text-lg font-bold tracking-tight text-[#1E293B]">
+            <h1 className="text-lg font-bold tracking-tight text-slate-900 transition-colors">
               SkillGrid
             </h1>
-            <p className="text-xs text-[#64748B]">
+            <p className="text-xs font-medium text-slate-500">
               Track. Learn. Grow.
             </p>
           </div>
         </Link>
       </div>
 
-      <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-5">
+      <nav className="flex-1 space-y-6 overflow-y-auto px-4 py-6 custom-scrollbar">
         {navigation.map((section) => (
           <div key={section.label}>
-            <p className="mb-2 px-3 text-[11px] font-semibold tracking-[0.12em] text-[#94A3B8]">
+            <p className="mb-2.5 px-3 text-[11px] font-bold tracking-widest text-slate-400">
               {section.label}
             </p>
 
             <div className="space-y-1">
               {section.items.map((item) => {
                 const Icon = item.icon;
-
                 const isActive =
                   pathname === item.href ||
                   pathname.startsWith(`${item.href}/`);
@@ -109,14 +109,28 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
                     key={item.href}
                     href={item.href}
                     onClick={onNavigate}
-                    className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                    className={cn(
+                      "group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary",
                       isActive
-                        ? "bg-[#E8EEF9] text-[#3B5998]"
-                        : "text-[#475569] hover:bg-[#EEF2F7] hover:text-[#1E293B]"
-                    }`}
+                        ? "text-primary"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/50"
+                    )}
                   >
-                    <Icon size={18} strokeWidth={1.8} />
-                    <span>{item.name}</span>
+                    {isActive && (
+                      <motion.div
+                        layoutId="active-nav"
+                        className="absolute inset-0 rounded-lg bg-primary/10"
+                        transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                      />
+                    )}
+                    <Icon 
+                      size={18} 
+                      className={cn(
+                        "relative z-10 transition-colors duration-200",
+                        isActive ? "text-primary" : "text-slate-400 group-hover:text-slate-600"
+                      )} 
+                    />
+                    <span className="relative z-10">{item.name}</span>
                   </Link>
                 );
               })}
@@ -125,12 +139,12 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
         ))}
       </nav>
 
-      <div className="shrink-0 border-t border-[#E2E8F0] p-4">
-        <div className="rounded-xl border border-[#E2E8F0] bg-white p-3">
-          <p className="text-sm font-semibold text-[#1E293B]">
+      <div className="shrink-0 p-5">
+        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+          <p className="text-sm font-semibold text-slate-900">
             Keep moving forward
           </p>
-          <p className="mt-1 text-xs leading-5 text-[#64748B]">
+          <p className="mt-1 text-xs leading-relaxed text-slate-500">
             Small steps every day lead to big progress.
           </p>
         </div>
