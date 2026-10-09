@@ -1,57 +1,39 @@
-﻿# SkillGrid
+# SkillGrid
 
 **Track your progress. Build your future.**
 
-SkillGrid is a student productivity platform designed to help students manage academics, track DSA progress, organize development projects, build habits, and stay motivated through friendly competition.
+SkillGrid is a student productivity platform that helps students manage academics, track DSA progress, organize development projects, build habits, and stay motivated through friendly competition.
 
 ## Features
 
-* **Dashboard** — Track daily goals and overall progress.
-* **Academics** — Manage subjects, assignments, exams, and units.
-* **DSA Tracker** — Track coding problems, topics, difficulty, and revisions.
-* **Development** — Organize projects, skills, and milestones.
-* **Focus Tracker** — Monitor study sessions and focus time.
-* **Habit Tracker** — Build consistent daily routines.
-* **Leaderboards** — Compare progress with friends.
-* **Study Groups** — Collaborate on shared goals and challenges.
+- **Dashboard** — daily goals and overall progress
+- **Academics** — subjects, assignments, exams, units
+- **DSA Tracker** — coding problems by topic, difficulty and revision status
+- **Development** — projects, skills and milestones
+- **Focus Tracker** — study sessions and focus time
+- **Habit Tracker** — daily routines and streaks
+- **Leaderboards** — friendly competition with peers
+- **Study Groups** — shared goals and challenges
 
-## Tech Stack
+## Tech stack
 
-* Next.js
-* TypeScript
-* Tailwind CSS
-* Supabase
-* PostgreSQL
+Next.js · TypeScript · Tailwind CSS · Supabase · PostgreSQL
 
-## Project Status
+## Docs in this repo
 
-🚧 Currently under development.
+- `ARCHITECTURE.md` — system design
+- `API.md` — API reference
+- `DATABASE.md` — schema and data model
+- `CONTRIBUTING.md` — how to contribute
+- `TASKS.md` / `req.md` — requirements and task tracking
+- `UI_UX.md` — design notes
 
-## Getting Started
-
-Clone the repository:
-
-```bash
-git clone https://github.com/thiteswapnil1212-hue/skillGrid.git
-cd skillGrid
-```
-
-Install dependencies:
+## Getting started
 
 ```bash
+cd skillgrid-app
 npm install
+npm run dev      # http://localhost:3000
 ```
 
-Start the development server:
-
-```bash
-npm run dev
-```
-
-## Vision
-
-To build a centralized platform where students can organize their learning, track their growth, and stay accountable with friends.
-
----
-
-**SkillGrid** — Your goals. Your growth.
+Configure Supabase credentials in `.env.local` (see `DATABASE.md`) before running.
