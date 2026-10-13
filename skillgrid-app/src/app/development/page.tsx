@@ -317,7 +317,7 @@ export default function DevelopmentPage() {
       </Card>
 
       <p className="text-xs text-center text-slate-400 pt-4">
-        Learning items are currently held in page state and reset when you refresh..
+        Learning items are currently held in page state and reset when you refresh...
       </p>
     </main>
   );
