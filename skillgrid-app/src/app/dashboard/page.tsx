@@ -177,7 +177,7 @@ export default function DashboardPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-col items-center justify-center py-8 text-center border border-dashed border-slate-200 rounded-xl bg-slate-50/50">
-                      <p className="text-sm text-slate-500 font-medium">No problems solved yet.</p>
+                      <p className="text-sm text-slate-500 font-medium">No problems solved.</p>
                       <Button variant="ghost" size="sm" className="mt-3 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50">Start tracking</Button>
                     </div>
                   </CardContent>
