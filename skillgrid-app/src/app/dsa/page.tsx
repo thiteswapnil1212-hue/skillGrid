@@ -1,5 +1,6 @@
 "use client";
 
+import { uid } from "@/lib/utils";
 import { useMemo, useState, type FormEvent } from "react";
 import { Code2, Plus, Search, Trash2, ExternalLink, CheckCircle2, CircleDashed, Clock3, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -59,7 +60,7 @@ export default function DSAArenaPage() {
     if (!title.trim() || !topic.trim()) return;
 
     const newProblem: Problem = {
-      id: crypto.randomUUID(),
+      id: uid(),
       title: title.trim(),
       platform,
       difficulty,
@@ -142,12 +143,13 @@ export default function DSAArenaPage() {
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="sm:col-span-2">
-                      <label className="mb-2 block text-sm font-semibold text-slate-700">Problem title *</label>
-                      <Input required value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Two Sum" />
+                      <label htmlFor="problem-title" className="mb-2 block text-sm font-semibold text-slate-700">Problem title *</label>
+                      <Input id="problem-title" required value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Two Sum" />
                     </div>
                     <div>
-                      <label className="mb-2 block text-sm font-semibold text-slate-700">Platform</label>
+                      <label htmlFor="problem-platform" className="mb-2 block text-sm font-semibold text-slate-700">Platform</label>
                       <select
+                        id="problem-platform"
                         value={platform}
                         onChange={(e) => setPlatform(e.target.value)}
                         className="flex h-10 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
@@ -160,8 +162,9 @@ export default function DSAArenaPage() {
                       </select>
                     </div>
                     <div>
-                      <label className="mb-2 block text-sm font-semibold text-slate-700">Difficulty</label>
+                      <label htmlFor="problem-difficulty" className="mb-2 block text-sm font-semibold text-slate-700">Difficulty</label>
                       <select
+                        id="problem-difficulty"
                         value={difficulty}
                         onChange={(e) => setDifficulty(e.target.value as Difficulty)}
                         className="flex h-10 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
@@ -172,12 +175,12 @@ export default function DSAArenaPage() {
                       </select>
                     </div>
                     <div>
-                      <label className="mb-2 block text-sm font-semibold text-slate-700">Topic *</label>
-                      <Input required value={topic} onChange={(e) => setTopic(e.target.value)} placeholder="e.g. Arrays, Strings, Trees" />
+                      <label htmlFor="problem-topic" className="mb-2 block text-sm font-semibold text-slate-700">Topic *</label>
+                      <Input id="problem-topic" required value={topic} onChange={(e) => setTopic(e.target.value)} placeholder="e.g. Arrays, Strings, Trees" />
                     </div>
                     <div>
-                      <label className="mb-2 block text-sm font-semibold text-slate-700">Problem link</label>
-                      <Input type="url" value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://..." />
+                      <label htmlFor="problem-link" className="mb-2 block text-sm font-semibold text-slate-700">Problem link</label>
+                      <Input id="problem-link" type="url" value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://..." />
                     </div>
                   </div>
                   <div className="flex justify-end gap-3 pt-5 border-t border-slate-100">
@@ -194,11 +197,12 @@ export default function DSAArenaPage() {
       <div className="flex flex-col gap-3 sm:flex-row">
         <div className="relative flex-1">
           <Search size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-          <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by problem, topic or platform..." className="pl-10 shadow-sm" />
+          <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by problem, topic or platform..." aria-label="Search problems" className="pl-10 shadow-sm" />
         </div>
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
+          aria-label="Filter by status"
           className="flex h-10 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition-colors focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
         >
           <option value="All">All statuses</option>
@@ -207,6 +211,7 @@ export default function DSAArenaPage() {
         <select
           value={difficultyFilter}
           onChange={(e) => setDifficultyFilter(e.target.value)}
+          aria-label="Filter by difficulty"
           className="flex h-10 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition-colors focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
         >
           <option value="All">All difficulties</option>
@@ -249,7 +254,7 @@ export default function DSAArenaPage() {
                       <div className="flex flex-wrap items-center gap-2">
                         <h3 className="font-semibold text-slate-900 text-base">{problem.title}</h3>
                         {problem.link && (
-                          <a href={problem.link} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-primary transition-colors">
+                          <a href={problem.link} target="_blank" rel="noreferrer" aria-label={`Open ${problem.title} on ${problem.platform}`} className="text-slate-400 hover:text-primary transition-colors">
                             <ExternalLink size={16} />
                           </a>
                         )}
@@ -270,15 +275,16 @@ export default function DSAArenaPage() {
                       <select
                         value={problem.status}
                         onChange={(e) => updateStatus(problem.id, e.target.value as ProblemStatus)}
+                        aria-label={`Status for ${problem.title}`}
                         className={`rounded-full border-0 px-4 py-1.5 text-xs font-bold outline-none cursor-pointer transition-colors shadow-sm ring-1 ring-inset ${
                           problem.status === "Solved" ? "bg-success text-white ring-success" : 
-                          problem.status === "Attempted" ? "bg-warning-light text-warning-700 ring-warning/20" : 
+                          problem.status === "Attempted" ? "bg-warning-light text-warning ring-warning/20" : 
                           "bg-slate-50 text-slate-700 ring-slate-200"
                         }`}
                       >
                         {statusOptions.map((status) => <option key={status}>{status}</option>)}
                       </select>
-                      <Button variant="ghost" size="sm" onClick={() => deleteProblem(problem.id)} className="p-2 h-auto text-slate-400 hover:text-danger hover:bg-danger-light opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity">
+                      <Button variant="ghost" size="sm" onClick={() => deleteProblem(problem.id)} aria-label={`Delete problem "${problem.title}"`} className="p-2 h-auto text-slate-400 hover:text-danger hover:bg-danger-light opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity">
                         <Trash2 size={16} />
                       </Button>
                     </div>
