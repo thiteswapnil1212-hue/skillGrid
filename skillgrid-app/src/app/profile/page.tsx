@@ -341,7 +341,7 @@ export default function ProfilePage() {
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-medium text-white transition hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2"
               >
                 <Save size={17} />
-                Save Changes
+                Saved Changes
               </button>
             </div>
           </form>
