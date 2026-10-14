@@ -1,5 +1,6 @@
 "use client";
 
+import { uid } from "@/lib/utils";
 import { useState, type FormEvent } from "react";
 import { BookOpen, Check, ChevronDown, Plus, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -35,7 +36,7 @@ export default function AcademicsPage() {
     if (!trimmedName || !Number.isInteger(units) || units < 1 || units > 100) return;
 
     const newSubject: Subject = {
-      id: crypto.randomUUID(),
+      id: uid(),
       name: trimmedName,
       code: code.trim(),
       totalUnits: units,
@@ -118,7 +119,7 @@ export default function AcademicsPage() {
             <Card className="overflow-hidden">
               <CardHeader className="flex flex-row items-center justify-between pb-4">
                 <CardTitle className="text-lg">Add a subject</CardTitle>
-                <Button variant="ghost" size="sm" onClick={() => setShowForm(false)} className="h-8 w-8 p-0 text-slate-400 hover:text-slate-700">
+                <Button variant="ghost" size="sm" onClick={() => setShowForm(false)} aria-label="Close form" className="h-8 w-8 p-0 text-slate-400 hover:text-slate-700">
                   <X size={16} />
                 </Button>
               </CardHeader>
@@ -230,11 +231,12 @@ export default function AcademicsPage() {
                                     max={subject.totalUnits}
                                     value={subject.completedUnits}
                                     onChange={(e) => updateCompletedUnits(subject.id, Number(e.target.value))}
+                                    aria-label={`Completed units for ${subject.name}`}
                                     className="w-16 h-8 text-center bg-white border-slate-200 font-bold focus:ring-2"
                                   />
                                   <span className="text-sm font-bold text-slate-400 pr-2">/ {subject.totalUnits}</span>
                                 </div>
-                                <Button size="sm" onClick={() => setExpandedSubject(null)} className="h-10 w-10 p-0">
+                                <Button size="sm" onClick={() => setExpandedSubject(null)} aria-label={`Done editing ${subject.name}`} className="h-10 w-10 p-0">
                                   <Check size={16} />
                                 </Button>
                               </div>
