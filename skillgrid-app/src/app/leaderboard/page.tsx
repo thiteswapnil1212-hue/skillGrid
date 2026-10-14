@@ -9,8 +9,7 @@ import {
   LockKeyhole,
   Info,
 } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Card, CardContent } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 
 type Period = "Weekly" | "Monthly" | "All Time";
@@ -112,6 +111,7 @@ export default function LeaderboardPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search members..."
+                aria-label="Search members"
                 className="pl-9 bg-white"
               />
             </div>
