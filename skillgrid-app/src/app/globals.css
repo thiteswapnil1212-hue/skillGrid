@@ -5,17 +5,27 @@
   --color-primary: #3B5998;
   --color-primary-hover: #2F477A;
   --color-primary-light: #EAF0FA;
-  
+  --color-primary-foreground: #FFFFFF;
+
   --color-success: #2F9E44;
   --color-success-light: #EAF7EC;
   --color-warning: #E6A817;
   --color-warning-light: #FFF7E0;
   --color-danger: #DC2626;
+  --color-danger-hover: #B91C1C;
   --color-danger-light: #FEF2F2;
   --color-info: #2563EB;
 
   --color-sidebar: #F8FAFC;
   --color-surface: #FFFFFF;
+
+  /* shadcn-style semantic tokens (used by focus-timer) */
+  --color-background: #FFFFFF;
+  --color-foreground: #1E293B;
+  --color-card: #FFFFFF;
+  --color-border: #E2E8F0;
+  --color-muted: #F1F5F9;
+  --color-muted-foreground: #64748B;
 }
 
 :root {
