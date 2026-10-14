@@ -1,5 +1,6 @@
 "use client";
 
+import { uid } from "@/lib/utils";
 import { useMemo, useState, type FormEvent } from "react";
 import {
   Users,
@@ -43,7 +44,7 @@ export default function FriendsPage() {
     if (!name.trim()) return;
 
     const newFriend: Friend = {
-      id: crypto.randomUUID(),
+      id: uid(),
       name: name.trim(),
       username: username.trim(),
     };
@@ -108,8 +109,9 @@ export default function FriendsPage() {
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">Name *</label>
+                  <label htmlFor="friend-name" className="mb-2 block text-sm font-medium text-slate-700">Name *</label>
                   <Input
+                    id="friend-name"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -117,8 +119,9 @@ export default function FriendsPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">Username (optional)</label>
+                  <label htmlFor="friend-username" className="mb-2 block text-sm font-medium text-slate-700">Username (optional)</label>
                   <Input
+                    id="friend-username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="e.g. coder123"
@@ -140,6 +143,7 @@ export default function FriendsPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search friends by name or username..."
+          aria-label="Search friends"
           className="pl-9 bg-white"
         />
       </div>
@@ -186,7 +190,7 @@ export default function FriendsPage() {
                       )}
                     </div>
                   </div>
-                  <Button variant="ghost" size="sm" onClick={() => removeFriend(friend.id)} className="p-2 h-auto text-slate-400 hover:text-danger hover:bg-danger-light">
+                  <Button variant="ghost" size="sm" onClick={() => removeFriend(friend.id)} aria-label={`Remove friend ${friend.name}`} className="p-2 h-auto text-slate-400 hover:text-danger hover:bg-danger-light">
                     <Trash2 size={16} />
                   </Button>
                 </div>
