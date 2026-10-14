@@ -262,7 +262,7 @@ export default function AchievementsPage() {
             )}
           </div>
 
-          <div className="flex gap-2 overflow-x-auto pb-1">
+          <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1">
             {categories.map((category) => {
               const active = filter === category;
 
