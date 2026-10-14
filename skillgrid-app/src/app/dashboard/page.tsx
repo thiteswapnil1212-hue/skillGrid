@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Plus,
   CheckSquare,
@@ -35,12 +36,16 @@ const item = {
 };
 
 export default function DashboardPage() {
+  const router = useRouter();
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
   });
+  const hour = new Date().getHours();
+  const greeting =
+    hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
 
   return (
     <main className="mx-auto w-full max-w-7xl space-y-6 p-6">
@@ -48,11 +53,11 @@ export default function DashboardPage() {
       <section className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200 pb-6">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-            Good morning, Student
+            {greeting}, Student
           </h1>
           <p className="mt-1 text-sm font-medium text-slate-500">{today}</p>
         </div>
-        <Button size="sm" className="gap-2">
+        <Button size="sm" className="gap-2" onClick={() => router.push("/tasks")}>
           <Plus size={16} />
           <span>Quick Add</span>
         </Button>
@@ -154,7 +159,7 @@ export default function DashboardPage() {
                     </div>
                     <p className="text-sm font-semibold text-slate-900">No tasks for today</p>
                     <p className="text-xs text-slate-500 mt-1.5 max-w-xs">Enjoy your free time or get ahead on upcoming work.</p>
-                    <Button variant="outline" size="sm" className="mt-5">Add a task</Button>
+                    <Button variant="outline" size="sm" className="mt-5" onClick={() => router.push("/tasks")}>Add a task</Button>
                   </div>
                 </CardContent>
               </Card>
@@ -178,7 +183,7 @@ export default function DashboardPage() {
                   <CardContent>
                     <div className="flex flex-col items-center justify-center py-8 text-center border border-dashed border-slate-200 rounded-xl bg-slate-50/50">
                       <p className="text-sm text-slate-500 font-medium">No problems solved.</p>
-                      <Button variant="ghost" size="sm" className="mt-3 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50">Start tracking</Button>
+                      <Button variant="ghost" size="sm" className="mt-3 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50" onClick={() => router.push("/dsa")}>Start tracking</Button>
                     </div>
                   </CardContent>
                 </Card>
@@ -200,7 +205,7 @@ export default function DashboardPage() {
                   <CardContent>
                     <div className="flex flex-col items-center justify-center py-8 text-center border border-dashed border-slate-200 rounded-xl bg-slate-50/50">
                       <p className="text-sm text-slate-500 font-medium">No subjects added yet.</p>
-                      <Button variant="ghost" size="sm" className="mt-3 text-amber-600 hover:text-amber-700 hover:bg-amber-50">Add subject</Button>
+                      <Button variant="ghost" size="sm" className="mt-3 text-amber-600 hover:text-amber-700 hover:bg-amber-50" onClick={() => router.push("/academics")}>Add subject</Button>
                     </div>
                   </CardContent>
                 </Card>
