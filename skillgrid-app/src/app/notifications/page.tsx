@@ -1,6 +1,7 @@
 
 "use client";
 
+import { uid } from "@/lib/utils";
 import { useMemo, useState } from "react";
 import {
   Bell,
@@ -71,7 +72,7 @@ export default function NotificationsPage() {
     if (!title.trim() || !message.trim()) return;
 
     const newNotification: NotificationItem = {
-      id: crypto.randomUUID(),
+      id: uid(),
       title: title.trim(),
       message: message.trim(),
       type,
@@ -129,7 +130,7 @@ export default function NotificationsPage() {
 
         <button
           onClick={() => setShowForm((value) => !value)}
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#3B5998] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[#304a80]"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white transition hover:bg-primary-hover"
         >
           {showForm ? <X size={18} /> : <Plus size={18} />}
           {showForm ? "Close form" : "Add Notification"}
@@ -140,7 +141,7 @@ export default function NotificationsPage() {
         <div className="rounded-xl border border-slate-200 bg-white p-5">
           <div className="flex items-center justify-between">
             <p className="text-sm text-slate-500">Total notifications</p>
-            <Bell size={19} className="text-[#3B5998]" />
+            <Bell size={19} className="text-primary" />
           </div>
           <p className="mt-3 text-2xl font-bold text-slate-900">
             {notifications.length}
@@ -150,7 +151,7 @@ export default function NotificationsPage() {
         <div className="rounded-xl border border-slate-200 bg-white p-5">
           <div className="flex items-center justify-between">
             <p className="text-sm text-slate-500">Unread notifications</p>
-            <Circle size={19} className="text-[#3B5998]" />
+            <Circle size={19} className="text-primary" />
           </div>
           <p className="mt-3 text-2xl font-bold text-slate-900">
             {unreadCount}
@@ -168,42 +169,45 @@ export default function NotificationsPage() {
           </h2>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-700">
+            <label htmlFor="notif-title" className="mb-1.5 block text-sm font-medium text-slate-700">
               Title *
             </label>
             <input
+              id="notif-title"
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter notification title"
-              className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#3B5998]"
+              className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-primary"
             />
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-700">
+            <label htmlFor="notif-message" className="mb-1.5 block text-sm font-medium text-slate-700">
               Message *
             </label>
             <textarea
+              id="notif-message"
               required
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Write your notification..."
               rows={3}
-              className="w-full resize-y rounded-lg border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#3B5998]"
+              className="w-full resize-y rounded-lg border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-primary"
             />
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-700">
+            <label htmlFor="notif-category" className="mb-1.5 block text-sm font-medium text-slate-700">
               Category
             </label>
             <select
+              id="notif-category"
               value={type}
               onChange={(e) =>
                 setType(e.target.value as NotificationType)
               }
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#3B5998]"
+              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-primary"
             >
               {notificationTypes.map((item) => (
                 <option key={item} value={item}>
@@ -216,7 +220,7 @@ export default function NotificationsPage() {
           <div className="flex justify-end">
             <button
               type="submit"
-              className="rounded-lg bg-[#3B5998] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#304a80]"
+              className="rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-white transition hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               Create Notification
             </button>
@@ -234,7 +238,8 @@ export default function NotificationsPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search notifications..."
-            className="w-full rounded-lg border border-slate-200 bg-white py-2.5 pl-10 pr-4 text-sm outline-none focus:border-[#3B5998]"
+            aria-label="Search notifications"
+            className="w-full rounded-lg border border-slate-200 bg-white py-2.5 pl-10 pr-4 text-sm outline-none focus:border-primary"
           />
         </div>
 
@@ -253,7 +258,7 @@ export default function NotificationsPage() {
             <button
               onClick={markAllAsRead}
               disabled={unreadCount === 0}
-              className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               <CheckCheck size={16} />
               Mark all read
@@ -261,7 +266,7 @@ export default function NotificationsPage() {
 
             <button
               onClick={clearAll}
-              className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-red-600 transition hover:bg-red-50"
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-red-600 transition hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               <Trash2 size={16} />
               Clear all
@@ -272,7 +277,7 @@ export default function NotificationsPage() {
 
       {filteredNotifications.length === 0 ? (
         <div className="rounded-xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-blue-50 text-[#3B5998]">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-blue-50 text-primary">
             <Inbox size={25} />
           </div>
           <h3 className="mt-4 font-semibold text-slate-900">
@@ -297,7 +302,7 @@ export default function NotificationsPage() {
                   : ""
               } ${!item.read ? "bg-blue-50/30" : ""}`}
             >
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-50 text-[#3B5998]">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary">
                 <Bell size={19} />
               </div>
 
@@ -307,7 +312,7 @@ export default function NotificationsPage() {
                     {item.title}
                   </h3>
                   {!item.read && (
-                    <span className="h-2 w-2 rounded-full bg-[#3B5998]" />
+                    <span className="h-2 w-2 rounded-full bg-primary" />
                   )}
                 </div>
 
