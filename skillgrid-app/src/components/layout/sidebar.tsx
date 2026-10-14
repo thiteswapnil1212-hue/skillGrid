@@ -66,6 +66,9 @@ type SidebarProps = {
 
 export default function Sidebar({ onNavigate }: SidebarProps) {
   const pathname = usePathname();
+  // The sidebar mounts twice (desktop + mobile drawer). Framer Motion needs a
+  // unique layoutId per mounted tree, or the active pill jumps between them.
+  const activeLayoutId = onNavigate ? "mobile-nav-active" : "desktop-nav-active";
 
   return (
     <aside className="flex h-full w-full flex-col bg-slate-50 border-r border-slate-200">
@@ -118,7 +121,7 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
                   >
                     {isActive && (
                       <motion.div
-                        layoutId="active-nav"
+                        layoutId={activeLayoutId}
                         className="absolute inset-0 rounded-lg bg-primary/10"
                         transition={{ type: "spring", stiffness: 350, damping: 30 }}
                       />
