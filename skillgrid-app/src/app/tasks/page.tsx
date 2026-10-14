@@ -1,5 +1,6 @@
 "use client";
 
+import { uid } from "@/lib/utils";
 import { useState, type FormEvent } from "react";
 import { Check, Circle, ClipboardList, Plus, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -44,7 +45,7 @@ export default function TasksPage() {
     if (!trimmedTitle) return;
 
     const newTask: Task = {
-      id: crypto.randomUUID(),
+      id: uid(),
       title: trimmedTitle,
       category,
       priority,
@@ -122,7 +123,7 @@ export default function TasksPage() {
             <Card className="overflow-hidden">
               <CardHeader className="flex flex-row items-center justify-between pb-4">
                 <CardTitle className="text-lg">Create task</CardTitle>
-                <Button variant="ghost" size="sm" onClick={() => setShowForm(false)} className="h-8 w-8 p-0 text-slate-400 hover:text-slate-700">
+                <Button variant="ghost" size="sm" onClick={() => setShowForm(false)} aria-label="Close form" className="h-8 w-8 p-0 text-slate-400 hover:text-slate-700">
                   <X size={16} />
                 </Button>
               </CardHeader>
@@ -257,6 +258,8 @@ export default function TasksPage() {
                       whileTap={{ scale: 0.9 }}
                       type="button"
                       onClick={() => toggleTask(task.id)}
+                      aria-pressed={task.completed}
+                      aria-label={task.completed ? `Mark "${task.title}" as not completed` : `Mark "${task.title}" as completed`}
                       className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-colors ${
                         task.completed ? "border-primary bg-primary text-white" : "border-slate-300 text-transparent hover:border-primary"
                       }`}
@@ -285,7 +288,7 @@ export default function TasksPage() {
                         )}
                       </div>
                     </div>
-                    <Button variant="ghost" size="sm" onClick={() => deleteTask(task.id)} className="text-slate-400 hover:text-danger hover:bg-danger-light p-2 h-auto opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity">
+                    <Button variant="ghost" size="sm" onClick={() => deleteTask(task.id)} aria-label={`Delete task "${task.title}"`} className="text-slate-400 hover:text-danger hover:bg-danger-light p-2 h-auto opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity">
                       <Trash2 size={16} />
                     </Button>
                   </motion.div>
