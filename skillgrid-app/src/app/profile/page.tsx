@@ -38,7 +38,7 @@ const initialProfile: ProfileData = {
 };
 
 const inputClass =
-  "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-[#3B5998] focus:ring-2 focus:ring-[#3B5998]/10";
+  "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/10";
 
 const labelClass = "mb-2 block text-sm font-medium text-slate-700";
 
@@ -123,7 +123,7 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-slate-50/70 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl space-y-6">
         <header>
-          <p className="text-sm font-medium text-[#3B5998]">Account</p>
+          <p className="text-sm font-medium text-primary">Account</p>
           <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
             My Profile
           </h1>
@@ -135,7 +135,7 @@ export default function ProfilePage() {
         <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
           <aside className="h-fit rounded-2xl border border-slate-200 bg-white p-6">
             <div className="flex flex-col items-center text-center">
-              <div className="flex h-24 w-24 items-center justify-center rounded-full bg-[#3B5998]/10 text-[#3B5998]">
+              <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <UserRound size={42} strokeWidth={1.5} />
               </div>
 
@@ -196,7 +196,7 @@ export default function ProfilePage() {
           >
             <section>
               <div className="mb-5 flex items-center gap-3">
-                <div className="rounded-xl bg-[#3B5998]/10 p-2.5 text-[#3B5998]">
+                <div className="rounded-xl bg-primary/10 p-2.5 text-primary">
                   <UserRound size={20} />
                 </div>
                 <div>
@@ -284,7 +284,7 @@ export default function ProfilePage() {
 
             <section>
               <div className="mb-5 flex items-center gap-3">
-                <div className="rounded-xl bg-[#3B5998]/10 p-2.5 text-[#3B5998]">
+                <div className="rounded-xl bg-primary/10 p-2.5 text-primary">
                   <Link2 size={20} />
                 </div>
                 <div>
@@ -338,7 +338,7 @@ export default function ProfilePage() {
 
               <button
                 type="submit"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#3B5998] px-5 py-3 text-sm font-medium text-white transition hover:bg-[#304a82] focus:outline-none focus:ring-2 focus:ring-[#3B5998]/30 focus:ring-offset-2"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-medium text-white transition hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2"
               >
                 <Save size={17} />
                 Save Changes
