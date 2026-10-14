@@ -53,16 +53,16 @@ export default function SettingsPage() {
             <p className="text-sm text-slate-500 font-normal mt-1">Customize how SkillGrid looks on your device.</p>
           </CardHeader>
           <CardContent className="p-6">
-            <div className="grid grid-cols-3 gap-4">
-              <button className="flex flex-col items-center gap-2 rounded-lg border-2 border-primary bg-primary-light p-4">
+            <div className="grid grid-cols-3 gap-2 sm:gap-4">
+              <button className="flex flex-col items-center gap-2 rounded-lg border-2 border-primary bg-primary-light p-3 transition-transform active:scale-[0.98] sm:p-4">
                 <Sun size={24} className="text-primary" />
                 <span className="text-sm font-medium text-slate-900">Light</span>
               </button>
-              <button className="flex flex-col items-center gap-2 rounded-lg border border-slate-200 bg-white p-4 hover:border-slate-300">
+              <button className="flex flex-col items-center gap-2 rounded-lg border border-slate-200 bg-white p-3 transition-transform hover:border-slate-300 active:scale-[0.98] sm:p-4">
                 <Moon size={24} className="text-slate-600" />
                 <span className="text-sm font-medium text-slate-600">Dark</span>
               </button>
-              <button className="flex flex-col items-center gap-2 rounded-lg border border-slate-200 bg-white p-4 hover:border-slate-300">
+              <button className="flex flex-col items-center gap-2 rounded-lg border border-slate-200 bg-white p-3 transition-transform hover:border-slate-300 active:scale-[0.98] sm:p-4">
                 <Monitor size={24} className="text-slate-600" />
                 <span className="text-sm font-medium text-slate-600">System</span>
               </button>
