@@ -22,7 +22,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             "bg-slate-100 text-slate-900 hover:bg-slate-200": variant === "secondary",
             "border border-slate-200 bg-white hover:bg-slate-50 hover:text-slate-900 text-slate-700 shadow-sm": variant === "outline",
             "hover:bg-slate-100 hover:text-slate-900 text-slate-700": variant === "ghost",
-            "bg-danger text-white hover:bg-red-700 shadow-sm hover:shadow-md": variant === "destructive",
+            "bg-danger text-white hover:bg-danger-hover shadow-sm hover:shadow-md": variant === "destructive",
           },
           {
             "h-8 px-3 text-xs": size === "sm",
