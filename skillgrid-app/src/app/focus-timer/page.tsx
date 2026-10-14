@@ -1,7 +1,8 @@
 
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import {
   AlarmClock,
   ArrowRight,
@@ -70,8 +71,6 @@ export default function FocusTimerPage() {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [sessionComplete, setSessionComplete] = useState(false);
 
-  const completedRef = useRef(false);
-
   const totalMs = MODES[mode].duration * 1000;
   const progress = Math.max(0, Math.min(1, remainingMs / totalMs));
   const offset = CIRCUMFERENCE * (1 - progress);
@@ -82,7 +81,6 @@ export default function FocusTimerPage() {
     setRunning(false);
     setEndAt(null);
     setSessionComplete(false);
-    completedRef.current = false;
   }, []);
 
   const completeSession = useCallback(() => {
@@ -94,8 +92,6 @@ export default function FocusTimerPage() {
     } else {
       changeMode("focus");
     }
-
-    setSessionComplete(true);
   }, [mode, changeMode]);
 
   useEffect(() => {
@@ -139,7 +135,6 @@ export default function FocusTimerPage() {
     setEndAt(null);
     setRemainingMs(totalMs);
     setSessionComplete(false);
-    completedRef.current = false;
   };
 
   const skipTimer = () => {
@@ -282,7 +277,7 @@ export default function FocusTimerPage() {
                   style={{
                     transition: "stroke-dashoffset 80ms linear",
                     filter: running
-                      ? "drop-shadow(0 0 8px var(--primary))"
+                      ? "drop-shadow(0 0 8px var(--color-primary))"
                       : "none",
                   }}
                 />
@@ -352,10 +347,15 @@ export default function FocusTimerPage() {
             </p>
 
             {sessionComplete && (
-              <div className="mt-5 flex items-center justify-center gap-2 rounded-xl border border-border bg-muted/50 px-4 py-3 text-sm font-medium text-foreground animate-in fade-in slide-in-from-bottom-2 duration-500">
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="mt-5 flex items-center justify-center gap-2 rounded-xl border border-border bg-muted/50 px-4 py-3 text-sm font-medium text-foreground"
+              >
                 <CheckCircle2 size={17} className="text-primary" />
                 Session complete! Take a moment to recharge.
-              </div>
+              </motion.div>
             )}
           </section>
 
