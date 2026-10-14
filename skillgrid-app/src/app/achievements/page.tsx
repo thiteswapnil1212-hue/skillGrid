@@ -247,6 +247,7 @@ export default function AchievementsPage() {
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder="Search achievements..."
+              aria-label="Search achievements"
               className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-10 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/10"
             />
 
@@ -271,7 +272,7 @@ export default function AchievementsPage() {
                   key={category}
                   type="button"
                   onClick={() => setFilter(category)}
-                  className={`whitespace-nowrap rounded-lg px-3.5 py-2 text-sm font-medium transition ${
+                  className={`whitespace-nowrap rounded-lg px-3.5 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                     active
                       ? "bg-primary text-white shadow-sm"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"
@@ -285,7 +286,7 @@ export default function AchievementsPage() {
             <button
               type="button"
               onClick={() => setFilter("Unlocked")}
-              className={`whitespace-nowrap rounded-lg px-3.5 py-2 text-sm font-medium transition ${
+              className={`whitespace-nowrap rounded-lg px-3.5 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                 filter === "Unlocked"
                   ? "bg-primary text-white shadow-sm"
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200"
@@ -297,7 +298,7 @@ export default function AchievementsPage() {
             <button
               type="button"
               onClick={() => setFilter("Locked")}
-              className={`whitespace-nowrap rounded-lg px-3.5 py-2 text-sm font-medium transition ${
+              className={`whitespace-nowrap rounded-lg px-3.5 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                 filter === "Locked"
                   ? "bg-primary text-white shadow-sm"
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200"
