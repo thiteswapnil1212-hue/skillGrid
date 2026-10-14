@@ -1,5 +1,6 @@
 "use client";
 
+import { uid } from "@/lib/utils";
 import { useMemo, useState, type FormEvent } from "react";
 import {
   Code2,
@@ -16,7 +17,6 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
-import { Badge } from "@/components/ui/Badge";
 
 type LearningStatus = "Not started" | "In progress" | "Completed";
 
@@ -85,7 +85,7 @@ export default function DevelopmentPage() {
     if (!title.trim()) return;
 
     const newItem: LearningItem = {
-      id: crypto.randomUUID(),
+      id: uid(),
       title: title.trim(),
       category,
       status: "Not started",
@@ -166,8 +166,9 @@ export default function DevelopmentPage() {
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="sm:col-span-2">
-                  <label className="mb-2 block text-sm font-medium text-slate-700">Topic or skill *</label>
+                  <label htmlFor="dev-topic" className="mb-2 block text-sm font-medium text-slate-700">Topic or skill *</label>
                   <Input
+                    id="dev-topic"
                     required
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
@@ -175,8 +176,9 @@ export default function DevelopmentPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">Category</label>
+                  <label htmlFor="dev-category" className="mb-2 block text-sm font-medium text-slate-700">Category</label>
                   <select
+                    id="dev-category"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                     className="flex h-10 w-full rounded-md border border-slate-300 bg-transparent px-3 py-2 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
@@ -197,8 +199,9 @@ export default function DevelopmentPage() {
                   </div>
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="mb-2 block text-sm font-medium text-slate-700">Notes (optional)</label>
+                  <label htmlFor="dev-notes" className="mb-2 block text-sm font-medium text-slate-700">Notes (optional)</label>
                   <textarea
+                    id="dev-notes"
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="Add a short note about what you want to learn..."
@@ -223,12 +226,14 @@ export default function DevelopmentPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search topics, categories or notes..."
+            aria-label="Search learning items"
             className="pl-9 bg-white"
           />
         </div>
         <select
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
+          aria-label="Filter by category"
           className="flex h-10 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
         >
           {categories.map((item) => (
@@ -240,6 +245,7 @@ export default function DevelopmentPage() {
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
+          aria-label="Filter by status"
           className="flex h-10 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
         >
           <option value="All">All statuses</option>
@@ -305,7 +311,7 @@ export default function DevelopmentPage() {
                       </select>
                       <ChevronDown size={13} className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2" />
                     </div>
-                    <Button variant="ghost" size="sm" onClick={() => deleteItem(item.id)} className="p-2 h-auto text-slate-400 hover:text-danger hover:bg-danger-light">
+                    <Button variant="ghost" size="sm" onClick={() => deleteItem(item.id)} aria-label={`Delete learning item "${item.title}"`} className="p-2 h-auto text-slate-400 hover:text-danger hover:bg-danger-light">
                       <Trash2 size={16} />
                     </Button>
                   </div>
