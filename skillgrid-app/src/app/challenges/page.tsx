@@ -1,5 +1,6 @@
 "use client";
 
+import { uid } from "@/lib/utils";
 import { useMemo, useState } from "react";
 import {
   Plus,
@@ -70,7 +71,7 @@ export default function ChallengesPage() {
     if (!title.trim()) return;
 
     const newChallenge: Challenge = {
-      id: crypto.randomUUID(),
+      id: uid(),
       title: title.trim(),
       description: description.trim(),
       category,
@@ -145,12 +146,13 @@ export default function ChallengesPage() {
           <CardContent>
             <form onSubmit={addChallenge} className="space-y-5">
               <div>
-                <label className="mb-2 block text-sm font-medium text-slate-700">Challenge title *</label>
-                <Input required value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Solve 30 DSA problems" />
+                <label htmlFor="challenge-title" className="mb-2 block text-sm font-medium text-slate-700">Challenge title *</label>
+                <Input id="challenge-title" required value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Solve 30 DSA problems" />
               </div>
               <div>
-                <label className="mb-2 block text-sm font-medium text-slate-700">Description</label>
+                <label htmlFor="challenge-description" className="mb-2 block text-sm font-medium text-slate-700">Description</label>
                 <textarea
+                  id="challenge-description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="What do you want to achieve?"
@@ -160,8 +162,9 @@ export default function ChallengesPage() {
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">Category</label>
+                  <label htmlFor="challenge-category" className="mb-2 block text-sm font-medium text-slate-700">Category</label>
                   <select
+                    id="challenge-category"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                     className="flex h-10 w-full rounded-md border border-slate-300 bg-transparent px-3 py-2 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
@@ -172,8 +175,8 @@ export default function ChallengesPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">Deadline (optional)</label>
-                  <Input type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
+                  <label htmlFor="challenge-deadline" className="mb-2 block text-sm font-medium text-slate-700">Deadline (optional)</label>
+                  <Input id="challenge-deadline" type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
                 </div>
               </div>
               <div className="flex justify-end gap-3 pt-4">
@@ -188,11 +191,12 @@ export default function ChallengesPage() {
       <div className="flex flex-col gap-3 lg:flex-row">
         <div className="relative flex-1">
           <Search size={17} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-          <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search challenges..." className="pl-9 bg-white" />
+          <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search challenges..." aria-label="Search challenges" className="pl-9 bg-white" />
         </div>
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
+          aria-label="Filter challenges by status"
           className="flex h-10 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
         >
           <option value="All">All statuses</option>
@@ -203,6 +207,7 @@ export default function ChallengesPage() {
         <select
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
+          aria-label="Filter challenges by category"
           className="flex h-10 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
         >
           <option value="All">All categories</option>
@@ -240,7 +245,7 @@ export default function ChallengesPage() {
               <CardContent className="p-5">
                 <div className="flex items-start justify-between gap-3">
                   <Badge variant="info">{challenge.category}</Badge>
-                  <Button variant="ghost" size="sm" onClick={() => deleteChallenge(challenge.id)} className="p-1.5 h-auto text-slate-400 hover:text-danger hover:bg-danger-light">
+                  <Button variant="ghost" size="sm" onClick={() => deleteChallenge(challenge.id)} aria-label={`Delete challenge "${challenge.title}"`} className="p-1.5 h-auto text-slate-400 hover:text-danger hover:bg-danger-light">
                     <Trash2 size={16} />
                   </Button>
                 </div>
