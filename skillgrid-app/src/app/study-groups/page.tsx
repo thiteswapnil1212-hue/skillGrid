@@ -1,5 +1,6 @@
 "use client";
 
+import { uid } from "@/lib/utils";
 import { useMemo, useState, type FormEvent } from "react";
 import {
   UsersRound,
@@ -47,7 +48,7 @@ export default function StudyGroupsPage() {
     if (!name.trim() || !subject.trim()) return;
 
     const newGroup: StudyGroup = {
-      id: crypto.randomUUID(),
+      id: uid(),
       name: name.trim(),
       subject: subject.trim(),
       description: description.trim(),
@@ -114,8 +115,9 @@ export default function StudyGroupsPage() {
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">Group name *</label>
+                  <label htmlFor="group-name" className="mb-2 block text-sm font-medium text-slate-700">Group name *</label>
                   <Input
+                    id="group-name"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -123,8 +125,9 @@ export default function StudyGroupsPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">Subject *</label>
+                  <label htmlFor="group-subject" className="mb-2 block text-sm font-medium text-slate-700">Subject *</label>
                   <Input
+                    id="group-subject"
                     required
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
@@ -132,8 +135,9 @@ export default function StudyGroupsPage() {
                   />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="mb-2 block text-sm font-medium text-slate-700">Description (optional)</label>
+                  <label htmlFor="group-description" className="mb-2 block text-sm font-medium text-slate-700">Description (optional)</label>
                   <textarea
+                    id="group-description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="What will this group focus on?"
@@ -157,6 +161,7 @@ export default function StudyGroupsPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search groups by name, subject or description..."
+          aria-label="Search study groups"
           className="pl-9 bg-white"
         />
       </div>
@@ -197,7 +202,7 @@ export default function StudyGroupsPage() {
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-light text-primary">
                       <BookOpen size={19} />
                     </div>
-                    <Button variant="ghost" size="sm" onClick={() => deleteGroup(group.id)} className="p-2 h-auto text-slate-400 hover:text-danger hover:bg-danger-light">
+                    <Button variant="ghost" size="sm" onClick={() => deleteGroup(group.id)} aria-label={`Delete group "${group.name}"`} className="p-2 h-auto text-slate-400 hover:text-danger hover:bg-danger-light">
                       <Trash2 size={16} />
                     </Button>
                   </div>
