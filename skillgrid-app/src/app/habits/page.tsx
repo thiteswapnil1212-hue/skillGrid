@@ -1,5 +1,6 @@
 "use client";
 
+import { uid } from "@/lib/utils";
 import { useMemo, useState, type FormEvent } from "react";
 import {
   Plus,
@@ -73,7 +74,7 @@ export default function HabitsPage() {
     if (!name.trim()) return;
 
     const newHabit: Habit = {
-      id: crypto.randomUUID(),
+      id: uid(),
       name: name.trim(),
       category,
       completed: false,
@@ -169,8 +170,9 @@ export default function HabitsPage() {
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">Habit name *</label>
+                  <label htmlFor="habit-name" className="mb-2 block text-sm font-medium text-slate-700">Habit name *</label>
                   <Input
+                    id="habit-name"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -178,8 +180,9 @@ export default function HabitsPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-slate-700">Category</label>
+                  <label htmlFor="habit-category" className="mb-2 block text-sm font-medium text-slate-700">Category</label>
                   <select
+                    id="habit-category"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                     className="flex h-10 w-full rounded-md border border-slate-300 bg-transparent px-3 py-2 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
@@ -209,12 +212,14 @@ export default function HabitsPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search habits..."
+            aria-label="Search habits"
             className="pl-9 bg-white"
           />
         </div>
         <select
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
+          aria-label="Filter habits by category"
           className="flex h-10 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
         >
           {categories.map((item) => (
@@ -262,13 +267,18 @@ export default function HabitsPage() {
                           ? `Mark ${habit.name} incomplete`
                           : `Mark ${habit.name} complete`
                       }
-                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition ${
-                        habit.completed
-                          ? "border-primary bg-primary text-white"
-                          : "border-slate-300 text-transparent hover:border-primary"
-                      }`}
+                      aria-pressed={habit.completed}
+                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     >
-                      <Check size={14} />
+                      <span
+                        className={`flex h-6 w-6 items-center justify-center rounded-full border transition ${
+                          habit.completed
+                            ? "border-primary bg-primary text-white"
+                            : "border-slate-300 text-transparent hover:border-primary"
+                        }`}
+                      >
+                        <Check size={14} />
+                      </span>
                     </button>
                     <div className="min-w-0">
                       <p className={`truncate text-sm font-medium ${
@@ -279,7 +289,7 @@ export default function HabitsPage() {
                       <p className="mt-0.5 text-xs text-slate-500">{habit.category}</p>
                     </div>
                   </div>
-                  <Button variant="ghost" size="sm" onClick={() => deleteHabit(habit.id)} className="p-2 h-auto text-slate-400 hover:text-danger hover:bg-danger-light">
+                  <Button variant="ghost" size="sm" onClick={() => deleteHabit(habit.id)} aria-label={`Delete habit "${habit.name}"`} className="p-2 h-auto text-slate-400 hover:text-danger hover:bg-danger-light">
                     <Trash2 size={16} />
                   </Button>
                 </div>
