@@ -1,7 +1,7 @@
 "use client";
 
+import Link from "next/link";
 import { Menu, Search, Bell, ChevronDown } from "lucide-react";
-import { motion } from "framer-motion";
 
 type HeaderProps = {
   onMenuClick: () => void;
@@ -28,10 +28,6 @@ export default function Header({ onMenuClick }: HeaderProps) {
             aria-label="Search"
             className="w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400"
           />
-
-          <kbd className="hidden rounded border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-medium text-slate-400 md:inline shadow-sm">
-            Ctrl K
-          </kbd>
         </div>
 
         <p className="truncate text-sm font-semibold text-slate-900 sm:hidden">
@@ -40,26 +36,22 @@ export default function Header({ onMenuClick }: HeaderProps) {
       </div>
 
       <div className="flex shrink-0 items-center gap-2 sm:gap-4">
-        <button
-          aria-label="Search"
-          className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 transition-colors sm:hidden"
-        >
-          <Search size={20} />
-        </button>
-
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+        <Link
+          href="/notifications"
           aria-label="Notifications"
           className="relative rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary"
         >
           <Bell size={20} />
           <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-primary border-2 border-white" />
-        </motion.button>
+        </Link>
 
         <div className="hidden h-8 w-px bg-slate-200 sm:block" />
 
-        <button className="flex items-center gap-2.5 rounded-xl p-1.5 hover:bg-slate-50 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary">
+        <Link
+          href="/profile"
+          aria-label="My account"
+          className="flex items-center gap-2.5 rounded-xl p-1.5 hover:bg-slate-50 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        >
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-light text-sm font-bold text-primary shadow-sm">
             S
           </div>
@@ -77,7 +69,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             size={16}
             className="hidden text-slate-400 sm:block"
           />
-        </button>
+        </Link>
       </div>
     </header>
   );
