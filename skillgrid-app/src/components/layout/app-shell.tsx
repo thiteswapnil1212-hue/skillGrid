@@ -6,6 +6,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import Sidebar from "./sidebar";
 import Header from "./header";
+import BottomNav from "./bottom-nav";
+import { SnackbarProvider } from "@/components/ui/Snackbar";
 
 type AppShellProps = {
   children: React.ReactNode;
@@ -25,6 +27,7 @@ export default function AppShell({ children }: AppShellProps) {
   }, [mobileMenuOpen]);
 
   return (
+    <SnackbarProvider>
     <div className="h-screen h-[100dvh] overflow-hidden bg-white text-[#1E293B]">
       <div className="flex h-full">
         {/* Desktop Sidebar */}
@@ -36,11 +39,14 @@ export default function AppShell({ children }: AppShellProps) {
         <div className="flex min-h-0 min-w-0 flex-1 flex-col">
           <Header onMenuClick={() => setMobileMenuOpen(true)} />
 
-          <main className="min-h-0 min-w-0 flex-1 overflow-y-auto overscroll-contain bg-white pb-safe">
+          <main className="min-h-0 min-w-0 flex-1 overflow-y-auto overscroll-contain bg-white pb-[calc(6rem+env(safe-area-inset-bottom))] lg:pb-safe">
             {children}
           </main>
         </div>
       </div>
+
+      {/* Mobile bottom navigation */}
+      <BottomNav onMoreClick={() => setMobileMenuOpen(true)} />
 
       {/* Mobile Navigation */}
       <AnimatePresence>
@@ -82,5 +88,6 @@ export default function AppShell({ children }: AppShellProps) {
         )}
       </AnimatePresence>
     </div>
+    </SnackbarProvider>
   );
 }
