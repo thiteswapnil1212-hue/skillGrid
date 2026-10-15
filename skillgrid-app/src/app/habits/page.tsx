@@ -1,6 +1,7 @@
 "use client";
 
 import { uid } from "@/lib/utils";
+import Fab from "@/components/ui/Fab";
 import { useMemo, useState, type FormEvent } from "react";
 import {
   Plus,
@@ -111,7 +112,7 @@ export default function HabitsPage() {
           <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">Habits</h1>
           <p className="mt-2 text-sm text-slate-500">Build consistent routines and track your daily habits.</p>
         </div>
-        <Button onClick={() => setShowForm((current) => !current)} className="gap-2">
+        <Button onClick={() => setShowForm((current) => !current)} className="hidden gap-2 lg:inline-flex">
           {showForm ? <X size={16} /> : <Plus size={16} />}
           {showForm ? "Close form" : "Add habit"}
         </Button>
@@ -303,6 +304,7 @@ export default function HabitsPage() {
         Habit data is currently held in page state and resets when you refresh.
         Daily history and streaks will require database persistence.
       </p>
+      {!showForm && <Fab onClick={() => setShowForm(true)} label="Add habit" />}
     </main>
   );
 }
