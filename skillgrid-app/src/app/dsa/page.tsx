@@ -1,6 +1,7 @@
 "use client";
 
 import { uid } from "@/lib/utils";
+import Fab from "@/components/ui/Fab";
 import { useMemo, useState, type FormEvent } from "react";
 import { Code2, Plus, Search, Trash2, ExternalLink, CheckCircle2, CircleDashed, Clock3, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -96,7 +97,7 @@ export default function DSAArenaPage() {
           <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">DSA Arena</h1>
           <p className="mt-1 text-sm font-medium text-slate-500">Track your coding problems and monitor your practice progress.</p>
         </div>
-        <Button onClick={() => setShowForm((curr) => !curr)} className="gap-2">
+        <Button onClick={() => setShowForm((curr) => !curr)} className="hidden gap-2 lg:inline-flex">
           {showForm ? <X size={16} /> : <Plus size={16} />}
           {showForm ? "Close form" : "Add problem"}
         </Button>
@@ -284,7 +285,7 @@ export default function DSAArenaPage() {
                       >
                         {statusOptions.map((status) => <option key={status}>{status}</option>)}
                       </select>
-                      <Button variant="ghost" size="sm" onClick={() => deleteProblem(problem.id)} aria-label={`Delete problem "${problem.title}"`} className="p-2 h-auto text-slate-400 hover:text-danger hover:bg-danger-light opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity">
+                      <Button variant="ghost" size="sm" onClick={() => deleteProblem(problem.id)} aria-label={`Delete problem "${problem.title}"`} className="p-2 h-auto text-slate-400 hover:text-danger hover:bg-danger-light opacity-100 transition-opacity lg:opacity-0 lg:group-hover:opacity-100 focus:opacity-100">
                         <Trash2 size={16} />
                       </Button>
                     </div>
@@ -298,6 +299,7 @@ export default function DSAArenaPage() {
       <p className="text-xs font-medium text-center text-slate-400 pt-4">
         Changes are currently held in page state and will reset when you refresh. Database persistence will be added separately.
       </p>
+      {!showForm && <Fab onClick={() => setShowForm(true)} label="Add problem" />}
     </main>
   );
 }
