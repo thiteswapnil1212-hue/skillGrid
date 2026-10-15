@@ -14,7 +14,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
         <button
           onClick={onMenuClick}
           aria-label="Open navigation menu"
-          className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 transition-colors lg:hidden outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          className="rounded-lg p-3 text-slate-600 hover:bg-slate-100 transition-colors lg:hidden outline-none focus-visible:ring-2 focus-visible:ring-primary"
         >
           <Menu size={22} />
         </button>
@@ -39,7 +39,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
         <Link
           href="/notifications"
           aria-label="Notifications"
-          className="relative rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          className="relative rounded-lg p-3 text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary lg:p-2"
         >
           <Bell size={20} />
           <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-primary border-2 border-white" />
