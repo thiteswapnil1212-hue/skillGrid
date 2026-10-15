@@ -1,6 +1,8 @@
 "use client";
 
 import { uid } from "@/lib/utils";
+import { useSnackbar } from "@/components/ui/Snackbar";
+import Fab from "@/components/ui/Fab";
 import { useState, type FormEvent } from "react";
 import { Check, Circle, ClipboardList, Plus, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -22,6 +24,7 @@ const categories = ["Personal", "Academics", "DSA", "Development", "Other"];
 const priorities = ["Low", "Medium", "High"];
 
 export default function TasksPage() {
+  const showSnackbar = useSnackbar();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [filter, setFilter] = useState("All");
@@ -70,7 +73,20 @@ export default function TasksPage() {
   }
 
   function deleteTask(id: string) {
+    const index = tasks.findIndex((task) => task.id === id);
+    const deleted = index >= 0 ? tasks[index] : undefined;
+    if (!deleted) return;
     setTasks((current) => current.filter((task) => task.id !== id));
+    showSnackbar("Task deleted", {
+      actionLabel: "Undo",
+      onAction: () => {
+        setTasks((current) => {
+          const restored = [...current];
+          restored.splice(Math.min(index, restored.length), 0, deleted);
+          return restored;
+        });
+      },
+    });
   }
 
   return (
@@ -85,7 +101,7 @@ export default function TasksPage() {
             Organize your work, set priorities, and track completion.
           </p>
         </div>
-        <Button onClick={() => setShowForm(true)} className="gap-2">
+        <Button onClick={() => setShowForm(true)} className="hidden gap-2 lg:inline-flex">
           <Plus size={16} />
           Add task
         </Button>
@@ -260,11 +276,15 @@ export default function TasksPage() {
                       onClick={() => toggleTask(task.id)}
                       aria-pressed={task.completed}
                       aria-label={task.completed ? `Mark "${task.title}" as not completed` : `Mark "${task.title}" as completed`}
-                      className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-colors ${
-                        task.completed ? "border-primary bg-primary text-white" : "border-slate-300 text-transparent hover:border-primary"
-                      }`}
+                      className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:h-5 sm:w-5"
                     >
-                      {task.completed ? <Check size={12} strokeWidth={3} /> : <Circle size={12} />}
+                      <span
+                        className={`flex h-5 w-5 items-center justify-center rounded-full border transition-colors ${
+                          task.completed ? "border-primary bg-primary text-white" : "border-slate-300 text-transparent hover:border-primary"
+                        }`}
+                      >
+                        {task.completed ? <Check size={12} strokeWidth={3} /> : <Circle size={12} />}
+                      </span>
                     </motion.button>
                     <div className="min-w-0 flex-1">
                       <p className={`text-sm font-semibold transition-colors ${task.completed ? "text-slate-400 line-through" : "text-slate-900"}`}>
@@ -288,7 +308,7 @@ export default function TasksPage() {
                         )}
                       </div>
                     </div>
-                    <Button variant="ghost" size="sm" onClick={() => deleteTask(task.id)} aria-label={`Delete task "${task.title}"`} className="text-slate-400 hover:text-danger hover:bg-danger-light p-2 h-auto opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity">
+                    <Button variant="ghost" size="sm" onClick={() => deleteTask(task.id)} aria-label={`Delete task "${task.title}"`} className="text-slate-400 hover:text-danger hover:bg-danger-light p-2 h-auto opacity-100 transition-opacity lg:opacity-0 lg:group-hover:opacity-100 focus:opacity-100">
                       <Trash2 size={16} />
                     </Button>
                   </motion.div>
@@ -298,6 +318,7 @@ export default function TasksPage() {
           )}
         </div>
       </Card>
+      {!showForm && <Fab onClick={() => setShowForm(true)} label="Add task" />}
     </main>
   );
 }
