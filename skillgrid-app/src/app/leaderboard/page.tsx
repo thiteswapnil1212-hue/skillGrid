@@ -23,15 +23,14 @@ export default function LeaderboardPage() {
   return (
     <main className="mx-auto w-full max-w-7xl space-y-6 p-6">
       <section className="border-b border-slate-200 pb-6">
-        <div className="flex items-center gap-2 text-sm font-medium text-primary">
-          <Trophy size={16} />
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary">
           Community
-        </div>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">Leaderboard</h1>
-        <p className="mt-2 text-sm text-slate-500">Track rankings and celebrate progress with your community.</p>
+        </p>
+        <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Leaderboard</h1>
+        <p className="mt-1 text-sm text-slate-500">Track rankings and celebrate progress with your community.</p>
       </section>
 
-      <Card>
+      <Card className="rounded-2xl border-0 ring-1 ring-slate-200/60">
         <CardContent className="p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -59,12 +58,12 @@ export default function LeaderboardPage() {
             </div>
           </div>
 
-          <div className="mt-6 flex flex-col items-center rounded-lg border border-dashed border-slate-300 bg-slate-50 px-5 py-12 text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-light text-primary">
+          <div className="mt-6 flex flex-col items-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-5 py-12 text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-light text-primary">
               <LockKeyhole size={28} />
             </div>
-            <h3 className="mt-5 text-lg font-semibold text-slate-900">Leaderboard is not connected yet</h3>
-            <p className="mt-2 max-w-md text-sm leading-6 text-slate-500">
+            <h3 className="mt-4 text-sm font-semibold text-slate-900">Leaderboard is not connected yet</h3>
+            <p className="mt-1 max-w-md text-xs leading-5 text-slate-500">
               Rankings need real user accounts and activity data. Once those are connected, you can see rankings based on points and completed challenges.
             </p>
             <div className="mt-5 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2.5 text-xs text-slate-500 ring-1 ring-slate-200">
@@ -76,29 +75,29 @@ export default function LeaderboardPage() {
       </Card>
 
       <section className="grid gap-4 sm:grid-cols-2">
-        <Card>
-          <CardContent className="p-5">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">Your rank</p>
-              <Trophy size={18} className="text-primary" />
+        <Card className="rounded-2xl border-0 p-5 ring-1 ring-slate-200/60">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-xs font-medium uppercase tracking-wider text-slate-500">Your rank</p>
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
+              <Trophy size={20} />
             </div>
-            <p className="mt-3 text-2xl font-semibold text-slate-900">—</p>
-            <p className="mt-1 text-xs text-slate-400">Available after activity tracking is connected</p>
-          </CardContent>
+          </div>
+          <p className="mt-3 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">—</p>
+          <p className="mt-1 text-xs text-slate-400">Available after activity tracking is connected</p>
         </Card>
-        <Card>
-          <CardContent className="p-5">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">Community members</p>
-              <Users size={18} className="text-primary" />
+        <Card className="rounded-2xl border-0 p-5 ring-1 ring-slate-200/60">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-xs font-medium uppercase tracking-wider text-slate-500">Community members</p>
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-sm">
+              <Users size={20} />
             </div>
-            <p className="mt-3 text-2xl font-semibold text-slate-900">—</p>
-            <p className="mt-1 text-xs text-slate-400">Available after user accounts are connected</p>
-          </CardContent>
+          </div>
+          <p className="mt-3 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">—</p>
+          <p className="mt-1 text-xs text-slate-400">Available after user accounts are connected</p>
         </Card>
       </section>
 
-      <Card>
+      <Card className="rounded-2xl border-0 ring-1 ring-slate-200/60">
         <CardContent className="p-5">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -116,7 +115,7 @@ export default function LeaderboardPage() {
               />
             </div>
           </div>
-          <div className="mt-5 rounded-lg bg-slate-50 px-4 py-8 text-center text-sm text-slate-500">
+          <div className="mt-5 rounded-2xl bg-slate-50 px-4 py-8 text-center text-sm text-slate-500">
             {search.trim()
               ? `No members found for "${search}".`
               : "Member profiles will appear here once connected."}
