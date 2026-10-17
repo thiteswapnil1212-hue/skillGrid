@@ -103,14 +103,11 @@ export default function HabitsPage() {
     <main className="mx-auto w-full max-w-7xl space-y-6 p-6">
       <section className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center">
         <div>
-          <div className="flex items-center gap-2 text-sm font-medium text-primary">
-            <Target size={16} />
-            <span>Productivity</span>
-            <span>/</span>
-            <span>Habits</span>
-          </div>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">Habits</h1>
-          <p className="mt-2 text-sm text-slate-500">Build consistent routines and track your daily habits.</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+            Productivity
+          </p>
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Habits</h1>
+          <p className="mt-1 text-sm text-slate-500">Build consistent routines and track your daily habits.</p>
         </div>
         <Button onClick={() => setShowForm((current) => !current)} className="hidden gap-2 lg:inline-flex">
           {showForm ? <X size={16} /> : <Plus size={16} />}
@@ -120,28 +117,28 @@ export default function HabitsPage() {
 
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {[
-          { label: "Total habits", value: stats.total, icon: Target, color: "text-slate-400" },
-          { label: "Completed today", value: stats.completed, icon: CheckCircle2, color: "text-success" },
-          { label: "Remaining today", value: stats.remaining, icon: CircleDashed, color: "text-warning" },
-          { label: "Daily progress", value: `${stats.progress}%`, icon: Flame, color: "text-orange-500" },
+          { label: "Total habits", value: stats.total, icon: Target, tile: "from-[#3B5998] to-[#2F477A]" },
+          { label: "Completed today", value: stats.completed, icon: CheckCircle2, tile: "from-emerald-500 to-emerald-600" },
+          { label: "Remaining today", value: stats.remaining, icon: CircleDashed, tile: "from-amber-500 to-amber-600" },
+          { label: "Daily progress", value: `${stats.progress}%`, icon: Flame, tile: "from-rose-500 to-rose-600" },
         ].map((stat) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.label}>
-              <CardContent className="p-5">
-                <div className="flex items-center justify-between gap-2">
-                  <p className="text-sm text-slate-500">{stat.label}</p>
-                  <Icon size={18} className={stat.color} />
+            <Card key={stat.label} className="rounded-2xl border-0 p-5 ring-1 ring-slate-200/60">
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-xs font-medium uppercase tracking-wider text-slate-500">{stat.label}</p>
+                <div className={`flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${stat.tile} text-white shadow-sm`}>
+                  <Icon size={20} />
                 </div>
-                <p className="mt-3 text-3xl font-semibold text-slate-900">{stat.value}</p>
-              </CardContent>
+              </div>
+              <p className="mt-3 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{stat.value}</p>
             </Card>
           );
         })}
       </section>
 
       {/* Today's progress bar */}
-      <Card>
+      <Card className="rounded-2xl border-0 ring-1 ring-slate-200/60">
         <CardContent className="p-5">
           <div className="flex items-center justify-between gap-3">
             <div>
@@ -162,7 +159,7 @@ export default function HabitsPage() {
       </Card>
 
       {showForm && (
-        <Card>
+        <Card className="rounded-2xl border-0 ring-1 ring-slate-200/60">
           <CardHeader>
             <CardTitle>Add a habit</CardTitle>
             <p className="text-sm text-slate-500 font-normal">Create a habit you want to practice regularly.</p>
@@ -231,7 +228,7 @@ export default function HabitsPage() {
         </select>
       </div>
 
-      <Card>
+      <Card className="rounded-2xl border-0 ring-1 ring-slate-200/60">
         <CardHeader className="flex flex-row items-center justify-between border-b border-slate-200">
           <CardTitle>Daily habits</CardTitle>
           <span className="text-sm text-slate-500">
@@ -241,11 +238,13 @@ export default function HabitsPage() {
         <div>
           {filteredHabits.length === 0 ? (
             <div className="flex flex-col items-center py-16 text-center px-6">
-              <Target size={24} className="text-slate-400 mb-4" />
-              <h3 className="font-medium text-slate-900">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-light p-4 text-primary">
+                <Target size={24} />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-900">
                 {habits.length === 0 ? "No habits added yet" : "No matching habits"}
               </h3>
-              <p className="mt-1 text-sm text-slate-500 max-w-sm">
+              <p className="mt-1 max-w-sm text-xs text-slate-500">
                 {habits.length === 0
                   ? "Add your first habit to start tracking your daily routine."
                   : "Try changing your search or category filter."}
@@ -259,7 +258,7 @@ export default function HabitsPage() {
           ) : (
             <div className="divide-y divide-slate-100">
               {filteredHabits.map((habit) => (
-                <div key={habit.id} className="flex items-center justify-between gap-4 px-6 py-4 hover:bg-slate-50/50 transition">
+                <div key={habit.id} className="flex items-center justify-between gap-4 px-6 py-4 transition hover:bg-slate-50">
                   <div className="flex min-w-0 items-center gap-3">
                     <button
                       onClick={() => toggleHabit(habit.id)}
