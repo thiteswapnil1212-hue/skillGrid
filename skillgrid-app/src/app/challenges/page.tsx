@@ -103,12 +103,11 @@ export default function ChallengesPage() {
     <main className="mx-auto w-full max-w-7xl space-y-6 p-6">
       <section className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center">
         <div>
-          <div className="flex items-center gap-2 text-sm font-medium text-primary">
-            <Trophy size={16} />
-            <span>Personal Growth</span>
-          </div>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">Challenges</h1>
-          <p className="mt-2 text-sm text-slate-500">Set goals, track your progress, and complete challenges.</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+            Personal Growth
+          </p>
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Challenges</h1>
+          <p className="mt-1 text-sm text-slate-500">Set goals, track your progress, and complete challenges.</p>
         </div>
         <Button onClick={() => setShowForm((v) => !v)} className="gap-2">
           {showForm ? <X size={16} /> : <Plus size={16} />}
@@ -118,28 +117,28 @@ export default function ChallengesPage() {
 
       <section className="grid grid-cols-2 gap-4 xl:grid-cols-4">
         {[
-          { label: "Total Challenges", value: counts.total, icon: Target, color: "text-slate-400" },
-          { label: "In Progress", value: counts.active, icon: Clock3, color: "text-primary" },
-          { label: "Not Started", value: counts.pending, icon: Circle, color: "text-slate-400" },
-          { label: "Completed", value: counts.completed, icon: CheckCircle2, color: "text-success" },
+          { label: "Total Challenges", value: counts.total, icon: Target, tile: "from-violet-500 to-violet-600" },
+          { label: "In Progress", value: counts.active, icon: Clock3, tile: "from-[#3B5998] to-[#2F477A]" },
+          { label: "Not Started", value: counts.pending, icon: Circle, tile: "from-amber-500 to-amber-600" },
+          { label: "Completed", value: counts.completed, icon: CheckCircle2, tile: "from-emerald-500 to-emerald-600" },
         ].map((item) => {
           const Icon = item.icon;
           return (
-            <Card key={item.label}>
-              <CardContent className="p-5">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-slate-500">{item.label}</p>
-                  <Icon size={18} className={item.color} />
+            <Card key={item.label} className="rounded-2xl border-0 p-5 ring-1 ring-slate-200/60">
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-xs font-medium uppercase tracking-wider text-slate-500">{item.label}</p>
+                <div className={`flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${item.tile} text-white shadow-sm`}>
+                  <Icon size={20} />
                 </div>
-                <p className="mt-3 text-2xl font-semibold text-slate-900">{item.value}</p>
-              </CardContent>
+              </div>
+              <p className="mt-3 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{item.value}</p>
             </Card>
           );
         })}
       </section>
 
       {showForm && (
-        <Card>
+        <Card className="rounded-2xl border-0 ring-1 ring-slate-200/60">
           <CardHeader>
             <CardTitle>Create a challenge</CardTitle>
           </CardHeader>
@@ -218,15 +217,15 @@ export default function ChallengesPage() {
       </div>
 
       {filteredChallenges.length === 0 ? (
-        <Card className="border-dashed">
+        <Card className="rounded-2xl border-dashed">
           <div className="flex flex-col items-center py-14 text-center px-6">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary-light text-primary">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-light p-4 text-primary">
               <Trophy size={25} />
             </div>
-            <h3 className="mt-4 font-semibold text-slate-900">
+            <h3 className="mt-4 text-sm font-semibold text-slate-900">
               {challenges.length === 0 ? "No challenges yet" : "No matching challenges"}
             </h3>
-            <p className="mt-2 max-w-sm text-sm text-slate-500">
+            <p className="mt-1 max-w-sm text-xs text-slate-500">
               {challenges.length === 0
                 ? "Create your first challenge and start tracking your progress."
                 : "Try changing your search or filters."}
@@ -241,7 +240,7 @@ export default function ChallengesPage() {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {filteredChallenges.map((challenge) => (
-            <Card key={challenge.id} className="hover:shadow-sm transition">
+            <Card key={challenge.id} className="rounded-2xl border-0 ring-1 ring-slate-200/60 transition-shadow hover:shadow-md">
               <CardContent className="p-5">
                 <div className="flex items-start justify-between gap-3">
                   <Badge variant="info">{challenge.category}</Badge>
