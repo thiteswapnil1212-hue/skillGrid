@@ -72,7 +72,7 @@ export default function StudyGroupsPage() {
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">
             Community
           </p>
-          <h1 className="mt-2 font-display text-[1.8rem] font-medium leading-[1.15] text-slate-900 sm:text-[2.15rem]">Study Groups</h1>
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Study Groups</h1>
           <p className="mt-1 text-sm text-slate-500">Organize your study groups by subject and learning goals.</p>
         </div>
         <Button onClick={() => setShowForm((current) => !current)} className="gap-2">
@@ -176,7 +176,7 @@ export default function StudyGroupsPage() {
               <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-light p-4 text-primary">
                 <UsersRound size={24} />
               </div>
-              <h3 className="font-display text-xl font-medium text-slate-900">
+              <h3 className="text-sm font-semibold text-slate-900">
                 {groups.length === 0 ? "No study groups yet" : "No matching groups"}
               </h3>
               <p className="mt-1 max-w-sm text-xs text-slate-500">
