@@ -47,18 +47,18 @@ export default function SettingsPage() {
   return (
     <main className="mx-auto w-full max-w-4xl space-y-8 p-6">
       <section className="border-b border-slate-200 pb-6">
-        <p className="text-sm font-medium text-primary">Settings</p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary">Settings</p>
+        <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
           Preferences
         </h1>
-        <p className="mt-2 text-sm leading-6 text-slate-500">
+        <p className="mt-1 text-sm text-slate-500">
           Manage your account settings, appearance, and notifications.
         </p>
       </section>
 
       <div className="space-y-6">
         {/* Account Section */}
-        <Card>
+        <Card className="rounded-2xl border-slate-200/70">
           <CardHeader className="bg-slate-50 border-b border-slate-200">
             <CardTitle className="flex items-center gap-2">
               <User size={18} className="text-primary" />
@@ -83,7 +83,7 @@ export default function SettingsPage() {
         </Card>
 
         {/* Appearance Section */}
-        <Card>
+        <Card className="rounded-2xl border-slate-200/70">
           <CardHeader className="bg-slate-50 border-b border-slate-200">
             <CardTitle className="flex items-center gap-2">
               <Palette size={18} className="text-primary" />
@@ -110,7 +110,7 @@ export default function SettingsPage() {
         </Card>
 
         {/* Notifications Section */}
-        <Card>
+        <Card className="rounded-2xl border-slate-200/70">
           <CardHeader className="bg-slate-50 border-b border-slate-200">
             <CardTitle className="flex items-center gap-2">
               <Bell size={18} className="text-primary" />
