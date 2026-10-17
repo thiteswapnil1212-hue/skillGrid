@@ -63,14 +63,12 @@ export default function FriendsPage() {
     <main className="mx-auto w-full max-w-7xl space-y-6 p-6">
       <section className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center">
         <div>
-          <div className="flex items-center gap-2 text-sm font-medium text-primary">
-            <Users size={16} />
-            <span>Community</span>
-            <span>/</span>
-            <span>Friends</span>
-          </div>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">Friends</h1>
-          <p className="mt-2 text-sm text-slate-500">Keep track of your study connections in one place.</p>
+          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-primary">
+            <Users size={14} />
+            Community
+          </p>
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Friends</h1>
+          <p className="mt-1 text-sm text-slate-500">Keep track of your study connections in one place.</p>
         </div>
         <Button onClick={() => setShowForm((current) => !current)} className="gap-2">
           {showForm ? <X size={16} /> : <UserPlus size={16} />}
@@ -79,28 +77,28 @@ export default function FriendsPage() {
       </section>
 
       <section className="grid gap-4 sm:grid-cols-2">
-        <Card>
+        <Card className="rounded-2xl border-slate-200/70 shadow-sm transition-shadow hover:shadow-md">
           <CardContent className="p-5">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">Total friends</p>
-              <UsersRound size={18} className="text-slate-400" />
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
+              <UsersRound size={20} />
             </div>
-            <p className="mt-3 text-3xl font-semibold text-slate-900">{friends.length}</p>
+            <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{friends.length}</p>
+            <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Total friends</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="rounded-2xl border-slate-200/70 shadow-sm transition-shadow hover:shadow-md">
           <CardContent className="p-5">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">Matching search</p>
-              <Search size={18} className="text-slate-400" />
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
+              <Search size={20} />
             </div>
-            <p className="mt-3 text-3xl font-semibold text-slate-900">{filteredFriends.length}</p>
+            <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{filteredFriends.length}</p>
+            <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Matching search</p>
           </CardContent>
         </Card>
       </section>
 
       {showForm && (
-        <Card>
+        <Card className="rounded-2xl border-slate-200/70">
           <CardHeader>
             <CardTitle>Add a friend</CardTitle>
             <p className="text-sm text-slate-500 font-normal">Add a name and an optional username to your local list.</p>
@@ -148,7 +146,7 @@ export default function FriendsPage() {
         />
       </div>
 
-      <Card>
+      <Card className="rounded-2xl border-slate-200/70">
         <CardHeader className="flex flex-row items-center justify-between border-b border-slate-200">
           <CardTitle>Your friends</CardTitle>
           <span className="text-sm text-slate-500">
@@ -158,11 +156,13 @@ export default function FriendsPage() {
         <div>
           {filteredFriends.length === 0 ? (
             <div className="flex flex-col items-center py-16 text-center px-6">
-              <UsersRound size={24} className="text-slate-400 mb-4" />
-              <h3 className="font-medium text-slate-900">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-light p-4 text-primary">
+                <UsersRound size={24} />
+              </div>
+              <h3 className="mt-4 text-sm font-semibold text-slate-900">
                 {friends.length === 0 ? "Your friends list is empty" : "No matching friends"}
               </h3>
-              <p className="mt-1 text-sm text-slate-500 max-w-sm">
+              <p className="mt-1 text-xs text-slate-500 max-w-sm">
                 {friends.length === 0
                   ? "Add someone to start building your study connections."
                   : "Try another name or username."}
@@ -176,7 +176,7 @@ export default function FriendsPage() {
           ) : (
             <div className="divide-y divide-slate-100">
               {filteredFriends.map((friend) => (
-                <div key={friend.id} className="flex items-center justify-between gap-4 px-6 py-4 hover:bg-slate-50/50 transition">
+                <div key={friend.id} className="flex items-center justify-between gap-4 px-6 py-4 transition-colors hover:bg-slate-50">
                   <div className="flex min-w-0 items-center gap-3">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-light text-primary">
                       <UserRound size={20} />
