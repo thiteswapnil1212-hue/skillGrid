@@ -173,7 +173,7 @@ export default function FocusTimerPage() {
               <p className="text-xs font-semibold uppercase tracking-widest text-primary">
                 SkillGrid
               </p>
-              <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+              <h1 className="mt-1 font-display text-[1.8rem] font-medium leading-[1.15] text-slate-900 sm:text-[2.15rem]">
                 Focus Studio
               </h1>
             </div>
