@@ -48,7 +48,7 @@ export default function SettingsPage() {
     <main className="mx-auto w-full max-w-4xl space-y-8 p-6">
       <section className="border-b border-slate-200 pb-6">
         <p className="text-xs font-semibold uppercase tracking-widest text-primary">Settings</p>
-        <h1 className="mt-2 font-display text-[1.8rem] font-medium leading-[1.15] text-slate-900 sm:text-[2.15rem]">
+        <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
           Preferences
         </h1>
         <p className="mt-1 text-sm text-slate-500">
