@@ -83,7 +83,7 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
           </div>
 
           <div>
-            <h1 className="font-display text-xl font-semibold tracking-tight text-slate-900 transition-colors">
+            <h1 className="text-lg font-bold tracking-tight text-slate-900 transition-colors">
               SkillGrid
             </h1>
             <p className="text-xs font-medium text-slate-500">
