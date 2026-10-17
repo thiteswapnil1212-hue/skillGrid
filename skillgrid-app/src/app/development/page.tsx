@@ -3,7 +3,6 @@
 import { uid } from "@/lib/utils";
 import { useMemo, useState, type FormEvent } from "react";
 import {
-  Code2,
   Plus,
   Search,
   Trash2,
@@ -115,16 +114,11 @@ export default function DevelopmentPage() {
     <main className="mx-auto w-full max-w-7xl space-y-6 p-6">
       <section className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center">
         <div>
-          <div className="flex items-center gap-2 text-sm font-medium text-primary">
-            <Code2 size={16} />
-            <span>Learning</span>
-            <span>/</span>
-            <span>Development</span>
-          </div>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Learning</p>
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
             Development
           </h1>
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-slate-500">
             Organize your technical learning and track what you have completed.
           </p>
         </div>
@@ -136,20 +130,20 @@ export default function DevelopmentPage() {
 
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {[
-          { label: "Total topics", value: stats.total, icon: BookOpen, color: "text-slate-400" },
-          { label: "Completed", value: stats.completed, icon: CheckCircle2, color: "text-success" },
-          { label: "In progress", value: stats.inProgress, icon: Clock3, color: "text-primary" },
-          { label: "Not started", value: stats.notStarted, icon: CircleDashed, color: "text-slate-400" },
+          { label: "Total topics", value: stats.total, icon: BookOpen, gradient: "from-[#3B5998] to-[#2F477A]" },
+          { label: "Completed", value: stats.completed, icon: CheckCircle2, gradient: "from-emerald-500 to-emerald-600" },
+          { label: "In progress", value: stats.inProgress, icon: Clock3, gradient: "from-[#3B5998] to-[#2F477A]" },
+          { label: "Not started", value: stats.notStarted, icon: CircleDashed, gradient: "from-slate-400 to-slate-500" },
         ].map((stat) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.label}>
+            <Card key={stat.label} className="rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
               <CardContent className="p-5">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-slate-500">{stat.label}</p>
-                  <Icon size={18} className={stat.color} />
+                <div className={`flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${stat.gradient} text-white shadow-sm`}>
+                  <Icon size={20} />
                 </div>
-                <p className="mt-3 text-3xl font-semibold text-slate-900">{stat.value}</p>
+                <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{stat.value}</p>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">{stat.label}</p>
               </CardContent>
             </Card>
           );
@@ -157,7 +151,7 @@ export default function DevelopmentPage() {
       </section>
 
       {showForm && (
-        <Card>
+        <Card className="rounded-2xl">
           <CardHeader>
             <CardTitle>Add learning item</CardTitle>
             <p className="text-sm text-slate-500 font-normal">Add a skill, technology, or topic you want to learn.</p>
@@ -255,7 +249,7 @@ export default function DevelopmentPage() {
         </select>
       </div>
 
-      <Card>
+      <Card className="rounded-2xl">
         <CardHeader className="flex flex-row items-center justify-between border-b border-slate-200">
           <CardTitle>Learning roadmap</CardTitle>
           <span className="text-sm text-slate-500">
@@ -264,12 +258,14 @@ export default function DevelopmentPage() {
         </CardHeader>
         <div>
           {filteredItems.length === 0 ? (
-            <div className="flex flex-col items-center py-16 text-center px-6">
-              <BookOpen size={24} className="text-slate-400 mb-4" />
-              <h3 className="font-medium text-slate-900">
+            <div className="flex flex-col items-center py-20 text-center px-6">
+              <div className="rounded-2xl bg-primary-light p-4 mb-4 text-primary">
+                <BookOpen size={28} />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-900">
                 {items.length === 0 ? "Your roadmap is empty" : "No matching learning items"}
               </h3>
-              <p className="mt-1 text-sm text-slate-500 max-w-sm">
+              <p className="mt-1 text-xs text-slate-500 max-w-sm">
                 {items.length === 0
                   ? "Add a skill or topic to start building your learning roadmap."
                   : "Try changing your search or filters."}
@@ -283,7 +279,7 @@ export default function DevelopmentPage() {
           ) : (
             <div className="divide-y divide-slate-100">
               {filteredItems.map((item) => (
-                <div key={item.id} className="flex flex-col gap-4 px-6 py-4 sm:flex-row sm:items-center sm:justify-between hover:bg-slate-50/50 transition">
+                <div key={item.id} className="flex flex-col gap-4 px-6 py-4 sm:flex-row sm:items-center sm:justify-between hover:bg-slate-50 transition">
                   <div className="min-w-0">
                     <h3 className="font-medium text-slate-900">{item.title}</h3>
                     <p className="mt-1 text-xs text-slate-500">{item.category}</p>
