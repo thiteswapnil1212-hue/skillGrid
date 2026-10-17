@@ -119,7 +119,7 @@ export default function NotificationsPage() {
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">
             Updates
           </p>
-          <h1 className="mt-2 font-display text-[1.8rem] font-medium leading-[1.15] text-slate-900 sm:text-[2.15rem]">
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
             Notifications
           </h1>
           <p className="mt-1 text-sm text-slate-500">
@@ -283,7 +283,7 @@ export default function NotificationsPage() {
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-light p-4 text-primary">
             <Inbox size={25} />
           </div>
-          <h3 className="mt-4 font-display text-xl font-medium text-slate-900">
+          <h3 className="mt-4 text-sm font-semibold text-slate-900">
             {notifications.length === 0
               ? "You're all caught up"
               : "No notifications found"}
