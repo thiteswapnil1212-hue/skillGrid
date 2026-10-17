@@ -28,10 +28,10 @@ export default function AppShell({ children }: AppShellProps) {
 
   return (
     <SnackbarProvider>
-    <div className="h-screen h-[100dvh] overflow-hidden bg-white text-[#1E293B]">
+    <div className="h-screen h-[100dvh] overflow-hidden bg-[#F7F6F2] text-[#1E293B]">
       <div className="flex h-full">
         {/* Desktop Sidebar */}
-        <div className="hidden w-[260px] shrink-0 border-r border-[#E2E8F0] lg:block">
+        <div className="hidden w-[260px] shrink-0 border-r border-[#E8E5DB] lg:block">
           <Sidebar />
         </div>
 
@@ -39,7 +39,7 @@ export default function AppShell({ children }: AppShellProps) {
         <div className="flex min-h-0 min-w-0 flex-1 flex-col">
           <Header onMenuClick={() => setMobileMenuOpen(true)} />
 
-          <main className="min-h-0 min-w-0 flex-1 overflow-y-auto overscroll-contain bg-white bg-[radial-gradient(70rem_26rem_at_50%_-12rem,rgba(59,89,152,0.055),transparent)] pb-[calc(6rem+env(safe-area-inset-bottom))] lg:pb-safe">
+          <main className="min-h-0 min-w-0 flex-1 overflow-y-auto overscroll-contain bg-[#F7F6F2] bg-[radial-gradient(70rem_26rem_at_50%_-12rem,rgba(59,89,152,0.055),transparent)] pb-[calc(6rem+env(safe-area-inset-bottom))] lg:pb-safe">
             {children}
           </main>
         </div>
@@ -72,7 +72,7 @@ export default function AppShell({ children }: AppShellProps) {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", stiffness: 380, damping: 38 }}
-              className="absolute inset-y-0 left-0 w-[280px] max-w-[85vw] overscroll-contain bg-[#F8FAFC] shadow-2xl pt-safe pb-safe"
+              className="absolute inset-y-0 left-0 w-[280px] max-w-[85vw] overscroll-contain bg-[#FBFAF8] shadow-2xl pt-safe pb-safe"
             >
               <button
                 onClick={() => setMobileMenuOpen(false)}
