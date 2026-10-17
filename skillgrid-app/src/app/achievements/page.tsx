@@ -144,7 +144,7 @@ export default function AchievementsPage() {
               Personal Growth
             </p>
 
-            <h1 className="mt-2 font-display text-[1.8rem] font-medium leading-[1.15] text-slate-900 sm:text-[2.15rem]">
+            <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
               Achievements
             </h1>
 
@@ -342,7 +342,7 @@ export default function AchievementsPage() {
             <Search size={25} />
           </div>
 
-          <h3 className="mt-5 font-display text-xl font-medium text-slate-900">
+          <h3 className="mt-5 text-sm font-semibold text-slate-900">
             No achievements found
           </h3>
 
