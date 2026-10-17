@@ -39,7 +39,7 @@ export default function AppShell({ children }: AppShellProps) {
         <div className="flex min-h-0 min-w-0 flex-1 flex-col">
           <Header onMenuClick={() => setMobileMenuOpen(true)} />
 
-          <main className="min-h-0 min-w-0 flex-1 overflow-y-auto overscroll-contain bg-white pb-[calc(6rem+env(safe-area-inset-bottom))] lg:pb-safe">
+          <main className="min-h-0 min-w-0 flex-1 overflow-y-auto overscroll-contain bg-white bg-[radial-gradient(70rem_26rem_at_50%_-12rem,rgba(59,89,152,0.055),transparent)] pb-[calc(6rem+env(safe-area-inset-bottom))] lg:pb-safe">
             {children}
           </main>
         </div>
