@@ -165,15 +165,15 @@ export default function FocusTimerPage() {
         {/* Header */}
         <header className="mb-9 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-border bg-card text-primary shadow-sm">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
               <Target size={21} />
             </div>
 
             <div>
-              <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+              <p className="text-xs font-semibold uppercase tracking-widest text-primary">
                 SkillGrid
               </p>
-              <h1 className="mt-1 text-xl font-semibold tracking-tight sm:text-2xl">
+              <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
                 Focus Studio
               </h1>
             </div>
@@ -371,7 +371,7 @@ export default function FocusTimerPage() {
                   </p>
                 </div>
 
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-primary">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-sm">
                   <Flame size={19} />
                 </div>
               </div>
@@ -410,7 +410,7 @@ export default function FocusTimerPage() {
               <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-primary/[0.06] blur-3xl" />
 
               <div className="relative">
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-primary">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-violet-600 text-white shadow-sm">
                   <Zap size={19} />
                 </div>
 
@@ -457,7 +457,7 @@ export default function FocusTimerPage() {
 
                   return (
                     <div key={item.title} className="flex items-center gap-3">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-muted text-primary">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
                         <Icon size={16} />
                       </div>
 
