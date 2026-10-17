@@ -50,7 +50,7 @@ body {
   margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family inherits Source Serif 4 from <html> via next/font — single font everywhere */
   overflow-x: clip;
 }
 
