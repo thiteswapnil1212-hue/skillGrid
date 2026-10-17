@@ -123,17 +123,17 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-slate-50/70 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl space-y-6">
         <header>
-          <p className="text-sm font-medium text-primary">Account</p>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Account</p>
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
             My Profile
           </h1>
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-slate-500">
             Manage your personal information and social links.
           </p>
         </header>
 
         <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-          <aside className="h-fit rounded-2xl border border-slate-200 bg-white p-6">
+          <aside className="h-fit rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
             <div className="flex flex-col items-center text-center">
               <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <UserRound size={42} strokeWidth={1.5} />
@@ -192,11 +192,11 @@ export default function ProfilePage() {
 
           <form
             onSubmit={handleSubmit}
-            className="space-y-6 rounded-2xl border border-slate-200 bg-white p-5 sm:p-7"
+            className="space-y-6 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm sm:p-7"
           >
             <section>
               <div className="mb-5 flex items-center gap-3">
-                <div className="rounded-xl bg-primary/10 p-2.5 text-primary">
+                <div className="rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] p-2.5 text-white shadow-sm">
                   <UserRound size={20} />
                 </div>
                 <div>
@@ -284,7 +284,7 @@ export default function ProfilePage() {
 
             <section>
               <div className="mb-5 flex items-center gap-3">
-                <div className="rounded-xl bg-primary/10 p-2.5 text-primary">
+                <div className="rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] p-2.5 text-white shadow-sm">
                   <Link2 size={20} />
                 </div>
                 <div>
