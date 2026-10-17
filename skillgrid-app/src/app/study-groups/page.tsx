@@ -69,14 +69,11 @@ export default function StudyGroupsPage() {
     <main className="mx-auto w-full max-w-7xl space-y-6 p-6">
       <section className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center">
         <div>
-          <div className="flex items-center gap-2 text-sm font-medium text-primary">
-            <UsersRound size={16} />
-            <span>Community</span>
-            <span>/</span>
-            <span>Study Groups</span>
-          </div>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">Study Groups</h1>
-          <p className="mt-2 text-sm text-slate-500">Organize your study groups by subject and learning goals.</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+            Community
+          </p>
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Study Groups</h1>
+          <p className="mt-1 text-sm text-slate-500">Organize your study groups by subject and learning goals.</p>
         </div>
         <Button onClick={() => setShowForm((current) => !current)} className="gap-2">
           {showForm ? <X size={16} /> : <Plus size={16} />}
@@ -85,28 +82,28 @@ export default function StudyGroupsPage() {
       </section>
 
       <section className="grid gap-4 sm:grid-cols-2">
-        <Card>
-          <CardContent className="p-5">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">Total groups</p>
-              <UsersRound size={18} className="text-slate-400" />
+        <Card className="rounded-2xl border-0 p-5 ring-1 ring-slate-200/60">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-xs font-medium uppercase tracking-wider text-slate-500">Total groups</p>
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
+              <UsersRound size={20} />
             </div>
-            <p className="mt-3 text-3xl font-semibold text-slate-900">{groups.length}</p>
-          </CardContent>
+          </div>
+          <p className="mt-3 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{groups.length}</p>
         </Card>
-        <Card>
-          <CardContent className="p-5">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">Matching groups</p>
-              <Search size={18} className="text-slate-400" />
+        <Card className="rounded-2xl border-0 p-5 ring-1 ring-slate-200/60">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-xs font-medium uppercase tracking-wider text-slate-500">Matching groups</p>
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-sm">
+              <Search size={20} />
             </div>
-            <p className="mt-3 text-3xl font-semibold text-slate-900">{filteredGroups.length}</p>
-          </CardContent>
+          </div>
+          <p className="mt-3 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{filteredGroups.length}</p>
         </Card>
       </section>
 
       {showForm && (
-        <Card>
+        <Card className="rounded-2xl border-0 ring-1 ring-slate-200/60">
           <CardHeader>
             <CardTitle>Create a study group</CardTitle>
             <p className="text-sm text-slate-500 font-normal">Add a name, subject, and optional description.</p>
@@ -166,7 +163,7 @@ export default function StudyGroupsPage() {
         />
       </div>
 
-      <Card>
+      <Card className="rounded-2xl border-0 ring-1 ring-slate-200/60">
         <CardHeader className="flex flex-row items-center justify-between border-b border-slate-200">
           <CardTitle>Your study groups</CardTitle>
           <span className="text-sm text-slate-500">
@@ -176,11 +173,13 @@ export default function StudyGroupsPage() {
         <div>
           {filteredGroups.length === 0 ? (
             <div className="flex flex-col items-center py-16 text-center px-6">
-              <UsersRound size={24} className="text-slate-400 mb-4" />
-              <h3 className="font-medium text-slate-900">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-light p-4 text-primary">
+                <UsersRound size={24} />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-900">
                 {groups.length === 0 ? "No study groups yet" : "No matching groups"}
               </h3>
-              <p className="mt-1 text-sm text-slate-500 max-w-sm">
+              <p className="mt-1 max-w-sm text-xs text-slate-500">
                 {groups.length === 0
                   ? "Create a group to organize your study topics and goals."
                   : "Try another search term."}
@@ -196,10 +195,10 @@ export default function StudyGroupsPage() {
               {filteredGroups.map((group) => (
                 <article
                   key={group.id}
-                  className="rounded-lg border border-slate-200 p-5 transition hover:border-slate-300 hover:shadow-sm"
+                  className="rounded-2xl bg-white p-5 ring-1 ring-slate-200/60 transition-shadow hover:shadow-md"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-light text-primary">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
                       <BookOpen size={19} />
                     </div>
                     <Button variant="ghost" size="sm" onClick={() => deleteGroup(group.id)} aria-label={`Delete group "${group.name}"`} className="p-2 h-auto text-slate-400 hover:text-danger hover:bg-danger-light">
