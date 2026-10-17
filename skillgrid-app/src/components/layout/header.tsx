@@ -30,7 +30,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           />
         </div>
 
-        <p className="truncate font-display text-base font-semibold text-slate-900 sm:hidden">
+        <p className="truncate text-sm font-semibold text-slate-900 sm:hidden">
           SkillGrid
         </p>
       </div>
