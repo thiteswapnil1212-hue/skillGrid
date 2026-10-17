@@ -93,11 +93,11 @@ export default function TasksPage() {
     <main className="mx-auto w-full max-w-7xl space-y-6 p-6">
       <section className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center">
         <div>
-          <p className="text-sm font-semibold tracking-wider text-primary uppercase">Workspace</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Workspace</p>
           <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
             Tasks
           </h1>
-          <p className="mt-1 text-sm font-medium text-slate-500">
+          <p className="mt-1 text-sm text-slate-500">
             Organize your work, set priorities, and track completion.
           </p>
         </div>
@@ -108,22 +108,31 @@ export default function TasksPage() {
       </section>
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <Card className="border-slate-200/60 shadow-sm hover:shadow-md transition-shadow">
+        <Card className="rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
           <CardContent className="p-5">
-            <p className="text-sm font-medium text-slate-500">Total tasks</p>
-            <p className="mt-2 text-3xl font-bold text-slate-900 tracking-tight">{tasks.length}</p>
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
+              <ClipboardList size={20} />
+            </div>
+            <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{tasks.length}</p>
+            <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Total tasks</p>
           </CardContent>
         </Card>
-        <Card className="border-slate-200/60 shadow-sm hover:shadow-md transition-shadow">
+        <Card className="rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
           <CardContent className="p-5">
-            <p className="text-sm font-medium text-slate-500">Pending</p>
-            <p className="mt-2 text-3xl font-bold text-slate-900 tracking-tight">{tasks.length - completedCount}</p>
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-sm">
+              <Circle size={20} />
+            </div>
+            <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{tasks.length - completedCount}</p>
+            <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Pending</p>
           </CardContent>
         </Card>
-        <Card className="border-primary/20 bg-primary/5 shadow-sm hover:shadow-md transition-shadow">
+        <Card className="rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
           <CardContent className="p-5">
-            <p className="text-sm font-medium text-primary">Completed</p>
-            <p className="mt-2 text-3xl font-bold text-primary tracking-tight">{completedCount}</p>
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-sm">
+              <Check size={20} />
+            </div>
+            <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{completedCount}</p>
+            <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Completed</p>
           </CardContent>
         </Card>
       </section>
@@ -136,7 +145,7 @@ export default function TasksPage() {
             exit={{ opacity: 0, height: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
           >
-            <Card className="overflow-hidden">
+            <Card className="overflow-hidden rounded-2xl">
               <CardHeader className="flex flex-row items-center justify-between pb-4">
                 <CardTitle className="text-lg">Create task</CardTitle>
                 <Button variant="ghost" size="sm" onClick={() => setShowForm(false)} aria-label="Close form" className="h-8 w-8 p-0 text-slate-400 hover:text-slate-700">
@@ -217,7 +226,7 @@ export default function TasksPage() {
         )}
       </AnimatePresence>
 
-      <Card>
+      <Card className="rounded-2xl">
         <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between pb-4">
           <div>
             <CardTitle className="text-lg">All tasks</CardTitle>
@@ -243,13 +252,13 @@ export default function TasksPage() {
         <div className="border-t border-slate-100 bg-white">
           {filteredTasks.length === 0 ? (
             <div className="flex flex-col items-center py-20 text-center px-6">
-              <div className="rounded-full bg-slate-50 border border-slate-100 p-4 mb-4 text-slate-300">
+              <div className="rounded-2xl bg-primary-light p-4 mb-4 text-primary">
                 <ClipboardList className="h-8 w-8" />
               </div>
-              <h3 className="text-base font-semibold text-slate-900">
+              <h3 className="text-sm font-semibold text-slate-900">
                 {tasks.length === 0 ? "No tasks yet" : `No ${filter.toLowerCase()} tasks`}
               </h3>
-              <p className="mt-1 text-sm text-slate-500 max-w-sm">
+              <p className="mt-1 text-xs text-slate-500 max-w-sm">
                 {tasks.length === 0 ? "Create your first task to start organizing your work." : "Tasks matching this filter will appear here."}
               </p>
               {tasks.length === 0 && (
