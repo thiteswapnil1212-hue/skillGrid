@@ -1,10 +1,15 @@
 
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import AppShell from "@/components/layout/app-shell";
 
 const inter = Inter({ subsets: ["latin"] });
+const sourceSerif = Source_Serif_4({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  variable: "--font-display-serif",
+});
 
 export const viewport: Viewport = {
   themeColor: "#3B5998",
@@ -37,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className={`${inter.className} ${sourceSerif.variable}`}>
       <body className="antialiased">
         <AppShell>{children}</AppShell>
       </body>
