@@ -23,11 +23,45 @@ type Task = {
 const categories = ["Personal", "Academics", "DSA", "Development", "Other"];
 const priorities = ["Low", "Medium", "High"];
 
+// Local-timezone-safe ISO date (yyyy-mm-dd) for date-group comparisons.
+function localISODate(date: Date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function TaskCheckbox({ task, onToggle }: { task: Task; onToggle: (id: string) => void }) {
+  return (
+    <motion.button
+      whileTap={{ scale: 0.75 }}
+      type="button"
+      onClick={() => onToggle(task.id)}
+      aria-pressed={task.completed}
+      aria-label={task.completed ? `Mark "${task.title}" as not completed` : `Mark "${task.title}" as completed`}
+      className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:h-5 sm:w-5"
+    >
+      <motion.span
+        key={String(task.completed)}
+        initial={{ scale: 0, rotate: -30 }}
+        animate={{ scale: 1, rotate: 0 }}
+        transition={{ type: "spring", stiffness: 500, damping: 18 }}
+        className={`flex h-5 w-5 items-center justify-center rounded-full border transition-colors ${
+          task.completed ? "border-primary bg-primary text-white" : "border-slate-300 text-transparent hover:border-primary"
+        }`}
+      >
+        {task.completed ? <Check size={12} strokeWidth={3} /> : <Circle size={12} />}
+      </motion.span>
+    </motion.button>
+  );
+}
+
 export default function TasksPage() {
   const showSnackbar = useSnackbar();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [filter, setFilter] = useState("All");
+  const [view, setView] = useState<"list" | "timeline">("list");
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Personal");
@@ -41,6 +75,31 @@ export default function TasksPage() {
     if (filter === "Completed") return task.completed;
     return true;
   });
+
+  const todayStr = localISODate();
+  const tomorrowStr = localISODate(new Date(Date.now() + 24 * 60 * 60 * 1000));
+
+  const timelineGroups = [
+    { key: "overdue", label: "Overdue", tasks: [] as Task[] },
+    { key: "today", label: "Today", tasks: [] as Task[] },
+    { key: "tomorrow", label: "Tomorrow", tasks: [] as Task[] },
+    { key: "upcoming", label: "Upcoming", tasks: [] as Task[] },
+    { key: "nodate", label: "No due date", tasks: [] as Task[] },
+  ];
+  for (const task of filteredTasks) {
+    if (!task.dueDate) timelineGroups[4].tasks.push(task);
+    else if (task.dueDate < todayStr) timelineGroups[task.completed ? 1 : 0].tasks.push(task);
+    else if (task.dueDate === todayStr) timelineGroups[1].tasks.push(task);
+    else if (task.dueDate === tomorrowStr) timelineGroups[2].tasks.push(task);
+    else timelineGroups[3].tasks.push(task);
+  }
+  const visibleGroups = timelineGroups.filter((group) => group.tasks.length > 0);
+
+  const priorityDot: Record<string, string> = {
+    High: "bg-rose-500",
+    Medium: "bg-amber-500",
+    Low: "bg-slate-400",
+  };
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -226,6 +285,27 @@ export default function TasksPage() {
         )}
       </AnimatePresence>
 
+      <div className="flex justify-end">
+        <div role="tablist" aria-label="Task list view" className="flex gap-1 rounded-lg border border-slate-200 bg-white p-1 shadow-sm">
+          {(["list", "timeline"] as const).map((option) => (
+            <button
+              key={option}
+              type="button"
+              role="tab"
+              aria-selected={view === option}
+              onClick={() => setView(option)}
+              className={`rounded-md px-3 py-1.5 text-sm font-semibold capitalize transition-all ${
+                view === option
+                  ? "bg-slate-900 text-white shadow-sm"
+                  : "text-slate-500 hover:bg-slate-100 hover:text-slate-700"
+              }`}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <Card className="rounded-2xl">
         <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between pb-4">
           <div>
@@ -267,6 +347,50 @@ export default function TasksPage() {
                 </Button>
               )}
             </div>
+          ) : view === "timeline" ? (
+            <div className="px-6 py-6">
+              <div className="space-y-8 border-l-2 border-slate-200 pl-6">
+                {visibleGroups.map((group) => (
+                  <section key={group.key}>
+                    <div className="flex items-center gap-2">
+                      {group.key === "today" ? (
+                        <span className="rounded-full bg-primary px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-white">
+                          Today
+                        </span>
+                      ) : (
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                          {group.label}
+                        </h4>
+                      )}
+                      <span className="text-xs font-medium text-slate-400 tabular-nums">
+                        {group.tasks.length}
+                      </span>
+                    </div>
+                    <ul className="mt-4 space-y-1">
+                      {group.tasks.map((task) => (
+                        <motion.li
+                          key={task.id}
+                          layout
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="flex items-center gap-3 rounded-xl px-2 py-2 transition-colors hover:bg-slate-50"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className={`h-2.5 w-2.5 shrink-0 rounded-full ${priorityDot[task.priority] ?? "bg-slate-400"}`}
+                          />
+                          <TaskCheckbox task={task} onToggle={toggleTask} />
+                          <p className={`min-w-0 flex-1 text-sm font-semibold transition-all ${task.completed ? "text-slate-400 line-through" : "text-slate-900"}`}>
+                            {task.title}
+                          </p>
+                          <Badge variant="outline">{task.category}</Badge>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </section>
+                ))}
+              </div>
+            </div>
           ) : (
             <div className="divide-y divide-slate-100">
               <AnimatePresence initial={false}>
@@ -279,24 +403,9 @@ export default function TasksPage() {
                     exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.15 } }}
                     className="group flex items-start gap-4 px-6 py-4 hover:bg-slate-50 transition-colors"
                   >
-                    <motion.button
-                      whileTap={{ scale: 0.9 }}
-                      type="button"
-                      onClick={() => toggleTask(task.id)}
-                      aria-pressed={task.completed}
-                      aria-label={task.completed ? `Mark "${task.title}" as not completed` : `Mark "${task.title}" as completed`}
-                      className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:h-5 sm:w-5"
-                    >
-                      <span
-                        className={`flex h-5 w-5 items-center justify-center rounded-full border transition-colors ${
-                          task.completed ? "border-primary bg-primary text-white" : "border-slate-300 text-transparent hover:border-primary"
-                        }`}
-                      >
-                        {task.completed ? <Check size={12} strokeWidth={3} /> : <Circle size={12} />}
-                      </span>
-                    </motion.button>
+                    <TaskCheckbox task={task} onToggle={toggleTask} />
                     <div className="min-w-0 flex-1">
-                      <p className={`text-sm font-semibold transition-colors ${task.completed ? "text-slate-400 line-through" : "text-slate-900"}`}>
+                      <p className={`text-sm font-semibold transition-all ${task.completed ? "text-slate-400 line-through" : "text-slate-900"}`}>
                         {task.title}
                       </p>
                       <div className="mt-2 flex flex-wrap items-center gap-2">
