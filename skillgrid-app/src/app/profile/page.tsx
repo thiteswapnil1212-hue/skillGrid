@@ -120,7 +120,7 @@ export default function ProfilePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50/70 px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-transparent px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl space-y-6">
         <header>
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">Account</p>
