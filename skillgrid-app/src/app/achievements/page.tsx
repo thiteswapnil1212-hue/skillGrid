@@ -89,6 +89,20 @@ const categories = [
   "Habits",
 ];
 
+const categoryTints: Record<string, string> = {
+  Tasks: "bg-[#EAF0FA] text-[#3B5998]",
+  DSA: "bg-[#F3E8FF] text-[#7C3AED]",
+  Consistency: "bg-[#EAF7EC] text-[#2F9E44]",
+  Focus: "bg-[#FFF7E0] text-[#B97E0C]",
+  Challenges: "bg-[#FEF2F2] text-[#DC2626]",
+  Habits: "bg-[#EAF7EC] text-[#2F9E44]",
+};
+
+const cardShadow =
+  "shadow-[0_1px_2px_rgba(74,60,32,0.05),0_12px_32px_-16px_rgba(74,60,32,0.14)]";
+const cardHover =
+  "transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_2px_4px_rgba(74,60,32,0.06),0_16px_40px_-16px_rgba(74,60,32,0.2)]";
+
 export default function AchievementsPage() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
@@ -133,128 +147,110 @@ export default function AchievementsPage() {
     setSearch("");
   }
 
+  const pillFor = (active: boolean) =>
+    `min-h-[48px] whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3B5998] ${
+      active
+        ? "bg-[#3B5998] text-white shadow-sm"
+        : "border border-[#E8E5DB] bg-white text-[#6B7280] hover:border-[#3B5998] hover:text-[#3B5998]"
+    }`;
+
   return (
     <main className="mx-auto w-full max-w-7xl space-y-6 p-4 sm:p-6 lg:p-8">
-      {/* Header */}
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-primary">
-              <Award size={14} />
-              Personal Growth
-            </p>
-
-            <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-              Achievements
-            </h1>
-
-            <p className="mt-1 max-w-2xl text-sm text-slate-500">
-              Track meaningful milestones across your tasks, DSA, habits,
-              focus sessions, and learning journey.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
-              <Trophy size={21} />
-            </div>
-
-            <div>
-              <p className="text-xs font-medium text-slate-500">
-                Collection progress
-              </p>
-              <p className="mt-0.5 text-lg font-bold text-slate-900">
-                {unlockedCount}/{achievements.length}
-              </p>
-            </div>
-          </div>
-        </div>
+      {/* Hero */}
+      <section className="border-b border-[#E8E5DB] pb-6">
+        <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#3B5998]">
+          <Award size={14} />
+          Personal Growth
+        </p>
+        <h1 className="mt-2 text-4xl font-semibold tracking-tight text-slate-900">
+          Achievements
+        </h1>
+        <p className="mt-2 max-w-2xl text-sm text-[#6B7280]">
+          Track meaningful milestones across your tasks, DSA, habits, focus
+          sessions, and learning journey.
+        </p>
       </section>
 
-      {/* Progress Overview */}
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="flex flex-col gap-6 md:flex-row md:items-center">
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
-            <Trophy size={30} />
-          </div>
-
-          <div className="min-w-0 flex-1">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <h2 className="text-lg font-semibold text-slate-900">
-                  Your achievement collection
-                </h2>
-
-                <p className="mt-1 text-sm text-slate-500">
-                  {unlockedCount === 0
-                    ? "Your first achievement is waiting to be unlocked."
-                    : `${unlockedCount} achievement${
-                        unlockedCount === 1 ? "" : "s"
-                      } unlocked so far.`}
-                </p>
+      {/* Progress hero — dark contrast */}
+      <section className="rounded-3xl bg-[#1E293B] p-6 sm:p-8">
+        <div className="grid gap-8 lg:grid-cols-5">
+          <div className="lg:col-span-3">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-300/70">
+              Collection progress
+            </p>
+            <p className="mt-4 text-5xl font-semibold tracking-tight text-white tabular-nums">
+              {unlockedCount}
+              <span className="text-2xl text-slate-300/60">
+                /{achievements.length}
+              </span>
+            </p>
+            <h2 className="mt-5 text-xl font-semibold tracking-tight text-white">
+              Your achievement <em className="italic">collection</em>
+            </h2>
+            <p className="mt-1 text-sm text-slate-300/70">
+              {unlockedCount === 0
+                ? "Your first achievement is waiting to be unlocked."
+                : `${unlockedCount} achievement${
+                    unlockedCount === 1 ? "" : "s"
+                  } unlocked so far.`}
+            </p>
+            <div className="mt-5 flex items-center gap-4">
+              <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-white/15">
+                <div
+                  className="h-full rounded-full bg-white transition-all duration-500"
+                  style={{ width: `${progressPercentage}%` }}
+                />
               </div>
-
-              <span className="text-sm font-semibold text-slate-700">
+              <span className="text-sm font-semibold text-white tabular-nums">
                 {progressPercentage}%
               </span>
             </div>
-
-            <div className="mt-4 h-2.5 overflow-hidden rounded-full bg-slate-100">
+          </div>
+          <div className="divide-y divide-white/10 self-center lg:col-span-2">
+            {[
+              { label: "Total", value: achievements.length },
+              { label: "Unlocked", value: unlockedCount },
+              { label: "Remaining", value: lockedCount },
+            ].map((row) => (
               <div
-                className="h-full rounded-full bg-primary transition-all duration-500"
-                style={{ width: `${progressPercentage}%` }}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-6 grid grid-cols-2 gap-3 border-t border-slate-100 pt-5 sm:grid-cols-3">
-          <div>
-            <p className="text-xs font-medium uppercase tracking-wider text-slate-500">Total</p>
-            <p className="mt-1 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">
-              {achievements.length}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-xs font-medium uppercase tracking-wider text-slate-500">Unlocked</p>
-            <p className="mt-1 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">
-              {unlockedCount}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-xs font-medium uppercase tracking-wider text-slate-500">Remaining</p>
-            <p className="mt-1 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">
-              {lockedCount}
-            </p>
+                key={row.label}
+                className="flex items-baseline justify-between py-3"
+              >
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-300/70">
+                  {row.label}
+                </p>
+                <p className="text-2xl font-semibold tracking-tight text-white tabular-nums">
+                  {row.value}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Search & Filters */}
-      <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+      {/* Search & filters */}
+      <section
+        className={`rounded-3xl border border-[#E8E5DB] bg-white p-4 ${cardShadow} sm:p-5`}
+      >
         <div className="flex flex-col gap-4">
           <div className="relative">
             <Search
               size={18}
-              className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#9AA0A6]"
             />
-
             <input
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder="Search achievements..."
               aria-label="Search achievements"
-              className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-10 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/10"
+              className="h-12 w-full rounded-xl border border-[#E8E5DB] bg-white py-3 pl-11 pr-12 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#3B5998] focus:ring-2 focus:ring-[#3B5998]/15"
             />
-
             {search && (
               <button
                 type="button"
                 onClick={clearSearch}
                 aria-label="Clear search"
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
+                className="absolute right-1.5 top-1/2 flex min-h-[48px] min-w-[48px] -translate-y-1/2 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
               >
                 <X size={16} />
               </button>
@@ -262,45 +258,27 @@ export default function AchievementsPage() {
           </div>
 
           <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1">
-            {categories.map((category) => {
-              const active = filter === category;
-
-              return (
-                <button
-                  key={category}
-                  type="button"
-                  onClick={() => setFilter(category)}
-                  className={`whitespace-nowrap rounded-lg px-3.5 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
-                    active
-                      ? "bg-primary text-white shadow-sm"
-                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }`}
-                >
-                  {category}
-                </button>
-              );
-            })}
-
+            {categories.map((category) => (
+              <button
+                key={category}
+                type="button"
+                onClick={() => setFilter(category)}
+                className={pillFor(filter === category)}
+              >
+                {category}
+              </button>
+            ))}
             <button
               type="button"
               onClick={() => setFilter("Unlocked")}
-              className={`whitespace-nowrap rounded-lg px-3.5 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
-                filter === "Unlocked"
-                  ? "bg-primary text-white shadow-sm"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
+              className={pillFor(filter === "Unlocked")}
             >
               Unlocked
             </button>
-
             <button
               type="button"
               onClick={() => setFilter("Locked")}
-              className={`whitespace-nowrap rounded-lg px-3.5 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
-                filter === "Locked"
-                  ? "bg-primary text-white shadow-sm"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
+              className={pillFor(filter === "Locked")}
             >
               Locked
             </button>
@@ -308,19 +286,17 @@ export default function AchievementsPage() {
         </div>
       </section>
 
-      {/* Result Header */}
+      {/* Result header */}
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-semibold text-slate-900">
+          <h2 className="text-xl font-semibold tracking-tight text-slate-900">
             Achievement library
           </h2>
-
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-xs text-[#9AA0A6]">
             Showing {filteredAchievements.length} of {achievements.length}{" "}
             achievements
           </p>
         </div>
-
         {(search || filter !== "All") && (
           <button
             type="button"
@@ -328,36 +304,33 @@ export default function AchievementsPage() {
               setSearch("");
               setFilter("All");
             }}
-            className="text-sm font-medium text-primary hover:underline"
+            className="text-sm font-semibold text-[#3B5998] hover:underline"
           >
             Reset filters
           </button>
         )}
       </div>
 
-      {/* Achievement Cards */}
+      {/* Badge grid */}
       {filteredAchievements.length === 0 ? (
-        <section className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-light p-4 text-primary">
+        <section className="rounded-3xl border border-dashed border-[#E8E5DB] bg-white/60 p-10 text-center">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#EAF0FA] text-[#3B5998]">
             <Search size={25} />
           </div>
-
-          <h3 className="mt-5 text-sm font-semibold text-slate-900">
+          <h3 className="mt-4 text-base font-semibold text-slate-900">
             No achievements found
           </h3>
-
-          <p className="mx-auto mt-1 max-w-sm text-xs text-slate-500">
+          <p className="mx-auto mt-1 max-w-sm text-sm text-[#6B7280]">
             No achievement matches your current search or filter. Try
             something different.
           </p>
-
           <button
             type="button"
             onClick={() => {
               setSearch("");
               setFilter("All");
             }}
-            className="mt-5 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
+            className="mt-5 min-h-[48px] rounded-xl bg-[#3B5998] px-5 text-sm font-semibold text-white transition hover:opacity-90"
           >
             Show all achievements
           </button>
@@ -367,18 +340,14 @@ export default function AchievementsPage() {
           {filteredAchievements.map((item) => (
             <article
               key={item.id}
-              className={`group rounded-2xl border bg-white p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md ${
-                item.unlocked
-                  ? "border-primary/20"
-                  : "border-slate-200"
-              }`}
+              className={`rounded-3xl border border-[#E8E5DB] bg-white p-5 ${cardShadow} ${cardHover}`}
             >
               <div className="flex items-start justify-between gap-4">
                 <div
-                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl shadow-sm ${
+                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${
                     item.unlocked
-                      ? "bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white"
-                      : "bg-slate-100 text-slate-400"
+                      ? categoryTints[item.category] ?? "bg-[#EAF0FA] text-[#3B5998]"
+                      : "bg-[#F7F6F2] text-[#9AA0A6] opacity-40 grayscale"
                   }`}
                 >
                   {item.unlocked ? (
@@ -387,46 +356,34 @@ export default function AchievementsPage() {
                     <LockKeyhole size={22} />
                   )}
                 </div>
-
                 <span
-                  className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${
+                  className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold ${
                     item.unlocked
-                      ? "bg-emerald-50 text-emerald-700"
-                      : "bg-slate-100 text-slate-500"
+                      ? "bg-[#EAF7EC] text-[#2F9E44]"
+                      : "bg-[#F7F6F2] text-[#9AA0A6]"
                   }`}
                 >
                   {item.unlocked && <CheckCircle2 size={13} />}
-
                   {item.unlocked ? "Unlocked" : "Locked"}
                 </span>
               </div>
 
               <div className="mt-5">
-                <h3 className="font-semibold text-slate-900">
+                <h3 className="text-lg font-semibold tracking-tight text-slate-900">
                   {item.title}
                 </h3>
-
-                <p className="mt-2 min-h-[48px] text-sm leading-6 text-slate-500">
+                <p className="mt-1 min-h-[48px] text-sm leading-6 text-[#6B7280]">
                   {item.description}
                 </p>
               </div>
 
-              <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
-                <div className="flex items-center gap-2">
-                  <Sparkles
-                    size={15}
-                    className={
-                      item.unlocked ? "text-primary" : "text-slate-400"
-                    }
-                  />
-
-                  <span className="text-xs font-medium text-slate-500">
-                    {item.category}
-                  </span>
-                </div>
-
+              <div className="mt-4 flex items-center justify-between border-t border-[#E8E5DB] pt-4">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E8E5DB] bg-[#F7F6F2] px-2.5 py-1 text-[11px] font-semibold text-[#6B7280]">
+                  <Sparkles size={13} />
+                  {item.category}
+                </span>
                 {item.unlocked && (
-                  <span className="text-xs font-medium text-emerald-600">
+                  <span className="text-xs font-semibold text-[#2F9E44]">
                     Earned
                   </span>
                 )}
@@ -436,19 +393,19 @@ export default function AchievementsPage() {
         </section>
       )}
 
-      {/* Tracking Information */}
-      <section className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-        <div className="flex items-start gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
-            <Target size={18} />
+      {/* Tracking information */}
+      <section
+        className={`rounded-3xl border border-[#E8E5DB] bg-white p-5 ${cardShadow}`}
+      >
+        <div className="flex items-start gap-4">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#EAF0FA] text-[#3B5998]">
+            <Target size={20} />
           </div>
-
           <div>
-            <p className="text-sm font-semibold text-slate-800">
+            <p className="text-sm font-semibold text-slate-900">
               Achievement tracking
             </p>
-
-            <p className="mt-1 text-sm leading-6 text-slate-500">
+            <p className="mt-1 text-sm leading-6 text-[#6B7280]">
               These achievements are currently definitions only. Automatic
               unlocking will require connecting tasks, DSA, habits, focus
               sessions, challenges, and other activity to a shared data source.
