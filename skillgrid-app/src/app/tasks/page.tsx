@@ -101,6 +101,18 @@ export default function TasksPage() {
     Low: "bg-slate-400",
   };
 
+  const priorityBar: Record<string, string> = {
+    High: "bg-[#DC2626]",
+    Medium: "bg-[#F59E0B]",
+    Low: "bg-[#CBD5E1]",
+  };
+
+  const priorityPillActive: Record<string, string> = {
+    High: "border-[#DC2626]/30 bg-[#FEF2F2] text-[#DC2626]",
+    Medium: "border-[#B97E0C]/30 bg-[#FFF7E0] text-[#B97E0C]",
+    Low: "border-slate-300 bg-slate-100 text-slate-600",
+  };
+
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const trimmedTitle = title.trim();
@@ -148,54 +160,77 @@ export default function TasksPage() {
     });
   }
 
+  const pendingCount = tasks.length - completedCount;
+  const donePct = tasks.length === 0 ? 0 : Math.round((completedCount / tasks.length) * 100);
+
   return (
-    <main className="mx-auto w-full max-w-7xl space-y-6 p-6">
-      <section className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Workspace</p>
-          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-            Tasks
-          </h1>
-          <p className="mt-1 text-sm text-slate-500">
-            Organize your work, set priorities, and track completion.
-          </p>
+    <main className="mx-auto w-full max-w-7xl space-y-8 bg-[#F7F6F2] p-6">
+      {/* Hero */}
+      <section className="border-b border-[#E8E5DB] pb-6">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#3B5998]">Workspace</p>
+        <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-semibold tracking-tight text-slate-900">
+              Tasks
+            </h1>
+            <p className="mt-2 text-sm text-[#6B7280]">
+              Organize your work, set priorities, and track completion.
+            </p>
+          </div>
+          <Button onClick={() => setShowForm(true)} className="hidden gap-2 rounded-xl lg:inline-flex">
+            <Plus size={16} />
+            Add task
+          </Button>
         </div>
-        <Button onClick={() => setShowForm(true)} className="hidden gap-2 lg:inline-flex">
-          <Plus size={16} />
-          Add task
-        </Button>
       </section>
 
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <Card className="rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
-          <CardContent className="p-5">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
-              <ClipboardList size={20} />
+      {/* Overview — asymmetric bento with dark contrast card */}
+      <section>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#3B5998]">01 · Overview</p>
+        <div className="mt-3 grid gap-4 lg:grid-cols-3">
+          <div className="relative overflow-hidden rounded-3xl bg-[#1E293B] p-6 text-white sm:p-8 lg:col-span-2">
+            <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[#3B5998]/25 blur-[80px]" />
+            <div className="relative">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-300/70">Pending right now</p>
+              <p className="mt-3 text-5xl font-semibold tracking-tight tabular-nums sm:text-6xl">{pendingCount}</p>
+              <div className="mt-6 border-t border-white/10 pt-5">
+                <div className="flex items-center justify-between text-xs text-slate-300/70">
+                  <span>{completedCount} of {tasks.length} done</span>
+                  <span className="tabular-nums">{donePct}%</span>
+                </div>
+                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
+                  <div
+                    className="h-full rounded-full bg-white/80 transition-all duration-300"
+                    style={{ width: `${donePct}%` }}
+                  />
+                </div>
+              </div>
             </div>
-            <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{tasks.length}</p>
-            <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Total tasks</p>
-          </CardContent>
-        </Card>
-        <Card className="rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
-          <CardContent className="p-5">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-sm">
-              <Circle size={20} />
-            </div>
-            <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{tasks.length - completedCount}</p>
-            <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Pending</p>
-          </CardContent>
-        </Card>
-        <Card className="rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
-          <CardContent className="p-5">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-sm">
-              <Check size={20} />
-            </div>
-            <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{completedCount}</p>
-            <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Completed</p>
-          </CardContent>
-        </Card>
+          </div>
+          <div className="flex flex-col gap-4">
+            <Card className="flex flex-1 items-center gap-4 rounded-3xl border border-[#E8E5DB] bg-white p-5 shadow-[0_1px_2px_rgba(74,60,32,0.05),0_12px_32px_-16px_rgba(74,60,32,0.14)]">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#EAF7EC] text-[#2F9E44]">
+                <Check size={20} />
+              </div>
+              <div>
+                <p className="text-2xl font-semibold tracking-tight text-slate-900 tabular-nums">{completedCount}</p>
+                <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Completed</p>
+              </div>
+            </Card>
+            <Card className="flex flex-1 items-center gap-4 rounded-3xl border border-[#E8E5DB] bg-white p-5 shadow-[0_1px_2px_rgba(74,60,32,0.05),0_12px_32px_-16px_rgba(74,60,32,0.14)]">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#EAF0FA] text-[#3B5998]">
+                <ClipboardList size={20} />
+              </div>
+              <div>
+                <p className="text-2xl font-semibold tracking-tight text-slate-900 tabular-nums">{tasks.length}</p>
+                <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Total tasks</p>
+              </div>
+            </Card>
+          </div>
+        </div>
       </section>
 
+      {/* Add-task form */}
       <AnimatePresence>
         {showForm && (
           <motion.div
@@ -204,14 +239,14 @@ export default function TasksPage() {
             exit={{ opacity: 0, height: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
           >
-            <Card className="overflow-hidden rounded-2xl">
-              <CardHeader className="flex flex-row items-center justify-between pb-4">
-                <CardTitle className="text-lg">Create task</CardTitle>
-                <Button variant="ghost" size="sm" onClick={() => setShowForm(false)} aria-label="Close form" className="h-8 w-8 p-0 text-slate-400 hover:text-slate-700">
+            <Card className="overflow-hidden rounded-3xl border border-[#E8E5DB] bg-white shadow-[0_1px_2px_rgba(74,60,32,0.05),0_12px_32px_-16px_rgba(74,60,32,0.14)]">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 border-b border-[#E8E5DB] pb-4">
+                <CardTitle className="text-xl font-semibold tracking-tight">Create task</CardTitle>
+                <Button variant="ghost" size="sm" onClick={() => setShowForm(false)} aria-label="Close form" className="h-11 w-11 rounded-xl p-0 text-slate-400 hover:text-slate-700">
                   <X size={16} />
                 </Button>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-6">
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div>
                     <label htmlFor="task-title" className="mb-2 block text-sm font-semibold text-slate-700">
@@ -225,10 +260,11 @@ export default function TasksPage() {
                       required
                       maxLength={160}
                       autoFocus
+                      className="rounded-xl border-[#E8E5DB] bg-white focus:border-[#3B5998] focus:ring-2 focus:ring-[#3B5998]/15"
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div>
                       <label htmlFor="task-category" className="mb-2 block text-sm font-semibold text-slate-700">
                         Category
@@ -237,24 +273,9 @@ export default function TasksPage() {
                         id="task-category"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        className="flex h-10 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
+                        className="flex h-12 w-full rounded-xl border border-[#E8E5DB] bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-[#3B5998] focus:outline-none focus:ring-2 focus:ring-[#3B5998]/15"
                       >
                         {categories.map((item) => (
-                          <option key={item} value={item}>{item}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label htmlFor="task-priority" className="mb-2 block text-sm font-semibold text-slate-700">
-                        Priority
-                      </label>
-                      <select
-                        id="task-priority"
-                        value={priority}
-                        onChange={(e) => setPriority(e.target.value)}
-                        className="flex h-10 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
-                      >
-                        {priorities.map((item) => (
                           <option key={item} value={item}>{item}</option>
                         ))}
                       </select>
@@ -268,15 +289,40 @@ export default function TasksPage() {
                         type="date"
                         value={dueDate}
                         onChange={(e) => setDueDate(e.target.value)}
+                        className="h-12 rounded-xl border-[#E8E5DB] bg-white focus:border-[#3B5998] focus:ring-2 focus:ring-[#3B5998]/15"
                       />
                     </div>
                   </div>
 
-                  <div className="flex justify-end gap-3 pt-5 border-t border-slate-100">
-                    <Button variant="ghost" type="button" onClick={() => setShowForm(false)}>
+                  <div>
+                    <span id="task-priority-label" className="mb-2 block text-sm font-semibold text-slate-700">
+                      Priority
+                    </span>
+                    <div role="group" aria-labelledby="task-priority-label" className="flex gap-2">
+                      {priorities.map((item) => (
+                        <button
+                          key={item}
+                          type="button"
+                          onClick={() => setPriority(item)}
+                          aria-pressed={priority === item}
+                          className={`flex h-12 flex-1 items-center justify-center gap-2 rounded-xl border text-sm font-semibold transition-all ${
+                            priority === item
+                              ? priorityPillActive[item]
+                              : "border-[#E8E5DB] bg-white text-slate-600 hover:border-slate-300"
+                          }`}
+                        >
+                          <span aria-hidden="true" className={`h-2 w-2 rounded-full ${priorityDot[item]}`} />
+                          {item}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end gap-3 border-t border-[#E8E5DB] pt-5">
+                    <Button variant="ghost" type="button" onClick={() => setShowForm(false)} className="rounded-xl">
                       Cancel
                     </Button>
-                    <Button type="submit">Create task</Button>
+                    <Button type="submit" className="rounded-xl">Create task</Button>
                   </div>
                 </form>
               </CardContent>
@@ -285,8 +331,25 @@ export default function TasksPage() {
         )}
       </AnimatePresence>
 
-      <div className="flex justify-end">
-        <div role="tablist" aria-label="Task list view" className="flex gap-1 rounded-lg border border-slate-200 bg-white p-1 shadow-sm">
+      {/* Toolbar: filters + view segmented */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex gap-1 self-start rounded-2xl border border-[#E8E5DB] bg-white p-1.5 shadow-sm">
+          {["All", "Pending", "Completed"].map((item) => (
+            <button
+              key={item}
+              type="button"
+              onClick={() => setFilter(item)}
+              className={`rounded-xl px-4 py-3 text-sm font-semibold transition-all ${
+                filter === item
+                  ? "bg-[#3B5998] text-white shadow-sm"
+                  : "text-slate-500 hover:bg-[#F7F6F2] hover:text-slate-700"
+              }`}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+        <div role="tablist" aria-label="Task list view" className="flex gap-1 self-start rounded-2xl border border-[#E8E5DB] bg-white p-1.5 shadow-sm sm:self-auto">
           {(["list", "timeline"] as const).map((option) => (
             <button
               key={option}
@@ -294,10 +357,10 @@ export default function TasksPage() {
               role="tab"
               aria-selected={view === option}
               onClick={() => setView(option)}
-              className={`rounded-md px-3 py-1.5 text-sm font-semibold capitalize transition-all ${
+              className={`rounded-xl px-4 py-3 text-sm font-semibold capitalize transition-all ${
                 view === option
                   ? "bg-slate-900 text-white shadow-sm"
-                  : "text-slate-500 hover:bg-slate-100 hover:text-slate-700"
+                  : "text-slate-500 hover:bg-[#F7F6F2] hover:text-slate-700"
               }`}
             >
               {option}
@@ -306,136 +369,127 @@ export default function TasksPage() {
         </div>
       </div>
 
-      <Card className="rounded-2xl">
-        <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between pb-4">
+      {/* Task list */}
+      <section>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#3B5998]">02 · Your list</p>
+        <div className="mb-4 mt-3 flex items-end justify-between gap-4">
           <div>
-            <CardTitle className="text-lg">All tasks</CardTitle>
-            <p className="text-sm font-medium text-slate-500 mt-1">
+            <h2 className="text-xl font-semibold tracking-tight text-slate-900">All tasks</h2>
+            <p className="mt-1 text-xs text-[#9AA0A6]">
               {tasks.length} {tasks.length === 1 ? "task" : "tasks"} in your list
             </p>
           </div>
-          <div className="flex gap-1 border border-slate-200 rounded-lg p-1 bg-slate-50/80">
-            {["All", "Pending", "Completed"].map((item) => (
-              <button
-                key={item}
-                type="button"
-                onClick={() => setFilter(item)}
-                className={`rounded-md px-3 py-1.5 text-sm font-semibold transition-all ${
-                  filter === item ? "bg-white text-slate-900 shadow-sm ring-1 ring-slate-200/50" : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
-                }`}
-              >
-                {item}
-              </button>
-            ))}
+        </div>
+
+        {filteredTasks.length === 0 ? (
+          <div className="rounded-3xl border border-dashed border-[#E8E5DB] bg-white/60 p-10 text-center">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#EAF0FA] text-[#3B5998]">
+              <ClipboardList size={24} />
+            </div>
+            <h3 className="text-base font-semibold text-slate-900">
+              {tasks.length === 0 ? "No tasks yet" : `No ${filter.toLowerCase()} tasks`}
+            </h3>
+            <p className="mx-auto mt-1 max-w-sm text-sm text-[#6B7280]">
+              {tasks.length === 0 ? "Create your first task to start organizing your work." : "Tasks matching this filter will appear here."}
+            </p>
+            {tasks.length === 0 && (
+              <Button onClick={() => setShowForm(true)} className="mt-6 gap-2 rounded-xl">
+                <Plus size={16} /> Create your first task
+              </Button>
+            )}
           </div>
-        </CardHeader>
-        <div className="border-t border-slate-100 bg-white">
-          {filteredTasks.length === 0 ? (
-            <div className="flex flex-col items-center py-20 text-center px-6">
-              <div className="rounded-2xl bg-primary-light p-4 mb-4 text-primary">
-                <ClipboardList className="h-8 w-8" />
-              </div>
-              <h3 className="text-sm font-semibold text-slate-900">
-                {tasks.length === 0 ? "No tasks yet" : `No ${filter.toLowerCase()} tasks`}
-              </h3>
-              <p className="mt-1 text-xs text-slate-500 max-w-sm">
-                {tasks.length === 0 ? "Create your first task to start organizing your work." : "Tasks matching this filter will appear here."}
-              </p>
-              {tasks.length === 0 && (
-                <Button onClick={() => setShowForm(true)} className="mt-6 gap-2">
-                  <Plus size={16} /> Create your first task
-                </Button>
-              )}
-            </div>
-          ) : view === "timeline" ? (
-            <div className="px-6 py-6">
-              <div className="space-y-8 border-l-2 border-slate-200 pl-6">
-                {visibleGroups.map((group) => (
-                  <section key={group.key}>
-                    <div className="flex items-center gap-2">
-                      {group.key === "today" ? (
-                        <span className="rounded-full bg-primary px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-white">
-                          Today
-                        </span>
-                      ) : (
-                        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                          {group.label}
-                        </h4>
-                      )}
-                      <span className="text-xs font-medium text-slate-400 tabular-nums">
-                        {group.tasks.length}
+        ) : view === "timeline" ? (
+          <div className="space-y-8">
+            {visibleGroups.map((group) => (
+              <section key={group.key}>
+                <div className="sticky top-0 z-10 -mx-1 bg-[#F7F6F2]/95 py-2 backdrop-blur">
+                  <div className="flex items-center gap-2.5">
+                    {group.key === "today" ? (
+                      <span className="rounded-full bg-[#3B5998] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-white">
+                        Today
                       </span>
-                    </div>
-                    <ul className="mt-4 space-y-1">
-                      {group.tasks.map((task) => (
-                        <motion.li
-                          key={task.id}
-                          layout
-                          initial={{ opacity: 0, y: 8 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="flex items-center gap-3 rounded-xl px-2 py-2 transition-colors hover:bg-slate-50"
-                        >
-                          <span
-                            aria-hidden="true"
-                            className={`h-2.5 w-2.5 shrink-0 rounded-full ${priorityDot[task.priority] ?? "bg-slate-400"}`}
-                          />
-                          <TaskCheckbox task={task} onToggle={toggleTask} />
-                          <p className={`min-w-0 flex-1 text-sm font-semibold transition-all ${task.completed ? "text-slate-400 line-through" : "text-slate-900"}`}>
-                            {task.title}
-                          </p>
-                          <Badge variant="outline">{task.category}</Badge>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </section>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="divide-y divide-slate-100">
-              <AnimatePresence initial={false}>
-                {filteredTasks.map((task) => (
-                  <motion.div
-                    key={task.id}
-                    layout
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.15 } }}
-                    className="group flex items-start gap-4 px-6 py-4 hover:bg-slate-50 transition-colors"
-                  >
-                    <TaskCheckbox task={task} onToggle={toggleTask} />
-                    <div className="min-w-0 flex-1">
-                      <p className={`text-sm font-semibold transition-all ${task.completed ? "text-slate-400 line-through" : "text-slate-900"}`}>
+                    ) : (
+                      <h4 className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                        {group.label}
+                      </h4>
+                    )}
+                    <span className="rounded-full border border-[#E8E5DB] bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-600 tabular-nums">
+                      {group.tasks.length}
+                    </span>
+                  </div>
+                </div>
+                <ul className="mt-3 space-y-2 border-l border-[#E8E5DB] pl-4">
+                  {group.tasks.map((task) => (
+                    <motion.li
+                      key={task.id}
+                      layout
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex items-center gap-3 rounded-2xl border border-[#E8E5DB] bg-white p-3 transition-all duration-200 hover:-translate-y-px hover:shadow-md"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className={`h-2.5 w-2.5 shrink-0 rounded-full ${priorityDot[task.priority] ?? "bg-slate-400"}`}
+                      />
+                      <TaskCheckbox task={task} onToggle={toggleTask} />
+                      <p className={`min-w-0 flex-1 text-sm font-semibold transition-all ${task.completed ? "text-slate-400 line-through" : "text-slate-900"}`}>
                         {task.title}
                       </p>
-                      <div className="mt-2 flex flex-wrap items-center gap-2">
-                        <Badge variant="outline">{task.category}</Badge>
-                        <Badge
-                          variant={
-                            task.priority === "High" ? "danger" : task.priority === "Medium" ? "warning" : "default"
-                          }
-                        >
-                          {task.priority} priority
-                        </Badge>
-                        {task.dueDate && (
-                          <span className="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
-                            Due {new Date(`${task.dueDate}T00:00:00`).toLocaleDateString("en-IN", {
-                              day: "numeric", month: "short", year: "numeric"
-                            })}
-                          </span>
-                        )}
-                      </div>
+                      <Badge variant="outline">{task.category}</Badge>
+                    </motion.li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-3">
+            <AnimatePresence initial={false}>
+              {filteredTasks.map((task) => (
+                <motion.div
+                  key={task.id}
+                  layout
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.15 } }}
+                  className="group flex items-start gap-4 rounded-2xl border border-[#E8E5DB] bg-white p-4 transition-all duration-200 hover:-translate-y-px hover:shadow-md"
+                >
+                  <span
+                    aria-hidden="true"
+                    className={`w-1 shrink-0 self-stretch rounded-full ${priorityBar[task.priority] ?? "bg-[#CBD5E1]"}`}
+                  />
+                  <TaskCheckbox task={task} onToggle={toggleTask} />
+                  <div className="min-w-0 flex-1">
+                    <p className={`text-sm font-semibold transition-all ${task.completed ? "text-slate-400 line-through" : "text-slate-900"}`}>
+                      {task.title}
+                    </p>
+                    <div className="mt-2 flex flex-wrap items-center gap-2">
+                      <Badge variant="outline">{task.category}</Badge>
+                      <Badge
+                        variant={
+                          task.priority === "High" ? "danger" : task.priority === "Medium" ? "warning" : "default"
+                        }
+                      >
+                        {task.priority} priority
+                      </Badge>
+                      {task.dueDate && (
+                        <span className="rounded-full bg-[#F7F6F2] px-2.5 py-1 text-[11px] font-semibold text-slate-600">
+                          Due {new Date(`${task.dueDate}T00:00:00`).toLocaleDateString("en-IN", {
+                            day: "numeric", month: "short", year: "numeric"
+                          })}
+                        </span>
+                      )}
                     </div>
-                    <Button variant="ghost" size="sm" onClick={() => deleteTask(task.id)} aria-label={`Delete task "${task.title}"`} className="text-slate-400 hover:text-danger hover:bg-danger-light p-2 h-auto opacity-100 transition-opacity lg:opacity-0 lg:group-hover:opacity-100 focus:opacity-100">
-                      <Trash2 size={16} />
-                    </Button>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-          )}
-        </div>
-      </Card>
+                  </div>
+                  <Button variant="ghost" size="sm" onClick={() => deleteTask(task.id)} aria-label={`Delete task "${task.title}"`} className="h-11 w-11 rounded-xl p-0 text-slate-400 transition-opacity hover:bg-danger-light hover:text-danger lg:opacity-0 lg:group-hover:opacity-100 lg:focus:opacity-100">
+                    <Trash2 size={16} />
+                  </Button>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        )}
+      </section>
       {!showForm && <Fab onClick={() => setShowForm(true)} label="Add task" />}
     </main>
   );
