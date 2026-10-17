@@ -26,7 +26,7 @@ export default function LeaderboardPage() {
         <p className="text-xs font-semibold uppercase tracking-widest text-primary">
           Community
         </p>
-        <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Leaderboard</h1>
+        <h1 className="mt-2 font-display text-[1.8rem] font-medium leading-[1.15] text-slate-900 sm:text-[2.15rem]">Leaderboard</h1>
         <p className="mt-1 text-sm text-slate-500">Track rankings and celebrate progress with your community.</p>
       </section>
 
@@ -62,7 +62,7 @@ export default function LeaderboardPage() {
             <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-light text-primary">
               <LockKeyhole size={28} />
             </div>
-            <h3 className="mt-4 text-sm font-semibold text-slate-900">Leaderboard is not connected yet</h3>
+            <h3 className="mt-4 font-display text-xl font-medium text-slate-900">Leaderboard is not connected yet</h3>
             <p className="mt-1 max-w-md text-xs leading-5 text-slate-500">
               Rankings need real user accounts and activity data. Once those are connected, you can see rankings based on points and completed challenges.
             </p>
