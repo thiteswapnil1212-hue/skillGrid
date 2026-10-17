@@ -12,13 +12,10 @@ import {
   Check,
   Flame,
   Target,
-  CircleDashed,
-  CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
-import { Badge } from "@/components/ui/Badge";
 
 type Habit = {
   id: string;
@@ -180,134 +177,154 @@ export default function HabitsPage() {
     setHabits((current) => current.filter((habit) => habit.id !== id));
   }
 
+  const longestStreak = habits.reduce(
+    (max, habit) => Math.max(max, getStreak(habit.history ?? [])),
+    0
+  );
+
   return (
-    <main className="mx-auto w-full max-w-7xl space-y-6 p-6">
-      <section className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-            Productivity
-          </p>
-          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Habits</h1>
-          <p className="mt-1 text-sm text-slate-500">Build consistent routines and track your daily habits.</p>
+    <main className="mx-auto w-full max-w-7xl space-y-8 bg-[#F7F6F2] p-6">
+      {/* Hero */}
+      <section className="border-b border-[#E8E5DB] pb-6">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#3B5998]">
+          Productivity
+        </p>
+        <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-semibold tracking-tight text-slate-900">Habits</h1>
+            <p className="mt-2 text-sm text-[#6B7280]">Build consistent routines and track your daily habits.</p>
+          </div>
+          <Button onClick={() => setShowForm((current) => !current)} className="hidden gap-2 rounded-xl lg:inline-flex">
+            {showForm ? <X size={16} /> : <Plus size={16} />}
+            {showForm ? "Close form" : "Add habit"}
+          </Button>
         </div>
-        <Button onClick={() => setShowForm((current) => !current)} className="hidden gap-2 lg:inline-flex">
-          {showForm ? <X size={16} /> : <Plus size={16} />}
-          {showForm ? "Close form" : "Add habit"}
-        </Button>
       </section>
 
-      <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {[
-          { label: "Total habits", value: stats.total, icon: Target, tile: "from-[#3B5998] to-[#2F477A]" },
-          { label: "Completed today", value: stats.completed, icon: CheckCircle2, tile: "from-emerald-500 to-emerald-600" },
-          { label: "Remaining today", value: stats.remaining, icon: CircleDashed, tile: "from-amber-500 to-amber-600" },
-          { label: "Daily progress", value: `${stats.progress}%`, icon: Flame, tile: "from-rose-500 to-rose-600" },
-        ].map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <Card key={stat.label} className="rounded-2xl border-0 p-5 ring-1 ring-slate-200/60">
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-xs font-medium uppercase tracking-wider text-slate-500">{stat.label}</p>
-                <div className={`flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${stat.tile} text-white shadow-sm`}>
-                  <Icon size={20} />
-                </div>
+      {/* Overview — asymmetric bento */}
+      <section>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#3B5998]">01 · Overview</p>
+        <div className="mt-3 grid gap-4 lg:grid-cols-3">
+          <Card className="rounded-3xl border border-[#E8E5DB] bg-white p-6 shadow-[0_1px_2px_rgba(74,60,32,0.05),0_12px_32px_-16px_rgba(74,60,32,0.14)] sm:p-8 lg:col-span-2">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Today&apos;s momentum</p>
+                <p className="mt-3 text-5xl font-semibold tracking-tight text-slate-900 tabular-nums sm:text-6xl">
+                  {stats.progress}<span className="text-3xl text-slate-400">%</span>
+                </p>
               </div>
-              <p className="mt-3 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{stat.value}</p>
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#FEF2F2] text-[#DC2626]">
+                <Flame size={20} />
+              </div>
+            </div>
+            <div className="mt-6 h-2 overflow-hidden rounded-full bg-[#F1EEE6]">
+              <div
+                className="h-full rounded-full bg-[#3B5998] transition-all duration-300"
+                style={{ width: `${stats.progress}%` }}
+              />
+            </div>
+            <p className="mt-3 text-xs text-[#9AA0A6]">
+              {stats.completed} of {stats.total} done · {stats.remaining} remaining today
+            </p>
+          </Card>
+          <div className="flex flex-col gap-4">
+            <Card className="flex flex-1 items-center gap-4 rounded-3xl border border-[#E8E5DB] bg-white p-5 shadow-[0_1px_2px_rgba(74,60,32,0.05),0_12px_32px_-16px_rgba(74,60,32,0.14)]">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#EAF0FA] text-[#3B5998]">
+                <Target size={20} />
+              </div>
+              <div>
+                <p className="text-2xl font-semibold tracking-tight text-slate-900 tabular-nums">{stats.total}</p>
+                <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Total habits</p>
+              </div>
             </Card>
-          );
-        })}
+            <Card className="flex flex-1 items-center gap-4 rounded-3xl border border-[#E8E5DB] bg-white p-5 shadow-[0_1px_2px_rgba(74,60,32,0.05),0_12px_32px_-16px_rgba(74,60,32,0.14)]">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#FFF7E0] text-[#B97E0C]">
+                <Flame size={20} />
+              </div>
+              <div>
+                <p className="text-2xl font-semibold tracking-tight text-slate-900 tabular-nums">{longestStreak}</p>
+                <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Longest streak</p>
+              </div>
+            </Card>
+          </div>
+        </div>
       </section>
 
       {/* Activity heatmap */}
-      <Card className="rounded-2xl border-0 ring-1 ring-slate-200/60">
-        <CardHeader className="pb-2">
-          <CardTitle>Activity</CardTitle>
-          <p className="text-sm text-slate-500 font-normal">Your completions across the last 12 weeks.</p>
-        </CardHeader>
-        <CardContent>
-          {heatmap.total === 0 ? (
-            <div className="rounded-xl border border-dashed border-slate-300 px-6 py-10 text-center">
-              <p className="text-sm text-slate-500">Complete habits to start filling your activity map.</p>
+      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#3B5998]">02 · Activity</p>
+      <Card className="mt-3 rounded-3xl border border-[#E8E5DB] bg-white p-6 shadow-[0_1px_2px_rgba(74,60,32,0.05),0_12px_32px_-16px_rgba(74,60,32,0.14)] sm:p-8">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <h2 className="text-xl font-semibold tracking-tight text-slate-900">Activity</h2>
+            <p className="mt-1 text-sm text-[#6B7280]">Your completions across the last 12 weeks.</p>
+          </div>
+          <span className="rounded-full bg-[#F7F6F2] px-2.5 py-1 text-[11px] font-semibold text-slate-600 tabular-nums">
+            {heatmap.total} {heatmap.total === 1 ? "check-in" : "check-ins"}
+          </span>
+        </div>
+        {heatmap.total === 0 ? (
+          <div className="mt-5 rounded-2xl border border-dashed border-[#E8E5DB] bg-white/60 px-6 py-10 text-center">
+            <p className="text-sm text-[#6B7280]">Complete habits to start filling your activity map.</p>
+          </div>
+        ) : (
+          <div className="mt-5 overflow-x-auto pb-1">
+            <div className="flex min-w-max gap-[3px]" role="img" aria-label="Habit activity over the last 12 weeks">
+              {heatmap.weeks.map((week, weekIndex) => (
+                <div key={weekIndex} className="flex flex-col gap-[3px]">
+                  {week.map((day) => (
+                    <span
+                      key={day.date}
+                      title={`${day.date}: ${day.count}`}
+                      className="h-3 w-3 rounded-[4px]"
+                      style={{ backgroundColor: heatLevelColor(day.count) }}
+                    />
+                  ))}
+                </div>
+              ))}
             </div>
-          ) : (
-            <>
-              <div className="flex gap-[3px]" role="img" aria-label="Habit activity over the last 12 weeks">
-                {heatmap.weeks.map((week, weekIndex) => (
-                  <div key={weekIndex} className="flex flex-col gap-[3px]">
-                    {week.map((day) => (
-                      <span
-                        key={day.date}
-                        title={`${day.date}: ${day.count}`}
-                        className="h-3 w-3 rounded-[3px]"
-                        style={{ backgroundColor: heatLevelColor(day.count) }}
-                      />
-                    ))}
-                  </div>
-                ))}
-              </div>
-              <div className="mt-3 flex items-center justify-end gap-1.5 text-xs text-slate-500">
-                <span>Less</span>
-                {[0, 1, 2, 3, 4].map((level) => (
-                  <span
-                    key={level}
-                    className="h-3 w-3 rounded-[3px]"
-                    style={{ backgroundColor: heatLevelColor(level) }}
-                  />
-                ))}
-                <span>More</span>
-              </div>
-            </>
-          )}
-        </CardContent>
+            <div className="mt-4 flex items-center justify-end gap-1.5 text-xs text-[#9AA0A6]">
+              <span>Less</span>
+              {[0, 1, 2, 3, 4].map((level) => (
+                <span
+                  key={level}
+                  className="h-3 w-3 rounded-[4px]"
+                  style={{ backgroundColor: heatLevelColor(level) }}
+                />
+              ))}
+              <span>More</span>
+            </div>
+          </div>
+        )}
       </Card>
 
-      {/* Today's progress bar */}
-      <Card className="rounded-2xl border-0 ring-1 ring-slate-200/60">
-        <CardContent className="p-5">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <h2 className="font-semibold text-slate-900">Today&apos;s progress</h2>
-              <p className="mt-1 text-sm text-slate-500">
-                {stats.completed} of {stats.total} habits completed
-              </p>
-            </div>
-            <span className="text-lg font-semibold text-primary">{stats.progress}%</span>
-          </div>
-          <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-100">
-            <div
-              className="h-full rounded-full bg-primary transition-all duration-300"
-              style={{ width: `${stats.progress}%` }}
-            />
-          </div>
-        </CardContent>
-      </Card>
-
+      {/* Add-habit form */}
       {showForm && (
-        <Card className="rounded-2xl border-0 ring-1 ring-slate-200/60">
-          <CardHeader>
-            <CardTitle>Add a habit</CardTitle>
-            <p className="text-sm text-slate-500 font-normal">Create a habit you want to practice regularly.</p>
+        <Card className="rounded-3xl border border-[#E8E5DB] bg-white shadow-[0_1px_2px_rgba(74,60,32,0.05),0_12px_32px_-16px_rgba(74,60,32,0.14)]">
+          <CardHeader className="border-b border-[#E8E5DB]">
+            <CardTitle className="text-xl font-semibold tracking-tight">Add a habit</CardTitle>
+            <p className="text-sm text-[#6B7280] font-normal">Create a habit you want to practice regularly.</p>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="habit-name" className="mb-2 block text-sm font-medium text-slate-700">Habit name *</label>
+                  <label htmlFor="habit-name" className="mb-2 block text-sm font-semibold text-slate-700">Habit name *</label>
                   <Input
                     id="habit-name"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. Practice Java DSA"
+                    className="rounded-xl border-[#E8E5DB] bg-white focus:border-[#3B5998] focus:ring-2 focus:ring-[#3B5998]/15"
                   />
                 </div>
                 <div>
-                  <label htmlFor="habit-category" className="mb-2 block text-sm font-medium text-slate-700">Category</label>
+                  <label htmlFor="habit-category" className="mb-2 block text-sm font-semibold text-slate-700">Category</label>
                   <select
                     id="habit-category"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="flex h-10 w-full rounded-md border border-slate-300 bg-transparent px-3 py-2 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="flex h-12 w-full rounded-xl border border-[#E8E5DB] bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-[#3B5998] focus:outline-none focus:ring-2 focus:ring-[#3B5998]/15"
                   >
                     <option>Study</option>
                     <option>Development</option>
@@ -319,7 +336,7 @@ export default function HabitsPage() {
                 </div>
               </div>
               <div>
-                <span className="mb-2 block text-sm font-medium text-slate-700">Color</span>
+                <span className="mb-2 block text-sm font-semibold text-slate-700">Color</span>
                 <div className="flex items-center gap-2.5">
                   {(Object.keys(HABIT_COLORS) as HabitColorKey[]).map((key) => {
                     const palette = HABIT_COLORS[key];
@@ -331,7 +348,7 @@ export default function HabitsPage() {
                         onClick={() => setColor(key)}
                         aria-label={`Use ${palette.label} color`}
                         aria-pressed={selected}
-                        className={`h-7 w-7 rounded-full transition ${
+                        className={`h-12 w-12 rounded-2xl transition ${
                           selected
                             ? "ring-2 ring-offset-2 ring-slate-900"
                             : "hover:scale-110"
@@ -344,15 +361,16 @@ export default function HabitsPage() {
                   })}
                 </div>
               </div>
-              <div className="flex justify-end gap-3 pt-4">
-                <Button variant="outline" type="button" onClick={() => setShowForm(false)}>Cancel</Button>
-                <Button type="submit">Save habit</Button>
+              <div className="flex justify-end gap-3 border-t border-[#E8E5DB] pt-5">
+                <Button variant="outline" type="button" onClick={() => setShowForm(false)} className="rounded-xl">Cancel</Button>
+                <Button type="submit" className="rounded-xl">Save habit</Button>
               </div>
             </form>
           </CardContent>
         </Card>
       )}
 
+      {/* Search + filter */}
       <div className="flex flex-col gap-3 sm:flex-row">
         <div className="relative flex-1">
           <Search size={17} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -361,14 +379,14 @@ export default function HabitsPage() {
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search habits..."
             aria-label="Search habits"
-            className="pl-9 bg-white"
+            className="h-12 rounded-xl border-[#E8E5DB] bg-white pl-9 focus:border-[#3B5998] focus:ring-2 focus:ring-[#3B5998]/15"
           />
         </div>
         <select
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
           aria-label="Filter habits by category"
-          className="flex h-10 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
+          className="flex h-12 rounded-xl border border-[#E8E5DB] bg-white px-3 py-2 text-sm text-slate-900 transition-colors focus:border-[#3B5998] focus:outline-none focus:ring-2 focus:ring-[#3B5998]/15"
         >
           {categories.map((item) => (
             <option key={item} value={item}>
@@ -378,102 +396,143 @@ export default function HabitsPage() {
         </select>
       </div>
 
-      <Card className="rounded-2xl border-0 ring-1 ring-slate-200/60">
-        <CardHeader className="flex flex-row items-center justify-between border-b border-slate-200">
-          <CardTitle>Daily habits</CardTitle>
-          <span className="text-sm text-slate-500">
-            {filteredHabits.length} {filteredHabits.length === 1 ? "habit" : "habits"}
-          </span>
-        </CardHeader>
-        <div>
-          {filteredHabits.length === 0 ? (
-            <div className="flex flex-col items-center py-16 text-center px-6">
-              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-light p-4 text-primary">
-                <Target size={24} />
-              </div>
-              <h3 className="text-sm font-semibold text-slate-900">
-                {habits.length === 0 ? "No habits added yet" : "No matching habits"}
-              </h3>
-              <p className="mt-1 max-w-sm text-xs text-slate-500">
-                {habits.length === 0
-                  ? "Add your first habit to start tracking your daily routine."
-                  : "Try changing your search or category filter."}
-              </p>
-              {habits.length === 0 && (
-                <Button onClick={() => setShowForm(true)} className="mt-5 gap-2">
-                  <Plus size={16} /> Add first habit
-                </Button>
-              )}
+      {/* Habit cards */}
+      <section>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#3B5998]">03 · Daily habits</p>
+        <div className="mb-4 mt-3 flex items-end justify-between gap-4">
+          <div>
+            <h2 className="text-xl font-semibold tracking-tight text-slate-900">Daily habits</h2>
+            <p className="mt-1 text-xs text-[#9AA0A6]">
+              {filteredHabits.length} {filteredHabits.length === 1 ? "habit" : "habits"}
+            </p>
+          </div>
+        </div>
+
+        {filteredHabits.length === 0 ? (
+          <div className="rounded-3xl border border-dashed border-[#E8E5DB] bg-white/60 p-10 text-center">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#EAF0FA] text-[#3B5998]">
+              <Target size={24} />
             </div>
-          ) : (
-            <div className="divide-y divide-slate-100">
-              {filteredHabits.map((habit) => {
-                const palette = paletteFor(habit.color);
-                const streak = getStreak(habit.history ?? []);
-                return (
-                <div key={habit.id} className="flex items-center justify-between gap-4 px-6 py-4 transition hover:bg-slate-50">
-                  <div className="flex min-w-0 items-center gap-3">
-                    <motion.button
-                      whileTap={{ scale: 0.8 }}
-                      onClick={() => toggleHabit(habit.id)}
-                      aria-label={
-                        habit.completed
-                          ? `Mark ${habit.name} incomplete`
-                          : `Mark ${habit.name} complete`
-                      }
-                      aria-pressed={habit.completed}
-                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                    >
-                      <motion.span
-                        key={String(habit.completed)}
-                        initial={{ scale: 0.4 }}
-                        animate={{ scale: 1 }}
-                        transition={{ type: "spring", stiffness: 500, damping: 20 }}
-                        className={`flex h-6 w-6 items-center justify-center rounded-full border transition ${
+            <h3 className="text-base font-semibold text-slate-900">
+              {habits.length === 0 ? "No habits added yet" : "No matching habits"}
+            </h3>
+            <p className="mx-auto mt-1 max-w-sm text-sm text-[#6B7280]">
+              {habits.length === 0
+                ? "Add your first habit to start tracking your daily routine."
+                : "Try changing your search or category filter."}
+            </p>
+            {habits.length === 0 && (
+              <Button onClick={() => setShowForm(true)} className="mt-6 gap-2 rounded-xl">
+                <Plus size={16} /> Add first habit
+              </Button>
+            )}
+          </div>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-2">
+            {filteredHabits.map((habit) => {
+              const palette = paletteFor(habit.color);
+              const streak = getStreak(habit.history ?? []);
+              const historySet = new Set(habit.history ?? []);
+              return (
+                <div
+                  key={habit.id}
+                  className="rounded-3xl border border-[#E8E5DB] bg-white p-6 shadow-[0_1px_2px_rgba(74,60,32,0.05),0_12px_32px_-16px_rgba(74,60,32,0.14)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_2px_4px_rgba(74,60,32,0.06),0_16px_40px_-16px_rgba(74,60,32,0.2)]"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex min-w-0 items-center gap-3">
+                      <motion.button
+                        whileTap={{ scale: 0.8 }}
+                        onClick={() => toggleHabit(habit.id)}
+                        aria-label={
                           habit.completed
-                            ? "border-transparent text-white"
-                            : "border-slate-300 text-transparent hover:border-primary"
-                        }`}
-                        style={
-                          habit.completed
-                            ? {
-                                background: `linear-gradient(135deg, ${palette.from}, ${palette.to})`,
-                              }
-                            : undefined
+                            ? `Mark ${habit.name} incomplete`
+                            : `Mark ${habit.name} complete`
                         }
+                        aria-pressed={habit.completed}
+                        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                       >
-                        <Check size={14} />
-                      </motion.span>
-                    </motion.button>
-                    <div className="min-w-0">
-                      <p className={`truncate text-sm font-medium ${
-                        habit.completed ? "text-slate-400 line-through" : "text-slate-900"
-                      }`}>
-                        {habit.name}
-                      </p>
-                      <p className="mt-0.5 flex items-center gap-2 text-xs text-slate-500">
-                        <span>{habit.category}</span>
-                        {streak > 0 && (
-                          <span className="flex items-center gap-1 text-xs font-semibold text-slate-500">
-                            <Flame size={14} className="text-amber-500" />
-                            {streak}
+                        <motion.span
+                          key={String(habit.completed)}
+                          initial={{ scale: 0.4 }}
+                          animate={{ scale: 1 }}
+                          transition={{ type: "spring", stiffness: 500, damping: 20 }}
+                          className={`flex h-7 w-7 items-center justify-center rounded-full border transition ${
+                            habit.completed
+                              ? "border-transparent text-white"
+                              : "border-slate-300 text-transparent hover:border-primary"
+                          }`}
+                          style={
+                            habit.completed
+                              ? {
+                                  background: `linear-gradient(135deg, ${palette.from}, ${palette.to})`,
+                                }
+                              : undefined
+                          }
+                        >
+                          <Check size={14} />
+                        </motion.span>
+                      </motion.button>
+                      <div className="min-w-0">
+                        <p className={`truncate text-base font-semibold ${
+                          habit.completed ? "text-slate-400 line-through" : "text-slate-900"
+                        }`}>
+                          {habit.name}
+                        </p>
+                        <p className="mt-0.5 text-xs text-[#9AA0A6]">
+                          <span className="rounded-full px-2 py-0.5 font-semibold" style={{ backgroundColor: palette.soft, color: palette.from }}>
+                            {habit.category}
                           </span>
-                        )}
+                        </p>
+                      </div>
+                    </div>
+                    <Button variant="ghost" size="sm" onClick={() => deleteHabit(habit.id)} aria-label={`Delete habit "${habit.name}"`} className="h-11 w-11 shrink-0 rounded-xl p-0 text-slate-400 hover:bg-danger-light hover:text-danger">
+                      <Trash2 size={16} />
+                    </Button>
+                  </div>
+
+                  <div className="mt-5 border-t border-[#E8E5DB] pt-5">
+                    <div className="flex items-center gap-2.5">
+                      <Flame size={30} style={{ color: palette.from }} aria-hidden="true" />
+                      <p className="text-4xl font-semibold tracking-tight text-slate-900 tabular-nums">
+                        {streak}
                       </p>
                     </div>
+                    <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                      Day streak
+                    </p>
                   </div>
-                  <Button variant="ghost" size="sm" onClick={() => deleteHabit(habit.id)} aria-label={`Delete habit "${habit.name}"`} className="p-2 h-auto text-slate-400 hover:text-danger hover:bg-danger-light">
-                    <Trash2 size={16} />
-                  </Button>
-                </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </Card>
 
-      <p className="text-xs text-center text-slate-400 pt-4">
+                  <div className="mt-4">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Last 7 days</p>
+                    <div className="mt-2 flex items-center gap-1.5">
+                      {Array.from({ length: 7 }).map((_, i) => {
+                        const d = new Date();
+                        d.setDate(d.getDate() - (6 - i));
+                        const key = d.toISOString().slice(0, 10);
+                        const done = historySet.has(key);
+                        return (
+                          <span
+                            key={key}
+                            title={key}
+                            className="h-3.5 w-3.5 rounded-full transition"
+                            style={{
+                              background: done
+                                ? `linear-gradient(135deg, ${palette.from}, ${palette.to})`
+                                : "#ECE9E0",
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
+
+      <p className="pt-4 text-center text-xs text-slate-400">
         Habit data is currently held in page state and resets when you refresh.
         Daily history and streaks will require database persistence.
       </p>
