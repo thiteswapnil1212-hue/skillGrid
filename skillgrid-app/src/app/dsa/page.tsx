@@ -93,9 +93,9 @@ export default function DSAArenaPage() {
     <main className="mx-auto w-full max-w-7xl space-y-6 p-6">
       <section className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center">
         <div>
-          <p className="text-sm font-semibold tracking-wider text-primary uppercase">Practice</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Practice</p>
           <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">DSA Arena</h1>
-          <p className="mt-1 text-sm font-medium text-slate-500">Track your coding problems and monitor your practice progress.</p>
+          <p className="mt-1 text-sm text-slate-500">Track your coding problems and monitor your practice progress.</p>
         </div>
         <Button onClick={() => setShowForm((curr) => !curr)} className="hidden gap-2 lg:inline-flex">
           {showForm ? <X size={16} /> : <Plus size={16} />}
@@ -105,21 +105,21 @@ export default function DSAArenaPage() {
 
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {[
-          { label: "Total problems", value: stats.total, icon: Code2, color: "text-primary" },
-          { label: "Solved", value: stats.solved, icon: CheckCircle2, color: "text-success" },
-          { label: "Attempted", value: stats.attempted, icon: Clock3, color: "text-warning" },
-          { label: "Pending", value: stats.pending, icon: CircleDashed, color: "text-slate-400" },
+          { label: "Total problems", value: stats.total, icon: Code2, gradient: "from-[#3B5998] to-[#2F477A]" },
+          { label: "Solved", value: stats.solved, icon: CheckCircle2, gradient: "from-emerald-500 to-emerald-600" },
+          { label: "Attempted", value: stats.attempted, icon: Clock3, gradient: "from-amber-500 to-amber-600" },
+          { label: "Pending", value: stats.pending, icon: CircleDashed, gradient: "from-slate-400 to-slate-500" },
         ].map((item, index) => {
           const Icon = item.icon;
           return (
             <motion.div key={item.label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05 }}>
-              <Card className="h-full border-slate-200/60 shadow-sm hover:shadow-md transition-shadow">
-                <CardContent className="p-5 flex flex-col justify-between h-full gap-2">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium text-slate-500">{item.label}</p>
-                    <Icon size={18} className={item.color} />
+              <Card className="h-full rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
+                <CardContent className="p-5">
+                  <div className={`flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${item.gradient} text-white shadow-sm`}>
+                    <Icon size={20} />
                   </div>
-                  <p className="text-3xl font-bold text-slate-900 tracking-tight">{item.value}</p>
+                  <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{item.value}</p>
+                  <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">{item.label}</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -135,7 +135,7 @@ export default function DSAArenaPage() {
             exit={{ opacity: 0, height: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
           >
-            <Card className="overflow-hidden">
+            <Card className="overflow-hidden rounded-2xl">
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg">Add a problem</CardTitle>
                 <p className="text-sm font-medium text-slate-500 mt-1">Enter the details of the problem you want to track.</p>
@@ -220,7 +220,7 @@ export default function DSAArenaPage() {
         </select>
       </div>
 
-      <Card>
+      <Card className="rounded-2xl">
         <CardHeader className="flex flex-row items-center justify-between pb-4">
           <CardTitle className="text-lg">Your problems</CardTitle>
           <span className="text-sm font-medium text-slate-500">{filteredProblems.length} {filteredProblems.length === 1 ? "problem" : "problems"}</span>
@@ -228,11 +228,11 @@ export default function DSAArenaPage() {
         <div className="border-t border-slate-100 bg-white">
           {filteredProblems.length === 0 ? (
             <div className="flex flex-col items-center py-20 text-center px-6">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-50 border border-slate-100 mb-5">
-                <Code2 size={28} className="text-slate-300" />
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-light mb-5 text-primary">
+                <Code2 size={28} />
               </div>
-              <h3 className="text-base font-semibold text-slate-900">{problems.length === 0 ? "No problems added yet" : "No matching problems"}</h3>
-              <p className="mt-1 text-sm text-slate-500 max-w-sm">{problems.length === 0 ? "Add a coding problem to start tracking your practice." : "Try changing your search or filters."}</p>
+              <h3 className="text-sm font-semibold text-slate-900">{problems.length === 0 ? "No problems added yet" : "No matching problems"}</h3>
+              <p className="mt-1 text-xs text-slate-500 max-w-sm">{problems.length === 0 ? "Add a coding problem to start tracking your practice." : "Try changing your search or filters."}</p>
               {problems.length === 0 && (
                 <Button onClick={() => setShowForm(true)} className="mt-6 gap-2">
                   <Plus size={16} /> Add your first problem
