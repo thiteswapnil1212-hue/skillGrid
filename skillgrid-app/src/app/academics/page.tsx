@@ -68,7 +68,7 @@ export default function AcademicsPage() {
       <section className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center">
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">Workspace</p>
-          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Academics</h1>
+          <h1 className="mt-2 font-display text-[1.8rem] font-medium leading-[1.15] text-slate-900 sm:text-[2.15rem]">Academics</h1>
           <p className="mt-1 text-sm text-slate-500">Manage your subjects and track syllabus completion.</p>
         </div>
         <Button onClick={() => setShowForm(true)} className="gap-2">
@@ -170,7 +170,7 @@ export default function AcademicsPage() {
               <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-light mb-5 text-primary">
                 <BookOpen size={28} />
               </div>
-              <h3 className="text-sm font-semibold text-slate-900">No subjects added</h3>
+              <h3 className="font-display text-xl font-medium text-slate-900">No subjects added</h3>
               <p className="mt-1 text-xs text-slate-500 max-w-sm">Add your first subject to start tracking your syllabus progress.</p>
               <Button onClick={() => setShowForm(true)} className="mt-6 gap-2">
                 <Plus size={16} /> Add your first subject
