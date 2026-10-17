@@ -19,6 +19,9 @@
   --color-sidebar: #F8FAFC;
   --color-surface: #FFFFFF;
 
+  /* Display serif (Claude-style editorial headings) */
+  --font-display: var(--font-display-serif), Georgia, "Times New Roman", serif;
+
   /* shadcn-style semantic tokens (used by focus-timer) */
   --color-background: #FFFFFF;
   --color-foreground: #1E293B;
@@ -123,6 +126,39 @@ button {
 }
 
 ::selection {
-  background: #dbeafe;
-  color: #1e3a8a;
+  background: #ccd9f0;
+  color: #1e3a5f;
+}
+
+/* Refined global scrollbar — thin, quiet, brand-neutral */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+/* Editorial typography rhythm — balanced headings, pretty paragraphs */
+h1,
+h2 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
 }
