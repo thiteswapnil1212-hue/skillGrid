@@ -52,10 +52,11 @@ export default function DashboardPage() {
       {/* Header */}
       <section className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200 pb-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Overview</p>
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
             {greeting}, Student
           </h1>
-          <p className="mt-1 text-sm font-medium text-slate-500">{today}</p>
+          <p className="mt-1 text-sm text-slate-500">{today}</p>
         </div>
         <Button size="sm" className="gap-2" onClick={() => router.push("/tasks")}>
           <Plus size={16} />
@@ -67,68 +68,68 @@ export default function DashboardPage() {
         {/* Summary Statistics */}
         <section className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-6">
           <motion.div variants={item} className="h-full">
-            <Card className="h-full border-primary/20 bg-primary/5">
-              <CardContent className="p-4 flex flex-col justify-between h-full gap-2">
-                <div className="flex items-center gap-2 text-primary">
-                  <CheckSquare size={16} />
-                  <span className="text-xs font-semibold">Tasks Today</span>
+            <Card className="h-full rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
+              <CardContent className="p-5">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
+                  <CheckSquare size={20} />
                 </div>
-                <p className="text-3xl font-bold text-slate-900 tracking-tight">0</p>
+                <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">0</p>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Tasks Today</p>
               </CardContent>
             </Card>
           </motion.div>
           <motion.div variants={item} className="h-full">
-            <Card className="h-full border-violet-600/20 bg-violet-600/5">
-              <CardContent className="p-4 flex flex-col justify-between h-full gap-2">
-                <div className="flex items-center gap-2 text-violet-600">
-                  <Clock3 size={16} />
-                  <span className="text-xs font-semibold">Focus Time</span>
+            <Card className="h-full rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
+              <CardContent className="p-5">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-violet-600 text-white shadow-sm">
+                  <Clock3 size={20} />
                 </div>
-                <p className="text-3xl font-bold text-slate-900 tracking-tight">0h 0m</p>
+                <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">0h 0m</p>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Focus Time</p>
               </CardContent>
             </Card>
           </motion.div>
           <motion.div variants={item} className="h-full">
-            <Card className="h-full border-emerald-600/20 bg-emerald-600/5">
-              <CardContent className="p-4 flex flex-col justify-between h-full gap-2">
-                <div className="flex items-center gap-2 text-emerald-600">
-                  <Code2 size={16} />
-                  <span className="text-xs font-semibold">DSA Solved</span>
+            <Card className="h-full rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
+              <CardContent className="p-5">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-sm">
+                  <Code2 size={20} />
                 </div>
-                <p className="text-3xl font-bold text-slate-900 tracking-tight">0</p>
+                <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">0</p>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">DSA Solved</p>
               </CardContent>
             </Card>
           </motion.div>
           <motion.div variants={item} className="h-full">
-            <Card className="h-full border-amber-600/20 bg-amber-600/5">
-              <CardContent className="p-4 flex flex-col justify-between h-full gap-2">
-                <div className="flex items-center gap-2 text-amber-600">
-                  <BookOpen size={16} />
-                  <span className="text-xs font-semibold">Academic</span>
+            <Card className="h-full rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
+              <CardContent className="p-5">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-sm">
+                  <BookOpen size={20} />
                 </div>
-                <p className="text-3xl font-bold text-slate-900 tracking-tight">0%</p>
+                <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">0%</p>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Academic</p>
               </CardContent>
             </Card>
           </motion.div>
           <motion.div variants={item} className="h-full">
-            <Card className="h-full border-orange-600/20 bg-orange-600/5">
-              <CardContent className="p-4 flex flex-col justify-between h-full gap-2">
-                <div className="flex items-center gap-2 text-orange-600">
-                  <Target size={16} />
-                  <span className="text-xs font-semibold">Current Streak</span>
+            <Card className="h-full rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
+              <CardContent className="p-5">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 text-white shadow-sm">
+                  <Target size={20} />
                 </div>
-                <p className="text-3xl font-bold text-slate-900 tracking-tight">0</p>
+                <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">0</p>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Current Streak</p>
               </CardContent>
             </Card>
           </motion.div>
           <motion.div variants={item} className="h-full">
-            <Card className="h-full border-yellow-500/20 bg-yellow-500/5">
-              <CardContent className="p-4 flex flex-col justify-between h-full gap-2">
-                <div className="flex items-center gap-2 text-yellow-600">
-                  <Trophy size={16} />
-                  <span className="text-xs font-semibold">Level 1</span>
+            <Card className="h-full rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
+              <CardContent className="p-5">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-yellow-500 to-yellow-600 text-white shadow-sm">
+                  <Trophy size={20} />
                 </div>
-                <p className="text-3xl font-bold text-slate-900 tracking-tight">0 <span className="text-sm text-slate-500 font-medium">XP</span></p>
+                <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">0 <span className="text-sm text-slate-500 font-medium">XP</span></p>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Level 1</p>
               </CardContent>
             </Card>
           </motion.div>
@@ -140,7 +141,7 @@ export default function DashboardPage() {
           <div className="space-y-6 xl:col-span-2">
             {/* Today's Tasks */}
             <motion.div variants={item}>
-              <Card>
+              <Card className="rounded-2xl">
                 <CardHeader className="flex flex-row items-center justify-between pb-4">
                   <CardTitle className="text-base flex items-center gap-2">
                     <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
@@ -154,11 +155,11 @@ export default function DashboardPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-col items-center justify-center py-10 text-center bg-slate-50/50 rounded-xl border border-dashed border-slate-200">
-                    <div className="rounded-full bg-white shadow-sm border border-slate-100 p-4 mb-4 text-slate-400">
+                    <div className="rounded-2xl bg-primary-light p-4 mb-4 text-primary">
                       <CheckSquare size={26} />
                     </div>
                     <p className="text-sm font-semibold text-slate-900">No tasks for today</p>
-                    <p className="text-xs text-slate-500 mt-1.5 max-w-xs">Enjoy your free time or get ahead on upcoming work.</p>
+                    <p className="text-xs text-slate-500 mt-1 max-w-xs">Enjoy your free time or get ahead on upcoming work.</p>
                     <Button variant="outline" size="sm" className="mt-5" onClick={() => router.push("/tasks")}>Add a task</Button>
                   </div>
                 </CardContent>
@@ -168,7 +169,7 @@ export default function DashboardPage() {
             {/* DSA Progress & Academic Progress row */}
             <div className="grid sm:grid-cols-2 gap-6">
               <motion.div variants={item}>
-                <Card className="h-full">
+                <Card className="h-full rounded-2xl">
                   <CardHeader className="flex flex-row items-center justify-between pb-4">
                     <CardTitle className="text-base flex items-center gap-2">
                       <div className="p-1.5 rounded-lg bg-emerald-600/10 text-emerald-600">
@@ -182,7 +183,10 @@ export default function DashboardPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-col items-center justify-center py-8 text-center border border-dashed border-slate-200 rounded-xl bg-slate-50/50">
-                      <p className="text-sm text-slate-500 font-medium">No problems solved.</p>
+                      <div className="rounded-2xl bg-emerald-600/10 p-4 mb-4 text-emerald-600">
+                        <Code2 size={26} />
+                      </div>
+                      <p className="text-sm font-semibold text-slate-900">No problems solved.</p>
                       <Button variant="ghost" size="sm" className="mt-3 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50" onClick={() => router.push("/dsa")}>Start tracking</Button>
                     </div>
                   </CardContent>
@@ -190,7 +194,7 @@ export default function DashboardPage() {
               </motion.div>
 
               <motion.div variants={item}>
-                <Card className="h-full">
+                <Card className="h-full rounded-2xl">
                   <CardHeader className="flex flex-row items-center justify-between pb-4">
                     <CardTitle className="text-base flex items-center gap-2">
                       <div className="p-1.5 rounded-lg bg-amber-600/10 text-amber-600">
@@ -204,7 +208,10 @@ export default function DashboardPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-col items-center justify-center py-8 text-center border border-dashed border-slate-200 rounded-xl bg-slate-50/50">
-                      <p className="text-sm text-slate-500 font-medium">No subjects added yet.</p>
+                      <div className="rounded-2xl bg-amber-600/10 p-4 mb-4 text-amber-600">
+                        <BookOpen size={26} />
+                      </div>
+                      <p className="text-sm font-semibold text-slate-900">No subjects added yet.</p>
                       <Button variant="ghost" size="sm" className="mt-3 text-amber-600 hover:text-amber-700 hover:bg-amber-50" onClick={() => router.push("/academics")}>Add subject</Button>
                     </div>
                   </CardContent>
@@ -217,7 +224,7 @@ export default function DashboardPage() {
           <div className="space-y-6">
             {/* Upcoming Deadlines */}
             <motion.div variants={item}>
-              <Card>
+              <Card className="rounded-2xl">
                 <CardHeader className="pb-4">
                   <CardTitle className="text-base flex items-center gap-2">
                     <div className="p-1.5 rounded-lg bg-danger/10 text-danger">
@@ -228,10 +235,10 @@ export default function DashboardPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-col items-center justify-center py-8 text-center">
-                    <div className="rounded-full bg-slate-50 p-3 mb-3 text-slate-300">
+                    <div className="rounded-2xl bg-danger/10 p-4 mb-4 text-danger">
                       <Calendar size={24} />
                     </div>
-                    <p className="text-sm font-medium text-slate-500">No upcoming deadlines.</p>
+                    <p className="text-sm font-semibold text-slate-900">No upcoming deadlines.</p>
                   </div>
                 </CardContent>
               </Card>
@@ -239,7 +246,7 @@ export default function DashboardPage() {
 
             {/* Weekly Activity */}
             <motion.div variants={item}>
-              <Card>
+              <Card className="rounded-2xl">
                 <CardHeader className="pb-4">
                   <CardTitle className="text-base flex items-center gap-2">
                     <div className="p-1.5 rounded-lg bg-blue-500/10 text-blue-500">
@@ -258,7 +265,7 @@ export default function DashboardPage() {
 
             {/* Challenges and Groups */}
             <motion.div variants={item}>
-              <Card>
+              <Card className="rounded-2xl">
                 <CardHeader className="pb-4">
                   <CardTitle className="text-base flex items-center gap-2">
                     <div className="p-1.5 rounded-lg bg-purple-600/10 text-purple-600">
