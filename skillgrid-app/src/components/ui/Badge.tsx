@@ -9,14 +9,14 @@ export function Badge({ className, variant = "default", ...props }: BadgeProps) 
   return (
     <div
       className={cn(
-        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors",
+        "inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold transition-colors",
         {
-          "border-transparent bg-slate-100 text-slate-800 hover:bg-slate-200": variant === "default",
-          "border-transparent bg-success-light text-success hover:bg-success-light/80": variant === "success",
-          "border-transparent bg-warning-light text-warning hover:bg-warning-light/80": variant === "warning",
-          "border-transparent bg-danger-light text-danger hover:bg-danger-light/80": variant === "danger",
-          "border-transparent bg-primary-light text-primary hover:bg-primary-light/80": variant === "info",
-          "text-slate-900 border-slate-200 hover:bg-slate-100": variant === "outline",
+          "bg-[#F1F0EB] text-slate-700 hover:bg-[#E8E5DB]": variant === "default",
+          "bg-[#EAF7EC] text-[#2F9E44] hover:bg-[#EAF7EC]/70": variant === "success",
+          "bg-[#FFF7E0] text-[#B97E0C] hover:bg-[#FFF7E0]/70": variant === "warning",
+          "bg-[#FEF2F2] text-[#DC2626] hover:bg-[#FEF2F2]/70": variant === "danger",
+          "bg-[#EAF0FA] text-[#3B5998] hover:bg-[#EAF0FA]/70": variant === "info",
+          "border border-[#E8E5DB] bg-white text-slate-700 hover:bg-[#F7F6F2]": variant === "outline",
         },
         className
       )}
