@@ -124,7 +124,7 @@ export default function ProfilePage() {
       <div className="mx-auto max-w-5xl space-y-6">
         <header>
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">Account</p>
-          <h1 className="mt-2 font-display text-[1.8rem] font-medium leading-[1.15] text-slate-900 sm:text-[2.15rem]">
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
             My Profile
           </h1>
           <p className="mt-1 text-sm text-slate-500">
