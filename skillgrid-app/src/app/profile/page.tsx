@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, type FormEvent } from "react";
@@ -11,6 +10,8 @@ import {
   Save,
   Link2,
   CheckCircle2,
+  Pencil,
+  FileText,
 } from "lucide-react";
 
 type ProfileData = {
@@ -37,10 +38,16 @@ const initialProfile: ProfileData = {
   website: "",
 };
 
+const cardClass =
+  "rounded-3xl border border-[#E8E5DB] bg-white shadow-[0_1px_2px_rgba(74,60,32,0.05),0_12px_32px_-16px_rgba(74,60,32,0.14)]";
+
 const inputClass =
-  "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/10";
+  "w-full rounded-xl border border-[#E8E5DB] bg-white px-4 py-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-[#3B5998] focus:ring-2 focus:ring-[#3B5998]/15";
 
 const labelClass = "mb-2 block text-sm font-medium text-slate-700";
+
+const iconTileClass =
+  "flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<ProfileData>(initialProfile);
@@ -119,234 +126,278 @@ export default function ProfilePage() {
     },
   ];
 
-  return (
-    <div className="min-h-screen bg-transparent px-4 py-6 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-5xl space-y-6">
-        <header>
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Account</p>
-          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-            My Profile
-          </h1>
-          <p className="mt-1 text-sm text-slate-500">
-            Manage your personal information and social links.
-          </p>
-        </header>
+  const detailsFilled = [profile.name, profile.email, profile.college, profile.course, profile.year].filter(
+    (value) => value.trim()
+  ).length;
+  const linksFilled = [profile.github, profile.linkedin, profile.website].filter(
+    (value) => value.trim()
+  ).length;
 
-        <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-          <aside className="h-fit rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
-            <div className="flex flex-col items-center text-center">
-              <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primary/10 text-primary">
+  const metaItems = [
+    profile.email || "Email not added",
+    profile.college || "College not added",
+    profile.course || "Course not added",
+  ];
+
+  return (
+    <div className="space-y-6">
+      {/* Hero */}
+      <section className="border-b border-[#E8E5DB] pb-6">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#3B5998]">
+          Account
+        </p>
+        <h1 className="mt-2 text-4xl font-semibold tracking-tight text-slate-900">
+          My Profile
+        </h1>
+        <p className="mt-2 text-sm text-[#6B7280]">
+          Manage your personal information and social links.
+        </p>
+      </section>
+
+      {/* Header card */}
+      <div className={`${cardClass} overflow-hidden`}>
+        <div className="relative h-28 bg-[#EAF0FA]" aria-hidden="true">
+          <div className="absolute -left-10 -top-16 h-48 w-48 rounded-full bg-white/40" />
+          <div className="absolute -right-8 top-6 h-32 w-32 rounded-full bg-[#3B5998]/10" />
+          <div className="absolute left-1/3 bottom-0 h-20 w-20 rounded-full bg-white/30" />
+        </div>
+
+        <div className="px-6 pb-6 sm:px-8">
+          <div className="-mt-12 flex flex-wrap items-end justify-between gap-4">
+            <div className="flex items-end gap-5">
+              <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-[#EAF0FA] text-[#3B5998] ring-4 ring-white">
                 <UserRound size={42} strokeWidth={1.5} />
               </div>
-
-              <h2 className="mt-4 break-words text-lg font-semibold text-slate-900">
-                {profile.name.trim() || "Your Name"}
-              </h2>
-
-              <p className="mt-1 break-all text-sm text-slate-500">
-                {profile.email || "Your email address"}
-              </p>
-
-              <div className="mt-5 w-full border-t border-slate-100 pt-5 text-left">
-                <div className="flex items-start gap-3">
-                  <GraduationCap
-                    size={18}
-                    className="mt-0.5 shrink-0 text-slate-400"
-                  />
-                  <div>
-                    <p className="text-xs text-slate-400">College</p>
-                    <p className="mt-1 break-words text-sm font-medium text-slate-700">
-                      {profile.college || "Not added"}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-4 flex items-start gap-3">
-                  <Code2
-                    size={18}
-                    className="mt-0.5 shrink-0 text-slate-400"
-                  />
-                  <div>
-                    <p className="text-xs text-slate-400">Course</p>
-                    <p className="mt-1 break-words text-sm font-medium text-slate-700">
-                      {profile.course || "Not added"}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-4 flex items-start gap-3">
-                  <GraduationCap
-                    size={18}
-                    className="mt-0.5 shrink-0 text-slate-400"
-                  />
-                  <div>
-                    <p className="text-xs text-slate-400">Current Year</p>
-                    <p className="mt-1 text-sm font-medium text-slate-700">
-                      {profile.year || "Not added"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </aside>
-
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-6 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm sm:p-7"
-          >
-            <section>
-              <div className="mb-5 flex items-center gap-3">
-                <div className="rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] p-2.5 text-white shadow-sm">
-                  <UserRound size={20} />
-                </div>
-                <div>
-                  <h2 className="font-semibold text-slate-900">
-                    Personal Information
-                  </h2>
-                  <p className="mt-1 text-xs text-slate-500">
-                    Update your basic profile details.
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid gap-5 sm:grid-cols-2">
-                {fields.map((field) => {
-                  const Icon = field.icon;
-
-                  return (
-                    <div key={field.key}>
-                      <label className={labelClass} htmlFor={field.key}>
-                        {field.label}
-                      </label>
-
-                      <div className="relative">
-                        <Icon
-                          size={17}
-                          className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
-                        />
-                        <input
-                          id={field.key}
-                          type={field.type || "text"}
-                          value={profile[field.key]}
-                          onChange={(event) =>
-                            updateField(field.key, event.target.value)
-                          }
-                          placeholder={field.placeholder}
-                          className={`${inputClass} pl-10`}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-
-                <div>
-                  <label className={labelClass} htmlFor="year">
-                    Current Year
-                  </label>
-                  <select
-                    id="year"
-                    value={profile.year}
-                    onChange={(event) =>
-                      updateField("year", event.target.value)
-                    }
-                    className={inputClass}
-                  >
-                    <option value="">Select year</option>
-                    <option value="1st Year">1st Year</option>
-                    <option value="2nd Year">2nd Year</option>
-                    <option value="3rd Year">3rd Year</option>
-                    <option value="4th Year">4th Year</option>
-                    <option value="Graduate">Graduate</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="mt-5">
-                <label className={labelClass} htmlFor="bio">
-                  About Me
-                </label>
-                <textarea
-                  id="bio"
-                  rows={4}
-                  maxLength={500}
-                  value={profile.bio}
-                  onChange={(event) => updateField("bio", event.target.value)}
-                  placeholder="Write a little about yourself, your goals, and what you're learning..."
-                  className={`${inputClass} resize-y`}
-                />
-                <p className="mt-1 text-right text-xs text-slate-400">
-                  {profile.bio.length}/500
+              <div className="pb-1">
+                <h2 className="break-words text-3xl font-semibold tracking-tight text-slate-900">
+                  {profile.name.trim() || "Your Name"}
+                </h2>
+                <p className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-[#6B7280]">
+                  {metaItems.map((item, index) => (
+                    <span key={index} className="flex items-center gap-2">
+                      {index > 0 && (
+                        <span className="h-1 w-1 rounded-full bg-[#E8E5DB]" aria-hidden="true" />
+                      )}
+                      <span className="break-all">{item}</span>
+                    </span>
+                  ))}
                 </p>
               </div>
-            </section>
-
-            <div className="border-t border-slate-100" />
-
-            <section>
-              <div className="mb-5 flex items-center gap-3">
-                <div className="rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] p-2.5 text-white shadow-sm">
-                  <Link2 size={20} />
-                </div>
-                <div>
-                  <h2 className="font-semibold text-slate-900">Social Links</h2>
-                  <p className="mt-1 text-xs text-slate-500">
-                    Add your professional profiles.
-                  </p>
-                </div>
-              </div>
-
-              <div className="space-y-5">
-                {socialFields.map((field) => {
-                  const Icon = field.icon;
-
-                  return (
-                    <div key={field.key}>
-                      <label className={labelClass} htmlFor={field.key}>
-                        {field.label}
-                      </label>
-                      <div className="relative">
-                        <Icon
-                          size={17}
-                          className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
-                        />
-                        <input
-                          id={field.key}
-                          type="url"
-                          value={profile[field.key]}
-                          onChange={(event) =>
-                            updateField(field.key, event.target.value)
-                          }
-                          placeholder={field.placeholder}
-                          className={`${inputClass} pl-10`}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
-
-            <div className="flex flex-col gap-3 border-t border-slate-100 pt-5 sm:flex-row sm:items-center sm:justify-between">
-              <div className="min-h-5">
-                {saved && (
-                  <p className="flex items-center gap-2 text-sm text-emerald-600">
-                    <CheckCircle2 size={16} />
-                    Changes saved for this session.
-                  </p>
-                )}
-              </div>
-
-              <button
-                type="submit"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-medium text-white transition hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2"
-              >
-                <Save size={17} />
-                Saved Changes
-              </button>
             </div>
-          </form>
+
+            <a
+              href="#profile-form"
+              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-[#E8E5DB] bg-white px-5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+              <Pencil size={16} />
+              Edit Profile
+            </a>
+          </div>
+
+          <div className="mt-6 grid grid-cols-3 divide-x divide-[#E8E5DB] border-t border-[#E8E5DB] pt-6">
+            <div className="px-2 text-center">
+              <p className="text-3xl font-semibold tracking-tight text-slate-900 tabular-nums">
+                {detailsFilled}
+                <span className="text-lg text-[#9AA0A6]">/5</span>
+              </p>
+              <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                Details
+              </p>
+            </div>
+            <div className="px-2 text-center">
+              <p className="text-3xl font-semibold tracking-tight text-slate-900 tabular-nums">
+                {linksFilled}
+                <span className="text-lg text-[#9AA0A6]">/3</span>
+              </p>
+              <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                Links
+              </p>
+            </div>
+            <div className="px-2 text-center">
+              <p className="text-3xl font-semibold tracking-tight text-slate-900 tabular-nums">
+                {profile.bio.length}
+                <span className="text-lg text-[#9AA0A6]">/500</span>
+              </p>
+              <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                Bio
+              </p>
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Form */}
+      <form id="profile-form" onSubmit={handleSubmit} className="space-y-6">
+        {/* Personal information */}
+        <section className={`${cardClass} p-6 sm:p-8`}>
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#3B5998]">
+              01
+            </p>
+            <div className="mt-2 flex items-center gap-4">
+              <div className={`${iconTileClass} bg-[#EAF0FA] text-[#3B5998]`}>
+                <UserRound size={20} />
+              </div>
+              <h2 className="text-xl font-semibold tracking-tight text-slate-900">
+                Personal Information
+              </h2>
+            </div>
+            <p className="mt-2 text-xs text-[#9AA0A6]">Update your basic profile details.</p>
+          </div>
+
+          <div className="mt-6 grid gap-5 sm:grid-cols-2">
+            {fields.map((field) => {
+              const Icon = field.icon;
+              return (
+                <div key={field.key}>
+                  <label className={labelClass} htmlFor={field.key}>
+                    {field.label}
+                  </label>
+                  <div className="relative">
+                    <Icon
+                      size={17}
+                      className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+                    />
+                    <input
+                      id={field.key}
+                      type={field.type || "text"}
+                      value={profile[field.key]}
+                      onChange={(event) =>
+                        updateField(field.key, event.target.value)
+                      }
+                      placeholder={field.placeholder}
+                      className={`${inputClass} pl-10`}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+
+            <div>
+              <label className={labelClass} htmlFor="year">
+                Current Year
+              </label>
+              <select
+                id="year"
+                value={profile.year}
+                onChange={(event) => updateField("year", event.target.value)}
+                className={inputClass}
+              >
+                <option value="">Select year</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+                <option value="Graduate">Graduate</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        {/* About */}
+        <section className={`${cardClass} p-6 sm:p-8`}>
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#3B5998]">
+              02
+            </p>
+            <div className="mt-2 flex items-center gap-4">
+              <div className={`${iconTileClass} bg-[#F3E8FF] text-[#7C3AED]`}>
+                <FileText size={20} />
+              </div>
+              <h2 className="text-xl font-semibold tracking-tight text-slate-900">
+                About Me
+              </h2>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <label className={labelClass} htmlFor="bio">
+              Bio
+            </label>
+            <textarea
+              id="bio"
+              rows={4}
+              maxLength={500}
+              value={profile.bio}
+              onChange={(event) => updateField("bio", event.target.value)}
+              placeholder="Write a little about yourself, your goals, and what you're learning..."
+              className={`${inputClass} resize-y`}
+            />
+            <p className="mt-1 text-right text-xs text-[#9AA0A6] tabular-nums">
+              {profile.bio.length}/500
+            </p>
+          </div>
+        </section>
+
+        {/* Social links */}
+        <section className={`${cardClass} p-6 sm:p-8`}>
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#3B5998]">
+              03
+            </p>
+            <div className="mt-2 flex items-center gap-4">
+              <div className={`${iconTileClass} bg-[#EAF7EC] text-[#2F9E44]`}>
+                <Link2 size={20} />
+              </div>
+              <h2 className="text-xl font-semibold tracking-tight text-slate-900">
+                Social Links
+              </h2>
+            </div>
+            <p className="mt-2 text-xs text-[#9AA0A6]">Add your professional profiles.</p>
+          </div>
+
+          <div className="mt-6 space-y-5">
+            {socialFields.map((field) => {
+              const Icon = field.icon;
+              return (
+                <div key={field.key}>
+                  <label className={labelClass} htmlFor={field.key}>
+                    {field.label}
+                  </label>
+                  <div className="relative">
+                    <Icon
+                      size={17}
+                      className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+                    />
+                    <input
+                      id={field.key}
+                      type="url"
+                      value={profile[field.key]}
+                      onChange={(event) =>
+                        updateField(field.key, event.target.value)
+                      }
+                      placeholder={field.placeholder}
+                      className={`${inputClass} pl-10`}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Save bar */}
+        <div
+          className={`${cardClass} flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between`}
+        >
+          <div className="min-h-5">
+            {saved && (
+              <p className="flex items-center gap-2 text-sm text-emerald-600">
+                <CheckCircle2 size={16} />
+                Changes saved for this session.
+              </p>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-primary px-6 text-sm font-medium text-white transition hover:bg-primary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2"
+          >
+            <Save size={17} />
+            Saved Changes
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
