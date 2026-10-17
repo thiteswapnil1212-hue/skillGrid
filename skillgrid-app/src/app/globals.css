@@ -19,9 +19,6 @@
   --color-sidebar: #F8FAFC;
   --color-surface: #FFFFFF;
 
-  /* Display serif (Claude-style editorial headings) */
-  --font-display: var(--font-display-serif), Georgia, "Times New Roman", serif;
-
   /* shadcn-style semantic tokens (used by focus-timer) */
   --color-background: #F7F6F2;
   --color-foreground: #1E293B;
