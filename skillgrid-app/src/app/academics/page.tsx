@@ -67,9 +67,9 @@ export default function AcademicsPage() {
     <main className="mx-auto w-full max-w-7xl space-y-6 p-6">
       <section className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center">
         <div>
-          <p className="text-sm font-semibold tracking-wider text-primary uppercase">Workspace</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Workspace</p>
           <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Academics</h1>
-          <p className="mt-1 text-sm font-medium text-slate-500">Manage your subjects and track syllabus completion.</p>
+          <p className="mt-1 text-sm text-slate-500">Manage your subjects and track syllabus completion.</p>
         </div>
         <Button onClick={() => setShowForm(true)} className="gap-2">
           <Plus size={16} />
@@ -78,24 +78,33 @@ export default function AcademicsPage() {
       </section>
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <Card className="border-slate-200/60 shadow-sm">
+        <Card className="rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
           <CardContent className="p-5">
-            <p className="text-sm font-medium text-slate-500">Total subjects</p>
-            <p className="mt-2 text-3xl font-bold text-slate-900 tracking-tight">{subjects.length}</p>
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
+              <BookOpen size={20} />
+            </div>
+            <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{subjects.length}</p>
+            <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Total subjects</p>
           </CardContent>
         </Card>
-        <Card className="border-slate-200/60 shadow-sm">
+        <Card className="rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
           <CardContent className="p-5">
-            <p className="text-sm font-medium text-slate-500">Units completed</p>
-            <p className="mt-2 text-3xl font-bold text-slate-900 tracking-tight">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-sm">
+              <Check size={20} />
+            </div>
+            <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">
               {completedUnitsCount} <span className="text-base text-slate-400 font-medium">/ {totalUnitsCount}</span>
             </p>
+            <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Units completed</p>
           </CardContent>
         </Card>
-        <Card className="border-primary/20 bg-primary/5 shadow-sm">
+        <Card className="rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
           <CardContent className="p-5">
-            <p className="text-sm font-medium text-primary">Overall syllabus progress</p>
-            <p className="mt-2 text-3xl font-bold text-primary tracking-tight">{overallProgress}%</p>
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-sm">
+              <BookOpen size={20} />
+            </div>
+            <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">{overallProgress}%</p>
+            <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Overall syllabus progress</p>
             <div className="mt-4 h-2.5 overflow-hidden rounded-full bg-primary/20">
               <motion.div 
                 className="h-full rounded-full bg-primary" 
@@ -116,7 +125,7 @@ export default function AcademicsPage() {
             exit={{ opacity: 0, height: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
           >
-            <Card className="overflow-hidden">
+            <Card className="overflow-hidden rounded-2xl">
               <CardHeader className="flex flex-row items-center justify-between pb-4">
                 <CardTitle className="text-lg">Add a subject</CardTitle>
                 <Button variant="ghost" size="sm" onClick={() => setShowForm(false)} aria-label="Close form" className="h-8 w-8 p-0 text-slate-400 hover:text-slate-700">
@@ -150,7 +159,7 @@ export default function AcademicsPage() {
         )}
       </AnimatePresence>
 
-      <Card>
+      <Card className="rounded-2xl">
         <CardHeader className="pb-4">
           <CardTitle className="text-lg">Your subjects</CardTitle>
           <p className="text-sm font-medium text-slate-500 mt-1">{subjects.length} {subjects.length === 1 ? "subject" : "subjects"} added</p>
@@ -158,11 +167,11 @@ export default function AcademicsPage() {
         <div className="border-t border-slate-100 bg-white">
           {subjects.length === 0 ? (
             <div className="flex flex-col items-center py-20 text-center px-6">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-50 border border-slate-100 mb-5">
-                <BookOpen size={28} className="text-slate-300" />
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-light mb-5 text-primary">
+                <BookOpen size={28} />
               </div>
-              <h3 className="text-base font-semibold text-slate-900">No subjects added</h3>
-              <p className="mt-1 text-sm text-slate-500 max-w-sm">Add your first subject to start tracking your syllabus progress.</p>
+              <h3 className="text-sm font-semibold text-slate-900">No subjects added</h3>
+              <p className="mt-1 text-xs text-slate-500 max-w-sm">Add your first subject to start tracking your syllabus progress.</p>
               <Button onClick={() => setShowForm(true)} className="mt-6 gap-2">
                 <Plus size={16} /> Add your first subject
               </Button>
@@ -181,7 +190,7 @@ export default function AcademicsPage() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95 }}
-                      className="p-6 hover:bg-slate-50/50 transition-colors"
+                      className="p-6 hover:bg-slate-50 transition-colors"
                     >
                       <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
                         <div className="flex min-w-0 flex-1 items-start gap-4">
