@@ -12,7 +12,7 @@ export const Card = React.forwardRef<HTMLDivElement, HTMLMotionProps<"div">>(
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
       className={cn(
-        "rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:shadow-md",
+        "rounded-3xl border border-[#E8E5DB] bg-white shadow-warm transition-shadow duration-200 hover:shadow-warm-hover",
         className
       )}
       {...props}
