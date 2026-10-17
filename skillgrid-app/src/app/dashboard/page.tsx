@@ -13,11 +13,12 @@ import {
   Activity,
   Calendar,
   AlertCircle,
-  Users
+  Users,
+  Flame,
+  Quote
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
+import { Card, CardContent } from "@/components/ui/Card";
 import { motion } from "framer-motion";
 
 const container = {
@@ -35,6 +36,33 @@ const item = {
   show: { opacity: 1, y: 0 }
 };
 
+const miniStats = [
+  {
+    icon: Clock3,
+    tile: "bg-[#F3E8FF] text-[#7C3AED]",
+    value: "0h 0m",
+    label: "Focus Time"
+  },
+  {
+    icon: Code2,
+    tile: "bg-[#EAF7EC] text-[#2F9E44]",
+    value: "0",
+    label: "DSA Solved"
+  },
+  {
+    icon: BookOpen,
+    tile: "bg-[#FFF7E0] text-[#B97E0C]",
+    value: "0%",
+    label: "Academic"
+  },
+  {
+    icon: Target,
+    tile: "bg-[#FEF2F2] text-[#DC2626]",
+    value: "0",
+    label: "Current Streak"
+  }
+];
+
 export default function DashboardPage() {
   const router = useRouter();
   const today = new Date().toLocaleDateString("en-US", {
@@ -48,118 +76,117 @@ export default function DashboardPage() {
     hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
 
   return (
-    <main className="mx-auto w-full max-w-7xl space-y-6 p-6">
-      {/* Header */}
-      <section className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200 pb-6">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Overview</p>
-          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-            {greeting}, Student
-          </h1>
-          <p className="mt-1 text-sm text-slate-500">{today}</p>
+    <main className="mx-auto w-full max-w-7xl space-y-8 p-4 sm:p-6">
+      {/* Hero */}
+      <section className="border-b border-[#E8E5DB] pb-6">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#3B5998]">Overview</p>
+        <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl">
+              {greeting}, <em className="italic">Student</em>
+            </h1>
+            <p className="mt-2 text-sm text-[#6B7280]">{today}</p>
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFF7E0] px-3 py-2 text-[11px] font-semibold text-[#B97E0C]">
+              <Flame size={14} />
+              0 day streak
+            </span>
+            <Button size="sm" className="gap-2" onClick={() => router.push("/tasks")}>
+              <Plus size={16} />
+              <span>Quick Add</span>
+            </Button>
+          </div>
         </div>
-        <Button size="sm" className="gap-2" onClick={() => router.push("/tasks")}>
-          <Plus size={16} />
-          <span>Quick Add</span>
-        </Button>
       </section>
 
-      <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
-        {/* Summary Statistics */}
-        <section className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-6">
-          <motion.div variants={item} className="h-full">
-            <Card className="h-full rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
-              <CardContent className="p-5">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
-                  <CheckSquare size={20} />
+      <motion.div variants={container} initial="hidden" animate="show" className="space-y-8">
+        {/* Bento stats — asymmetric: 2 horizontal feature cards + 4 mini cards + dark tile */}
+        <section className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+          <motion.div variants={item} className="col-span-2">
+            <Card className="h-full">
+              <CardContent className="flex h-full items-center justify-between gap-4 p-6">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Tasks Today</p>
+                  <p className="mt-2 text-5xl font-semibold tracking-tight text-slate-900 tabular-nums">0</p>
                 </div>
-                <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">0</p>
-                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Tasks Today</p>
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#EAF0FA] text-[#3B5998]">
+                  <CheckSquare size={24} />
+                </div>
               </CardContent>
             </Card>
           </motion.div>
-          <motion.div variants={item} className="h-full">
-            <Card className="h-full rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
-              <CardContent className="p-5">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-violet-600 text-white shadow-sm">
-                  <Clock3 size={20} />
+
+          {miniStats.map((stat) => (
+            <motion.div key={stat.label} variants={item} className="h-full">
+              <Card className="h-full">
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between">
+                    <div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${stat.tile}`}>
+                      <stat.icon size={20} />
+                    </div>
+                  </div>
+                  <p className="mt-5 text-4xl font-semibold tracking-tight text-slate-900 tabular-nums">{stat.value}</p>
+                  <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">{stat.label}</p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+
+          <motion.div variants={item} className="col-span-2 lg:col-span-1">
+            <Card className="h-full">
+              <CardContent className="flex h-full items-center justify-between gap-4 p-6">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Level 1</p>
+                  <p className="mt-2 text-4xl font-semibold tracking-tight text-slate-900 tabular-nums">
+                    0 <span className="text-sm text-slate-500 font-medium">XP</span>
+                  </p>
                 </div>
-                <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">0h 0m</p>
-                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Focus Time</p>
-              </CardContent>
-            </Card>
-          </motion.div>
-          <motion.div variants={item} className="h-full">
-            <Card className="h-full rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
-              <CardContent className="p-5">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-sm">
-                  <Code2 size={20} />
-                </div>
-                <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">0</p>
-                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">DSA Solved</p>
-              </CardContent>
-            </Card>
-          </motion.div>
-          <motion.div variants={item} className="h-full">
-            <Card className="h-full rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
-              <CardContent className="p-5">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow-sm">
-                  <BookOpen size={20} />
-                </div>
-                <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">0%</p>
-                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Academic</p>
-              </CardContent>
-            </Card>
-          </motion.div>
-          <motion.div variants={item} className="h-full">
-            <Card className="h-full rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
-              <CardContent className="p-5">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 text-white shadow-sm">
-                  <Target size={20} />
-                </div>
-                <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">0</p>
-                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Current Streak</p>
-              </CardContent>
-            </Card>
-          </motion.div>
-          <motion.div variants={item} className="h-full">
-            <Card className="h-full rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-shadow hover:shadow-md">
-              <CardContent className="p-5">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-yellow-500 to-yellow-600 text-white shadow-sm">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#FFF7E0] text-[#B97E0C]">
                   <Trophy size={20} />
                 </div>
-                <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">0 <span className="text-sm text-slate-500 font-medium">XP</span></p>
-                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">Level 1</p>
               </CardContent>
             </Card>
+          </motion.div>
+
+          {/* Dark contrast tile */}
+          <motion.div variants={item} className="col-span-2">
+            <div className="flex h-full items-center gap-4 rounded-3xl bg-[#1E293B] p-6 text-white">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-white">
+                <Quote size={20} />
+              </div>
+              <p className="text-xl font-semibold italic tracking-tight text-white">
+                Keep moving forward.
+              </p>
+            </div>
           </motion.div>
         </section>
 
         {/* Main Grid */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3">
           {/* Left Column */}
-          <div className="space-y-6 xl:col-span-2">
+          <div className="space-y-8 xl:col-span-2">
             {/* Today's Tasks */}
-            <motion.div variants={item}>
-              <Card className="rounded-2xl">
-                <CardHeader className="flex flex-row items-center justify-between pb-4">
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
-                      <CheckSquare size={18} />
-                    </div>
-                    Today's Tasks
-                  </CardTitle>
-                  <Link href="/tasks" className="text-sm font-semibold text-primary hover:text-primary-hover transition-colors">
-                    View all
-                  </Link>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-col items-center justify-center py-10 text-center bg-slate-50/50 rounded-xl border border-dashed border-slate-200">
-                    <div className="rounded-2xl bg-primary-light p-4 mb-4 text-primary">
+            <motion.div variants={item} className="space-y-4">
+              <div className="flex items-end justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#EAF0FA] text-[#3B5998]">
+                    <CheckSquare size={18} />
+                  </div>
+                  <h2 className="text-xl font-semibold tracking-tight text-slate-900">Today&apos;s Tasks</h2>
+                </div>
+                <Link href="/tasks" className="inline-flex min-h-[44px] items-center text-sm font-semibold text-[#3B5998] hover:underline">
+                  View all
+                </Link>
+              </div>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="rounded-3xl border border-dashed border-[#E8E5DB] bg-white/60 p-10 text-center">
+                    <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#EAF0FA] text-[#3B5998]">
                       <CheckSquare size={26} />
                     </div>
-                    <p className="text-sm font-semibold text-slate-900">No tasks for today</p>
-                    <p className="text-xs text-slate-500 mt-1 max-w-xs">Enjoy your free time or get ahead on upcoming work.</p>
+                    <p className="text-base font-semibold text-slate-900">No tasks for today</p>
+                    <p className="mt-1 text-sm text-[#6B7280]">Enjoy your free time or get ahead on upcoming work.</p>
                     <Button variant="outline" size="sm" className="mt-5" onClick={() => router.push("/tasks")}>Add a task</Button>
                   </div>
                 </CardContent>
@@ -167,52 +194,52 @@ export default function DashboardPage() {
             </motion.div>
 
             {/* DSA Progress & Academic Progress row */}
-            <div className="grid sm:grid-cols-2 gap-6">
-              <motion.div variants={item}>
-                <Card className="h-full rounded-2xl">
-                  <CardHeader className="flex flex-row items-center justify-between pb-4">
-                    <CardTitle className="text-base flex items-center gap-2">
-                      <div className="p-1.5 rounded-lg bg-emerald-600/10 text-emerald-600">
-                        <Code2 size={18} />
-                      </div>
-                      DSA Arena
-                    </CardTitle>
-                    <Link href="/dsa" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700 transition-colors">
-                      Tracker
-                    </Link>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-col items-center justify-center py-8 text-center border border-dashed border-slate-200 rounded-xl bg-slate-50/50">
-                      <div className="rounded-2xl bg-emerald-600/10 p-4 mb-4 text-emerald-600">
+            <div className="grid gap-8 sm:grid-cols-2">
+              <motion.div variants={item} className="space-y-4">
+                <div className="flex items-end justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#EAF7EC] text-[#2F9E44]">
+                      <Code2 size={18} />
+                    </div>
+                    <h2 className="text-xl font-semibold tracking-tight text-slate-900">DSA Arena</h2>
+                  </div>
+                  <Link href="/dsa" className="inline-flex min-h-[44px] items-center text-sm font-semibold text-[#3B5998] hover:underline">
+                    Tracker
+                  </Link>
+                </div>
+                <Card className="h-full">
+                  <CardContent className="p-6">
+                    <div className="rounded-3xl border border-dashed border-[#E8E5DB] bg-white/60 p-10 text-center">
+                      <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#EAF7EC] text-[#2F9E44]">
                         <Code2 size={26} />
                       </div>
-                      <p className="text-sm font-semibold text-slate-900">No problems solved.</p>
-                      <Button variant="ghost" size="sm" className="mt-3 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50" onClick={() => router.push("/dsa")}>Start tracking</Button>
+                      <p className="text-base font-semibold text-slate-900">No problems solved.</p>
+                      <Button variant="ghost" size="sm" className="mt-3 text-[#2F9E44] hover:text-[#2F9E44] hover:bg-[#EAF7EC]" onClick={() => router.push("/dsa")}>Start tracking</Button>
                     </div>
                   </CardContent>
                 </Card>
               </motion.div>
 
-              <motion.div variants={item}>
-                <Card className="h-full rounded-2xl">
-                  <CardHeader className="flex flex-row items-center justify-between pb-4">
-                    <CardTitle className="text-base flex items-center gap-2">
-                      <div className="p-1.5 rounded-lg bg-amber-600/10 text-amber-600">
-                        <BookOpen size={18} />
-                      </div>
-                      Academics
-                    </CardTitle>
-                    <Link href="/academics" className="text-sm font-semibold text-amber-600 hover:text-amber-700 transition-colors">
-                      Overview
-                    </Link>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-col items-center justify-center py-8 text-center border border-dashed border-slate-200 rounded-xl bg-slate-50/50">
-                      <div className="rounded-2xl bg-amber-600/10 p-4 mb-4 text-amber-600">
+              <motion.div variants={item} className="space-y-4">
+                <div className="flex items-end justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FFF7E0] text-[#B97E0C]">
+                      <BookOpen size={18} />
+                    </div>
+                    <h2 className="text-xl font-semibold tracking-tight text-slate-900">Academics</h2>
+                  </div>
+                  <Link href="/academics" className="inline-flex min-h-[44px] items-center text-sm font-semibold text-[#3B5998] hover:underline">
+                    Overview
+                  </Link>
+                </div>
+                <Card className="h-full">
+                  <CardContent className="p-6">
+                    <div className="rounded-3xl border border-dashed border-[#E8E5DB] bg-white/60 p-10 text-center">
+                      <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFF7E0] text-[#B97E0C]">
                         <BookOpen size={26} />
                       </div>
-                      <p className="text-sm font-semibold text-slate-900">No subjects added yet.</p>
-                      <Button variant="ghost" size="sm" className="mt-3 text-amber-600 hover:text-amber-700 hover:bg-amber-50" onClick={() => router.push("/academics")}>Add subject</Button>
+                      <p className="text-base font-semibold text-slate-900">No subjects added yet.</p>
+                      <Button variant="ghost" size="sm" className="mt-3 text-[#B97E0C] hover:text-[#B97E0C] hover:bg-[#FFF7E0]" onClick={() => router.push("/academics")}>Add subject</Button>
                     </div>
                   </CardContent>
                 </Card>
@@ -221,65 +248,57 @@ export default function DashboardPage() {
           </div>
 
           {/* Right Column */}
-          <div className="space-y-6">
+          <div className="space-y-8">
             {/* Upcoming Deadlines */}
-            <motion.div variants={item}>
-              <Card className="rounded-2xl">
-                <CardHeader className="pb-4">
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <div className="p-1.5 rounded-lg bg-danger/10 text-danger">
-                      <AlertCircle size={18} />
-                    </div>
-                    Upcoming Deadlines
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-col items-center justify-center py-8 text-center">
-                    <div className="rounded-2xl bg-danger/10 p-4 mb-4 text-danger">
+            <motion.div variants={item} className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FEF2F2] text-[#DC2626]">
+                  <AlertCircle size={18} />
+                </div>
+                <h2 className="text-xl font-semibold tracking-tight text-slate-900">Upcoming Deadlines</h2>
+              </div>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="rounded-3xl border border-dashed border-[#E8E5DB] bg-white/60 p-10 text-center">
+                    <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FEF2F2] text-[#DC2626]">
                       <Calendar size={24} />
                     </div>
-                    <p className="text-sm font-semibold text-slate-900">No upcoming deadlines.</p>
+                    <p className="text-base font-semibold text-slate-900">No upcoming deadlines.</p>
                   </div>
                 </CardContent>
               </Card>
             </motion.div>
 
             {/* Weekly Activity */}
-            <motion.div variants={item}>
-              <Card className="rounded-2xl">
-                <CardHeader className="pb-4">
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <div className="p-1.5 rounded-lg bg-blue-500/10 text-blue-500">
-                      <Activity size={18} />
-                    </div>
-                    Weekly Activity
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex h-[160px] items-center justify-center border border-dashed border-slate-200 rounded-xl bg-slate-50/50">
-                    <p className="text-sm font-medium text-slate-400">Chart data unavailable</p>
+            <motion.div variants={item} className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#EAF0FA] text-[#3B5998]">
+                  <Activity size={18} />
+                </div>
+                <h2 className="text-xl font-semibold tracking-tight text-slate-900">Weekly Activity</h2>
+              </div>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex h-[160px] items-center justify-center rounded-2xl border border-dashed border-[#E8E5DB] bg-white/60">
+                    <p className="text-sm font-medium text-[#9AA0A6]">Chart data unavailable</p>
                   </div>
                 </CardContent>
               </Card>
             </motion.div>
 
-            {/* Challenges and Groups */}
-            <motion.div variants={item}>
-              <Card className="rounded-2xl">
-                <CardHeader className="pb-4">
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <div className="p-1.5 rounded-lg bg-purple-600/10 text-purple-600">
-                      <Users size={18} />
-                    </div>
-                    Community
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-col gap-3">
-                    <div className="flex flex-col items-center justify-center py-6 text-center border border-dashed border-slate-200 rounded-xl bg-slate-50/50">
-                      <p className="text-sm text-slate-500 font-medium">Not participating in any challenges.</p>
-                      <Link href="/challenges" className="mt-2 text-sm font-semibold text-purple-600 hover:text-purple-700 transition-colors">Find challenges</Link>
-                    </div>
+            {/* Community */}
+            <motion.div variants={item} className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F3E8FF] text-[#7C3AED]">
+                  <Users size={18} />
+                </div>
+                <h2 className="text-xl font-semibold tracking-tight text-slate-900">Community</h2>
+              </div>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="rounded-3xl border border-dashed border-[#E8E5DB] bg-white/60 p-10 text-center">
+                    <p className="text-sm font-medium text-[#6B7280]">Not participating in any challenges.</p>
+                    <Link href="/challenges" className="mt-2 inline-flex min-h-[44px] items-center text-sm font-semibold text-[#7C3AED] hover:underline">Find challenges</Link>
                   </div>
                 </CardContent>
               </Card>
