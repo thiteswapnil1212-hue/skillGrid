@@ -3,6 +3,7 @@
 import { uid } from "@/lib/utils";
 import Fab from "@/components/ui/Fab";
 import { useMemo, useState, type FormEvent } from "react";
+import { motion } from "framer-motion";
 import {
   Plus,
   Search,
@@ -24,7 +25,50 @@ type Habit = {
   name: string;
   category: string;
   completed: boolean;
+  color: string;
+  history: string[];
 };
+
+const HABIT_COLORS = {
+  blue:   { from: "#3B5998", to: "#2F477A", soft: "#EAF0FA", label: "Blue" },
+  emerald:{ from: "#10B981", to: "#059669", soft: "#D9F5E8", label: "Green" },
+  amber:  { from: "#F59E0B", to: "#D97706", soft: "#FDEFD4", label: "Amber" },
+  violet: { from: "#8B5CF6", to: "#7C3AED", soft: "#E9E2FD", label: "Violet" },
+  rose:   { from: "#F43F5E", to: "#E11D48", soft: "#FBDCE2", label: "Rose" },
+  slate:  { from: "#64748B", to: "#475569", soft: "#E2E8F0", label: "Slate" },
+} as const;
+
+type HabitColorKey = keyof typeof HABIT_COLORS;
+
+const todayISO = () => new Date().toISOString().slice(0, 10);
+
+function paletteFor(color: string) {
+  return HABIT_COLORS[(color as HabitColorKey) ?? "blue"] ?? HABIT_COLORS.blue;
+}
+
+// Consecutive completed days ending today (or yesterday if today is not done yet).
+function getStreak(history: string[]): number {
+  const days = new Set(history);
+  const cursor = new Date();
+  if (!days.has(todayISO())) cursor.setDate(cursor.getDate() - 1);
+  let streak = 0;
+  while (days.has(cursor.toISOString().slice(0, 10))) {
+    streak += 1;
+    cursor.setDate(cursor.getDate() - 1);
+  }
+  return streak;
+}
+
+const heatLevelColor = (count: number) =>
+  count <= 0
+    ? "#ECE9E0"
+    : count === 1
+      ? "#BBF7D0"
+      : count === 2
+        ? "#6EE7B7"
+        : count === 3
+          ? "#34D399"
+          : "#059669";
 
 export default function HabitsPage() {
   const [habits, setHabits] = useState<Habit[]>([]);
@@ -34,6 +78,7 @@ export default function HabitsPage() {
 
   const [name, setName] = useState("");
   const [category, setCategory] = useState("Study");
+  const [color, setColor] = useState("blue");
 
   const stats = useMemo(() => {
     const completed = habits.filter((habit) => habit.completed).length;
@@ -69,6 +114,27 @@ export default function HabitsPage() {
     });
   }, [habits, search, categoryFilter]);
 
+  const heatmap = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const habit of habits) {
+      for (const date of habit.history ?? []) {
+        counts.set(date, (counts.get(date) ?? 0) + 1);
+      }
+    }
+    const days: { date: string; count: number }[] = [];
+    const now = new Date();
+    for (let i = 83; i >= 0; i--) {
+      const d = new Date(now);
+      d.setDate(now.getDate() - i);
+      const key = d.toISOString().slice(0, 10);
+      days.push({ date: key, count: counts.get(key) ?? 0 });
+    }
+    const weeks: { date: string; count: number }[][] = [];
+    for (let w = 0; w < 12; w++) weeks.push(days.slice(w * 7, w * 7 + 7));
+    const total = Array.from(counts.values()).reduce((sum, n) => sum + n, 0);
+    return { weeks, total };
+  }, [habits]);
+
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -79,19 +145,34 @@ export default function HabitsPage() {
       name: name.trim(),
       category,
       completed: false,
+      color,
+      history: [],
     };
 
     setHabits((current) => [...current, newHabit]);
     setName("");
     setCategory("Study");
+    setColor("blue");
     setShowForm(false);
   }
 
   function toggleHabit(id: string) {
+    const today = todayISO();
     setHabits((current) =>
-      current.map((habit) =>
-        habit.id === id ? { ...habit, completed: !habit.completed } : habit
-      )
+      current.map((habit) => {
+        if (habit.id !== id) return habit;
+        const completed = !habit.completed;
+        const history = habit.history ?? [];
+        return {
+          ...habit,
+          completed,
+          history: completed
+            ? history.includes(today)
+              ? history
+              : [...history, today]
+            : history.filter((date) => date !== today),
+        };
+      })
     );
   }
 
@@ -136,6 +217,49 @@ export default function HabitsPage() {
           );
         })}
       </section>
+
+      {/* Activity heatmap */}
+      <Card className="rounded-2xl border-0 ring-1 ring-slate-200/60">
+        <CardHeader className="pb-2">
+          <CardTitle>Activity</CardTitle>
+          <p className="text-sm text-slate-500 font-normal">Your completions across the last 12 weeks.</p>
+        </CardHeader>
+        <CardContent>
+          {heatmap.total === 0 ? (
+            <div className="rounded-xl border border-dashed border-slate-300 px-6 py-10 text-center">
+              <p className="text-sm text-slate-500">Complete habits to start filling your activity map.</p>
+            </div>
+          ) : (
+            <>
+              <div className="flex gap-[3px]" role="img" aria-label="Habit activity over the last 12 weeks">
+                {heatmap.weeks.map((week, weekIndex) => (
+                  <div key={weekIndex} className="flex flex-col gap-[3px]">
+                    {week.map((day) => (
+                      <span
+                        key={day.date}
+                        title={`${day.date}: ${day.count}`}
+                        className="h-3 w-3 rounded-[3px]"
+                        style={{ backgroundColor: heatLevelColor(day.count) }}
+                      />
+                    ))}
+                  </div>
+                ))}
+              </div>
+              <div className="mt-3 flex items-center justify-end gap-1.5 text-xs text-slate-500">
+                <span>Less</span>
+                {[0, 1, 2, 3, 4].map((level) => (
+                  <span
+                    key={level}
+                    className="h-3 w-3 rounded-[3px]"
+                    style={{ backgroundColor: heatLevelColor(level) }}
+                  />
+                ))}
+                <span>More</span>
+              </div>
+            </>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Today's progress bar */}
       <Card className="rounded-2xl border-0 ring-1 ring-slate-200/60">
@@ -192,6 +316,32 @@ export default function HabitsPage() {
                     <option>Productivity</option>
                     <option>Other</option>
                   </select>
+                </div>
+              </div>
+              <div>
+                <span className="mb-2 block text-sm font-medium text-slate-700">Color</span>
+                <div className="flex items-center gap-2.5">
+                  {(Object.keys(HABIT_COLORS) as HabitColorKey[]).map((key) => {
+                    const palette = HABIT_COLORS[key];
+                    const selected = color === key;
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() => setColor(key)}
+                        aria-label={`Use ${palette.label} color`}
+                        aria-pressed={selected}
+                        className={`h-7 w-7 rounded-full transition ${
+                          selected
+                            ? "ring-2 ring-offset-2 ring-slate-900"
+                            : "hover:scale-110"
+                        }`}
+                        style={{
+                          background: `linear-gradient(135deg, ${palette.from}, ${palette.to})`,
+                        }}
+                      />
+                    );
+                  })}
                 </div>
               </div>
               <div className="flex justify-end gap-3 pt-4">
@@ -257,10 +407,14 @@ export default function HabitsPage() {
             </div>
           ) : (
             <div className="divide-y divide-slate-100">
-              {filteredHabits.map((habit) => (
+              {filteredHabits.map((habit) => {
+                const palette = paletteFor(habit.color);
+                const streak = getStreak(habit.history ?? []);
+                return (
                 <div key={habit.id} className="flex items-center justify-between gap-4 px-6 py-4 transition hover:bg-slate-50">
                   <div className="flex min-w-0 items-center gap-3">
-                    <button
+                    <motion.button
+                      whileTap={{ scale: 0.8 }}
                       onClick={() => toggleHabit(habit.id)}
                       aria-label={
                         habit.completed
@@ -270,30 +424,50 @@ export default function HabitsPage() {
                       aria-pressed={habit.completed}
                       className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     >
-                      <span
+                      <motion.span
+                        key={String(habit.completed)}
+                        initial={{ scale: 0.4 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: "spring", stiffness: 500, damping: 20 }}
                         className={`flex h-6 w-6 items-center justify-center rounded-full border transition ${
                           habit.completed
-                            ? "border-primary bg-primary text-white"
+                            ? "border-transparent text-white"
                             : "border-slate-300 text-transparent hover:border-primary"
                         }`}
+                        style={
+                          habit.completed
+                            ? {
+                                background: `linear-gradient(135deg, ${palette.from}, ${palette.to})`,
+                              }
+                            : undefined
+                        }
                       >
                         <Check size={14} />
-                      </span>
-                    </button>
+                      </motion.span>
+                    </motion.button>
                     <div className="min-w-0">
                       <p className={`truncate text-sm font-medium ${
                         habit.completed ? "text-slate-400 line-through" : "text-slate-900"
                       }`}>
                         {habit.name}
                       </p>
-                      <p className="mt-0.5 text-xs text-slate-500">{habit.category}</p>
+                      <p className="mt-0.5 flex items-center gap-2 text-xs text-slate-500">
+                        <span>{habit.category}</span>
+                        {streak > 0 && (
+                          <span className="flex items-center gap-1 text-xs font-semibold text-slate-500">
+                            <Flame size={14} className="text-amber-500" />
+                            {streak}
+                          </span>
+                        )}
+                      </p>
                     </div>
                   </div>
                   <Button variant="ghost" size="sm" onClick={() => deleteHabit(habit.id)} aria-label={`Delete habit "${habit.name}"`} className="p-2 h-auto text-slate-400 hover:text-danger hover:bg-danger-light">
                     <Trash2 size={16} />
                   </Button>
                 </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
