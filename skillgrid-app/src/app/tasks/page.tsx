@@ -153,7 +153,7 @@ export default function TasksPage() {
       <section className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center">
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">Workspace</p>
-          <h1 className="mt-2 font-display text-[1.8rem] font-medium leading-[1.15] text-slate-900 sm:text-[2.15rem]">
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
             Tasks
           </h1>
           <p className="mt-1 text-sm text-slate-500">
@@ -335,7 +335,7 @@ export default function TasksPage() {
               <div className="rounded-2xl bg-primary-light p-4 mb-4 text-primary">
                 <ClipboardList className="h-8 w-8" />
               </div>
-              <h3 className="font-display text-xl font-medium text-slate-900">
+              <h3 className="text-sm font-semibold text-slate-900">
                 {tasks.length === 0 ? "No tasks yet" : `No ${filter.toLowerCase()} tasks`}
               </h3>
               <p className="mt-1 text-xs text-slate-500 max-w-sm">
