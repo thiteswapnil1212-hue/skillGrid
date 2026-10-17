@@ -71,8 +71,8 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
   const activeLayoutId = onNavigate ? "mobile-nav-active" : "desktop-nav-active";
 
   return (
-    <aside className="flex h-full w-full flex-col bg-slate-50 border-r border-slate-200">
-      <div className="flex h-[76px] shrink-0 items-center border-b border-slate-200 px-6">
+    <aside className="flex h-full w-full flex-col bg-[#FBFAF8] border-r border-[#E8E5DB]">
+      <div className="flex h-[76px] shrink-0 items-center border-b border-[#E8E5DB] px-6">
         <Link
           href="/dashboard"
           onClick={onNavigate}
@@ -116,7 +116,7 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
                       "group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary",
                       isActive
                         ? "text-primary"
-                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/50"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-[#ECE9E0]"
                     )}
                   >
                     {isActive && (
