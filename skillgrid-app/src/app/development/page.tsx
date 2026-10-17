@@ -115,7 +115,7 @@ export default function DevelopmentPage() {
       <section className="flex flex-col justify-between gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center">
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">Learning</p>
-          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+          <h1 className="mt-2 font-display text-[1.8rem] font-medium leading-[1.15] text-slate-900 sm:text-[2.15rem]">
             Development
           </h1>
           <p className="mt-1 text-sm text-slate-500">
@@ -262,7 +262,7 @@ export default function DevelopmentPage() {
               <div className="rounded-2xl bg-primary-light p-4 mb-4 text-primary">
                 <BookOpen size={28} />
               </div>
-              <h3 className="text-sm font-semibold text-slate-900">
+              <h3 className="font-display text-xl font-medium text-slate-900">
                 {items.length === 0 ? "Your roadmap is empty" : "No matching learning items"}
               </h3>
               <p className="mt-1 text-xs text-slate-500 max-w-sm">
