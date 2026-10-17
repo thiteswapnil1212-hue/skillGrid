@@ -116,11 +116,10 @@ export default function NotificationsPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <div className="flex items-center gap-2 text-sm text-slate-500">
-            <Bell size={16} />
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">
             Updates
-          </div>
-          <h1 className="mt-2 text-2xl font-bold text-slate-900">
+          </p>
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
             Notifications
           </h1>
           <p className="mt-1 text-sm text-slate-500">
@@ -138,23 +137,27 @@ export default function NotificationsPage() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="rounded-xl border border-slate-200 bg-white p-5">
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-slate-500">Total notifications</p>
-            <Bell size={19} className="text-primary" />
+        <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
+            <Bell size={20} />
           </div>
-          <p className="mt-3 text-2xl font-bold text-slate-900">
+          <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">
             {notifications.length}
+          </p>
+          <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">
+            Total notifications
           </p>
         </div>
 
-        <div className="rounded-xl border border-slate-200 bg-white p-5">
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-slate-500">Unread notifications</p>
-            <Circle size={19} className="text-primary" />
+        <div className="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#3B5998] to-[#2F477A] text-white shadow-sm">
+            <Circle size={20} />
           </div>
-          <p className="mt-3 text-2xl font-bold text-slate-900">
+          <p className="mt-4 text-2xl font-bold tracking-tight text-slate-900 tabular-nums">
             {unreadCount}
+          </p>
+          <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">
+            Unread notifications
           </p>
         </div>
       </div>
@@ -162,7 +165,7 @@ export default function NotificationsPage() {
       {showForm && (
         <form
           onSubmit={addNotification}
-          className="space-y-4 rounded-xl border border-slate-200 bg-white p-5"
+          className="space-y-4 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm"
         >
           <h2 className="font-semibold text-slate-900">
             Create a notification
@@ -276,27 +279,27 @@ export default function NotificationsPage() {
       </div>
 
       {filteredNotifications.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-blue-50 text-primary">
+        <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-light p-4 text-primary">
             <Inbox size={25} />
           </div>
-          <h3 className="mt-4 font-semibold text-slate-900">
+          <h3 className="mt-4 text-sm font-semibold text-slate-900">
             {notifications.length === 0
               ? "You're all caught up"
               : "No notifications found"}
           </h3>
-          <p className="mx-auto mt-2 max-w-sm text-sm text-slate-500">
+          <p className="mx-auto mt-1 max-w-sm text-xs text-slate-500">
             {notifications.length === 0
               ? "Your notifications will appear here. You can add a reminder or update manually."
               : "Try changing your search or filter."}
           </p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+        <div className="overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-sm">
           {filteredNotifications.map((item, index) => (
             <div
               key={item.id}
-              className={`flex gap-4 p-5 ${
+              className={`flex gap-4 p-5 transition-colors hover:bg-slate-50 ${
                 index !== filteredNotifications.length - 1
                   ? "border-b border-slate-100"
                   : ""
