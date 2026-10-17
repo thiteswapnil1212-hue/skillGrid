@@ -16,11 +16,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         whileTap={{ scale: 0.98 }}
         className={cn(
-          "inline-flex items-center justify-center rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50",
+          "inline-flex items-center justify-center rounded-xl font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50",
           {
             "bg-primary text-white hover:bg-primary-hover shadow-sm hover:shadow-md": variant === "primary",
             "bg-slate-100 text-slate-900 hover:bg-slate-200": variant === "secondary",
-            "border border-slate-200 bg-white hover:bg-slate-50 hover:text-slate-900 text-slate-700 shadow-sm": variant === "outline",
+            "border border-[#E8E5DB] bg-white hover:bg-slate-50 hover:text-slate-900 text-slate-700 shadow-sm": variant === "outline",
             "hover:bg-slate-100 hover:text-slate-900 text-slate-700": variant === "ghost",
             "bg-danger text-white hover:bg-danger-hover shadow-sm hover:shadow-md": variant === "destructive",
           },
