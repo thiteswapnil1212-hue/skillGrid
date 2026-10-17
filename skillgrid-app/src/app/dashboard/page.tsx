@@ -53,7 +53,7 @@ export default function DashboardPage() {
       <section className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200 pb-6">
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">Overview</p>
-          <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+          <h1 className="mt-2 font-display text-[1.8rem] font-medium leading-[1.15] text-slate-900 sm:text-[2.15rem]">
             {greeting}, Student
           </h1>
           <p className="mt-1 text-sm text-slate-500">{today}</p>
@@ -158,7 +158,7 @@ export default function DashboardPage() {
                     <div className="rounded-2xl bg-primary-light p-4 mb-4 text-primary">
                       <CheckSquare size={26} />
                     </div>
-                    <p className="text-sm font-semibold text-slate-900">No tasks for today</p>
+                    <p className="font-display text-xl font-medium text-slate-900">No tasks for today</p>
                     <p className="text-xs text-slate-500 mt-1 max-w-xs">Enjoy your free time or get ahead on upcoming work.</p>
                     <Button variant="outline" size="sm" className="mt-5" onClick={() => router.push("/tasks")}>Add a task</Button>
                   </div>
@@ -186,7 +186,7 @@ export default function DashboardPage() {
                       <div className="rounded-2xl bg-emerald-600/10 p-4 mb-4 text-emerald-600">
                         <Code2 size={26} />
                       </div>
-                      <p className="text-sm font-semibold text-slate-900">No problems solved.</p>
+                      <p className="font-display text-xl font-medium text-slate-900">No problems solved.</p>
                       <Button variant="ghost" size="sm" className="mt-3 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50" onClick={() => router.push("/dsa")}>Start tracking</Button>
                     </div>
                   </CardContent>
@@ -211,7 +211,7 @@ export default function DashboardPage() {
                       <div className="rounded-2xl bg-amber-600/10 p-4 mb-4 text-amber-600">
                         <BookOpen size={26} />
                       </div>
-                      <p className="text-sm font-semibold text-slate-900">No subjects added yet.</p>
+                      <p className="font-display text-xl font-medium text-slate-900">No subjects added yet.</p>
                       <Button variant="ghost" size="sm" className="mt-3 text-amber-600 hover:text-amber-700 hover:bg-amber-50" onClick={() => router.push("/academics")}>Add subject</Button>
                     </div>
                   </CardContent>
@@ -238,7 +238,7 @@ export default function DashboardPage() {
                     <div className="rounded-2xl bg-danger/10 p-4 mb-4 text-danger">
                       <Calendar size={24} />
                     </div>
-                    <p className="text-sm font-semibold text-slate-900">No upcoming deadlines.</p>
+                    <p className="font-display text-xl font-medium text-slate-900">No upcoming deadlines.</p>
                   </div>
                 </CardContent>
               </Card>
