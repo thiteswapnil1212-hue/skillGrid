@@ -9,7 +9,7 @@ type HeaderProps = {
 
 export default function Header({ onMenuClick }: HeaderProps) {
   return (
-    <header className="flex h-[76px] shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 sm:px-6 lg:px-8 z-10 relative">
+    <header className="flex h-[76px] shrink-0 items-center justify-between border-b border-[#E8E5DB] bg-[#FBFAF8] px-4 sm:px-6 lg:px-8 z-10 relative">
       <div className="flex min-w-0 items-center gap-3">
         <button
           onClick={onMenuClick}
@@ -19,7 +19,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <Menu size={22} />
         </button>
 
-        <div className="hidden h-10 w-full max-w-[340px] items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 focus-within:bg-white sm:flex">
+        <div className="hidden h-10 w-full max-w-[340px] items-center gap-2 rounded-lg border border-[#E8E5DB] bg-[#F1EFE9] px-3 transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 focus-within:bg-white sm:flex">
           <Search size={18} className="shrink-0 text-slate-400" />
 
           <input
